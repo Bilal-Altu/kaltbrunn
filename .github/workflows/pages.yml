@@ -23,9 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Pages muss einmalig unter Einstellungen -> Pages auf „GitHub Actions“
+      # gestellt werden. Das Anlegen per Workflow-Token ist nicht erlaubt.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Fassungen einsammeln
         run: |
