@@ -1,0 +1,6 @@
+# lokale Werkzeuge und Zwischenstände
+.DS_Store
+Thumbs.db
+_site/
+serve.ps1
+.claude/

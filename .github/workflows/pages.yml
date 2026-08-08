@@ -1,0 +1,58 @@
+name: Seite veröffentlichen
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Fassungen einsammeln
+        run: |
+          mkdir -p _site/blau _site/klassisch
+          cp index.html            _site/index.html
+          cp index-tuev.html       _site/blau/index.html
+          cp index-klassisch.html  _site/klassisch/index.html
+          cp robots.txt            _site/robots.txt
+
+      # Nachgeladene Fremdressourcen sind der DSGVO-Angriffspunkt und kosten Ladezeit.
+      # Verweise im Text (Links, canonical, og:url) sind ausdrücklich erlaubt.
+      - name: Prüfen, dass keine Fassung externe Dienste nachlädt
+        run: |
+          muster='<script[^>]+src="https?://|<iframe|<img[^>]+src="https?://|<link[^>]+rel="(stylesheet|preload)"[^>]+href="https?://|@import[^;]*https?://|url\((["'"'"']?)https?://'
+          fehler=0
+          for f in _site/index.html _site/blau/index.html _site/klassisch/index.html; do
+            if grep -Eqi "$muster" "$f"; then
+              echo "::error file=$f::lädt externe Ressourcen nach"
+              grep -Eoi "$muster" "$f" | sort -u
+              fehler=1
+            fi
+          done
+          exit $fehler
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
