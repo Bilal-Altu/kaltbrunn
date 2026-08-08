@@ -1,14 +1,17 @@
 name: Seite veröffentlichen
 
+# Veröffentlicht wird über den Zweig gh-pages, nicht über die Pages-API.
+# Grund: das Workflow-Token darf keine Pages-Site anlegen ("Resource not
+# accessible by integration"), ein Zweig namens gh-pages schaltet Pages
+# dagegen ohne Zutun in den Einstellungen frei.
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -17,37 +20,37 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
-      # Pages muss einmalig unter Einstellungen -> Pages auf „GitHub Actions“
-      # gestellt werden. Das Anlegen per Workflow-Token ist nicht erlaubt.
-      - uses: actions/configure-pages@v5
+      # Nachgeladene Fremdressourcen sind der DSGVO-Angriffspunkt und kosten
+      # Ladezeit. Verweise im Text (Links, canonical, og:url) sind erlaubt.
+      - name: Prüfen, dass die Seite keine externen Dienste nachlädt
+        run: |
+          muster='<script[^>]+src="https?://|<iframe|<img[^>]+src="https?://|<link[^>]+rel="(stylesheet|preload)"[^>]+href="https?://|@import[^;]*https?://|url\((["'"'"']?)https?://'
+          if grep -Eqi "$muster" index.html; then
+            echo "::error file=index.html::lädt externe Ressourcen nach"
+            grep -Eoi "$muster" index.html | sort -u
+            exit 1
+          fi
+          echo "keine externen Ressourcen"
 
       - name: Seite einsammeln
         run: |
           mkdir -p _site
           cp index.html  _site/index.html
           cp robots.txt  _site/robots.txt
+          touch _site/.nojekyll
 
-      # Nachgeladene Fremdressourcen sind der DSGVO-Angriffspunkt und kosten Ladezeit.
-      # Verweise im Text (Links, canonical, og:url) sind ausdrücklich erlaubt.
-      - name: Prüfen, dass die Seite keine externen Dienste nachlädt
+      - name: Auf gh-pages veröffentlichen
         run: |
-          muster='<script[^>]+src="https?://|<iframe|<img[^>]+src="https?://|<link[^>]+rel="(stylesheet|preload)"[^>]+href="https?://|@import[^;]*https?://|url\((["'"'"']?)https?://'
-          if grep -Eqi "$muster" _site/index.html; then
-            echo "::error file=index.html::lädt externe Ressourcen nach"
-            grep -Eoi "$muster" _site/index.html | sort -u
-            exit 1
-          fi
-          echo "keine externen Ressourcen"
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          cd _site
+          git init -q -b gh-pages
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Seite aus ${GITHUB_SHA::7}"
+          git push -q --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" \
+            gh-pages
+          echo "veröffentlicht: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/"

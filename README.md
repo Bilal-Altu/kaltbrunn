@@ -32,9 +32,20 @@ python -m http.server 4599
 
 ## Veröffentlichen
 
-Jeder Push auf `main` veröffentlicht die Seite über GitHub Pages. Der Workflow
-bricht ab, sobald die Seite wieder eine Fremdressource nachlädt — die
-DSGVO-Sauberkeit kann so nicht unbemerkt verloren gehen.
+**Live: https://bilal-altu.github.io/kaltbrunn/**
+
+Jeder Push auf `main` veröffentlicht die Seite. Der Workflow prüft sie zuerst
+und bricht ab, sobald sie wieder eine Fremdressource nachlädt — die
+DSGVO-Sauberkeit kann so nicht unbemerkt verloren gehen; danach schiebt er das
+Ergebnis auf den Zweig `gh-pages`.
+
+Der Zweig `gh-pages` enthält ausschließlich die ausgelieferte Seite und wird
+vom Workflow überschrieben — dort nichts von Hand ändern. Gearbeitet wird auf
+`main`.
+
+Bewusst nicht über die Pages-API (`configure-pages` / `deploy-pages`): das
+Workflow-Token darf keine Pages-Site anlegen. Ein Zweig namens `gh-pages`
+schaltet Pages dagegen ohne Zutun in den Einstellungen frei.
 
 `robots.txt` sperrt die Vorschauadresse für Suchmaschinen, damit sie der
 späteren echten Domain keine doppelten Inhalte macht. **Vor dem Livegang unter
