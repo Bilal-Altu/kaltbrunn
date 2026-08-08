@@ -27,28 +27,23 @@ jobs:
       # gestellt werden. Das Anlegen per Workflow-Token ist nicht erlaubt.
       - uses: actions/configure-pages@v5
 
-      - name: Fassungen einsammeln
+      - name: Seite einsammeln
         run: |
-          mkdir -p _site/blau _site/klassisch
-          cp index.html            _site/index.html
-          cp index-tuev.html       _site/blau/index.html
-          cp index-klassisch.html  _site/klassisch/index.html
-          cp robots.txt            _site/robots.txt
+          mkdir -p _site
+          cp index.html  _site/index.html
+          cp robots.txt  _site/robots.txt
 
       # Nachgeladene Fremdressourcen sind der DSGVO-Angriffspunkt und kosten Ladezeit.
       # Verweise im Text (Links, canonical, og:url) sind ausdrücklich erlaubt.
-      - name: Prüfen, dass keine Fassung externe Dienste nachlädt
+      - name: Prüfen, dass die Seite keine externen Dienste nachlädt
         run: |
           muster='<script[^>]+src="https?://|<iframe|<img[^>]+src="https?://|<link[^>]+rel="(stylesheet|preload)"[^>]+href="https?://|@import[^;]*https?://|url\((["'"'"']?)https?://'
-          fehler=0
-          for f in _site/index.html _site/blau/index.html _site/klassisch/index.html; do
-            if grep -Eqi "$muster" "$f"; then
-              echo "::error file=$f::lädt externe Ressourcen nach"
-              grep -Eoi "$muster" "$f" | sort -u
-              fehler=1
-            fi
-          done
-          exit $fehler
+          if grep -Eqi "$muster" _site/index.html; then
+            echo "::error file=index.html::lädt externe Ressourcen nach"
+            grep -Eoi "$muster" _site/index.html | sort -u
+            exit 1
+          fi
+          echo "keine externen Ressourcen"
 
       - uses: actions/upload-pages-artifact@v3
         with:
