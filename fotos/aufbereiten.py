@@ -22,9 +22,8 @@ Diese Bilder gehen an die Öffentlichkeit, nicht in eine Akte:
 
 * Kennzeichen unkenntlich? (Auf mehreren Aufnahmen sind sie schon geschwärzt.)
 * Menschen im Bild oder in einer Scheibe gespiegelt? Auf der Aufnahme des
-  BMW X1 ist eine Person in der Fensterscheibe deutlich zu erkennen. Ohne
-  deren Einwilligung gehört sie unkenntlich gemacht oder das Bild
-  beschnitten.
+  BMW X1 spiegelt sich Nurettin selbst – das ist in Ordnung. Bei fremden
+  Personen wäre es das nicht.
 * Aufkleber, Beschriftungen, Firmennamen am Fahrzeug? Auf dem Toyota steht
   "…eförderer." – daraus lässt sich der Halter erschließen.
 * Einwilligung der Auftraggeber: Fahrzeugaufnahmen aus einem Gutachten sind
