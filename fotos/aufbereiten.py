@@ -52,8 +52,13 @@ ZIELE = [
     '07-audi-a6-heck-rechts.webp',
 ]
 
+# Zwei Größen: die kleine steht im Raster, die große lädt der Browser erst,
+# wenn jemand ein Bild anklickt. Sonst zieht die Seite beim ersten Aufruf
+# anderthalb Megabyte über die Mobilfunkverbindung.
 KANTE = 1600
+KANTE_KLEIN = 800
 GUETE = 78
+GUETE_KLEIN = 74
 
 
 def main():
@@ -68,6 +73,7 @@ def main():
         print('Achtung: %d Originale, aber %d Plätze auf der Seite.'
               % (len(dateien), len(ZIELE)))
 
+    gesamt = [0]
     for quelle, ziel in zip(dateien, ZIELE):
         b = Image.open(os.path.join(ORIGINALE, quelle))
         b = ImageOps.exif_transpose(b)          # Hochformat richtig herum
@@ -75,10 +81,20 @@ def main():
         b.thumbnail((KANTE, KANTE), Image.LANCZOS)
         pfad = os.path.join(HIER, ziel)
         b.save(pfad, 'WEBP', quality=GUETE, method=6)
-        print('%-38s → %-40s %4d KB  %dx%d'
-              % (quelle, ziel, os.path.getsize(pfad) // 1024, b.width, b.height))
 
-    print('\nJetzt noch:  python3 bau_referenzen.py')
+        klein = b.copy()
+        klein.thumbnail((KANTE_KLEIN, KANTE_KLEIN), Image.LANCZOS)
+        pfad_klein = os.path.join(HIER, ziel.replace('.webp', '-klein.webp'))
+        klein.save(pfad_klein, 'WEBP', quality=GUETE_KLEIN, method=6)
+
+        gesamt[0] += os.path.getsize(pfad_klein)
+        print('%-10s → %-38s %4d KB gross · %3d KB klein'
+              % (quelle, ziel, os.path.getsize(pfad) // 1024,
+                 os.path.getsize(pfad_klein) // 1024))
+
+    print('\nRaster laedt beim ersten Aufruf %d KB, der Rest erst beim Anklicken.'
+          % (gesamt[0] // 1024))
+    print('Jetzt noch:  python3 bau_referenzen.py')
 
 
 if __name__ == '__main__':

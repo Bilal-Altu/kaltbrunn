@@ -10,8 +10,8 @@ Google übertragen“, und die Seite lädt in einem einzigen Request.
 
 | | index.html | referenzen.html |
 |---|---|---|
-| Größe | 235 KB | 181 KB + Fotos |
-| Requests | 1 | 1 + Fotos (eigene Adresse) |
+| Größe | 235 KB | 181 KB + 423 KB Fotos |
+| Requests | 1 | 1 + 7 Fotos (eigene Adresse) |
 | externe Verbindungen | 0 | 0 |
 
 ## Referenzen
@@ -32,14 +32,20 @@ Die Fotos liegen als Dateien unter `fotos/` und werden verlinkt statt
 eingebettet: eigene Adresse, kein Fremdanbieter, und der Browser lädt sie
 erst beim Scrollen.
 
-**Aktuell stehen dort Platzhalter.** Die Originalaufnahmen nach
-`fotos/original/` legen (01.jpg, 02.jpg … in der gewünschten Reihenfolge),
-dann:
+Von jedem Foto liegen zwei Größen bereit: `…-klein.webp` (800 px) steht im
+Raster, `….webp` (1600 px) lädt der Browser erst, wenn jemand ein Bild
+anklickt. Das Raster kommt damit auf 423 KB statt 1,6 MB.
+
+Neue Aufnahmen nach `fotos/original/` legen (01.jpg, 02.jpg … in der
+gewünschten Reihenfolge), Beschriftung in `FAELLE` ergänzen, dann:
 
 ```
-python3 fotos/aufbereiten.py    # macht daraus 1600 px WebP
+python3 fotos/aufbereiten.py    # erzeugt beide Größen, ohne Kameradaten
 python3 bau_referenzen.py
 ```
+
+`fotos/original/` wird nicht veröffentlicht — der Workflow kopiert nur
+`fotos/*.webp`.
 
 Vor dem Veröffentlichen der Fotos: siehe die Liste im Kopf von
 `fotos/aufbereiten.py` — Kennzeichen, gespiegelte Personen, Firmenaufkleber

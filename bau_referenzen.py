@@ -42,14 +42,14 @@ FAELLE = [
      'unbelasteten Zustand lässt sich die Tiefe später nicht mehr belegen.'),
     ('04-mercedes-e-front-links.webp', 'Mercedes-Benz E-Klasse',
      'Front links, Vermessung vor Ort', 'Juli 2025',
-     'Aufnahme mit Maßstab an der beschädigten Fahrzeugecke. Die Position der '
-     'Anstoßstelle über der Fahrbahn ist bei der Zuordnung zum Unfallgegner '
-     'oft der entscheidende Punkt.'),
+     'Aufnahme der Fahrzeugecke mit Maßstab, direkt am Unfallort in der Engstelle. '
+     'Die Höhe über der Fahrbahn ist festgehalten, bevor das Fahrzeug bewegt wird – '
+     'danach lässt sie sich nicht mehr sauber ermitteln.'),
     ('05-bmw-lack-detail.webp', 'BMW',
-     'Lackschaden, Nahaufnahme', 'Mai 2025',
-     'Nahaufnahme eines Lackschadens mit Streifenmuster zur Beurteilung der '
-     'Oberfläche. So wird sichtbar, ob nur die Klarlackschicht betroffen ist '
-     'oder ob durchlackiert werden muss.'),
+     'Delle im Reflexionsstreifen', 'Mai 2025',
+     'Eine flache Delle sieht man auf dunklem Lack mit bloßem Auge kaum. Im '
+     'gespiegelten Streifenmuster verzieht sie sich zum Wirbel und ist damit '
+     'belegt – dieselbe Technik, mit der in der Fertigung Oberflächen geprüft werden.'),
     ('06-audi-a5-front.webp', 'Audi A5',
      'Front, Aufnahme mit Maßstab', 'Juli 2024',
      'Dokumentation der Fahrzeugfront mit Maßstab. Auch ohne sichtbare '
@@ -167,7 +167,7 @@ def galerie_markup():
         alt = '%s, %s, aufgenommen %s' % (fahrzeug, schaden.lower(), datum)
         teile.append('''    <figure class="ref-karte reveal delay-%d">
       <button class="ref-bild" type="button" data-gross="fotos/%s" data-text="%s – %s">
-        <img src="fotos/%s" alt="%s" width="1200" height="900" loading="lazy" decoding="async"/>
+        <img src="fotos/%s" alt="%s" width="800" height="600" loading="lazy" decoding="async"/>
         <span class="ref-lupe" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>
         </span>
@@ -178,7 +178,8 @@ def galerie_markup():
         <p>%s</p>
       </figcaption>
     </figure>''' % (((i - 1) % 4) + 1, datei, fahrzeug.replace('"', ''),
-                    schaden.replace('"', ''), datei, alt, fahrzeug, datum, schaden, text))
+                    schaden.replace('"', ''), datei.replace('.webp', '-klein.webp'),
+                    alt, fahrzeug, datum, schaden, text))
 
     teile.append('''  </div>
 
