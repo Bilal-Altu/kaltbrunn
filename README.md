@@ -9,19 +9,27 @@ Google übertragen“, und die Seite lädt in einem einzigen Request.
 
 | | |
 |---|---|
-| Größe | 291 KB |
+| Größe | 231 KB |
 | Requests | 1 |
 | externe Verbindungen | 0 |
 
-Marke: Richtung **4c** „Das Prüfsiegel“ — Ring mit IK-Monogramm und Punkt.
-Der große Stempel im Anriss ist die große Fassung derselben Marke.
+Marke: das eingedrückte Auto mit den Aufprallstrahlen, im Navigationskopf
+klein und im Anriss groß — frei stehend, ohne Stempelring.
+
+## Tonfall
+
+Die Seite spricht in der **Ich-Form**. Ein Ingenieurbüro mit einer Person
+klingt im „wir“ nach Behörde, und genau das war die Rückmeldung. Ebenso
+bewusst weg sind: der Rundstempel mit Umlaufschrift, die Eckmarken und der
+Maßstab am Blattrand, gesperrte Versalien als Etikettenschrift und die
+scharfen Kanten. Dazu ein warmer Akzent (`--flamme`), der aus dem Feuer der
+Marke kommt und dem Blau die Amtskühle nimmt.
 
 ## Bearbeiten
 
 Die Datei wird direkt bearbeitet — kein Build, kein Werkzeug. Die langen
-Base64-Blöcke sind die eingebetteten Schriften (Roboto, Roboto Condensed) und
-die beiden Bilder (Wappen Heppenheim, Porträt); dazwischen steht ganz normales
-HTML, CSS und JavaScript.
+Base64-Blöcke sind die eingebettete Schrift (Archivo, variabel) und das
+Porträt; dazwischen steht ganz normales HTML, CSS und JavaScript.
 
 Lokal genügt ein Doppelklick auf die Datei — mangels relativer Pfade verhält sie
 sich genauso wie über einen Server. Wer trotzdem einen will:
@@ -58,16 +66,19 @@ eigener Domain muss die Datei weg.**
       JSON-LD, Formular, Footer) — bei neuer Domain überall nachziehen
 - [ ] **Öffnungszeiten**: im JSON-LD stehen Mo–Fr 8–18 Uhr. Entweder bestätigen
       oder streichen
-- [ ] **„24h Bearbeitung“** mit der hauptberuflichen Tätigkeit abgleichen — ein
+- [ ] **„24h Rückmeldung“** mit der hauptberuflichen Tätigkeit abgleichen — ein
       Versprechen, das nicht hält, kostet mehr Vertrauen als es bringt
 - [ ] **`robots.txt` entfernen**, sobald die Seite unter eigener Domain läuft
 
 ## Geprüft
 
-Chromium, 360 / 390 / 1440 px: keine JS-Fehler, kein horizontaler Überlauf,
+Chromium, 320 / 360 / 390 / 414 / 768 / 1024 / 1280 / 1440 px: keine JS-Fehler,
+kein horizontaler Überlauf,
 keine doppelten IDs, keine toten Sprungziele, saubere Überschriften-Reihenfolge,
 alle Bilder mit Alt-Text und festen Maßen, alle Formularfelder beschriftet,
-`main`-Landmarke und Sprungmarke vorhanden, gültiges JSON-LD.
+`main`-Landmarke und Sprungmarke vorhanden, gültiges JSON-LD. Alle geprüften
+Textrollen erreichen WCAG AA — die im Anriss gegen die tatsächlich gerenderten
+Hintergrundpixel gemessen, nicht gegen eine angenommene Farbe.
 
 ## Verworfene Entwürfe
 
