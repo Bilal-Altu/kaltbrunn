@@ -97,18 +97,7 @@ def main():
     m = re.search(r'<main id="main">.*?</main>', s, re.S)
     if not m:
         fehler('<main> nicht gefunden')
-    marke = re.search(r'<svg class="auto-mark" viewBox="0 0 112 50".*?</svg>', s, re.S)
-    if not marke:
-        fehler('Marke nicht gefunden')
-    # Verlaufs- und Maskennamen umbenennen: die Kopie aus der Navigation
-    # brächte sonst dieselben IDs ein zweites Mal ins Dokument, und eine
-    # Maske, die zweimal "karoN" heisst, greift auf das falsche Element zu.
-    kopie = marke.group(0)
-    for name in ('lackN', 'feuerN', 'karoN'):
-        kopie = kopie.replace('id="%s"' % name, 'id="%sR"' % name)
-        kopie = kopie.replace('url(#%s)' % name, 'url(#%sR)' % name)
-    inhalt = galerie_markup().replace('@@MARKE@@', kopie)
-    s = s.replace(m.group(0), '<main id="main">\n' + inhalt + '\n</main>')
+    s = s.replace(m.group(0), '<main id="main">\n' + galerie_markup() + '\n</main>')
 
     # ── Verweise: auf dieser Seite gibt es die Sprungziele nicht ──────────
     for ziel in ('leistungen', 'ueber', 'warum', 'kontakt', 'impressum', 'datenschutz'):
@@ -151,7 +140,9 @@ def galerie_markup():
        dass sich der Zustand später nachvollziehen lässt – auch von jemandem,
        der nicht dabei war.</p>
     </div>
-    <div class="ref-kopf-marke">@@MARKE@@</div>
+    <figure class="ref-kopf-bild">
+      <img src="fotos/03-toyota-corolla-heck-detail-klein.webp" alt="Eingedrückter und aufgerissener Heckstoßfänger eines Toyota Corolla" width="800" height="600" decoding="async"/>
+    </figure>
   </div>
 </section>
 
@@ -217,16 +208,21 @@ GALERIE_CSS = '''
       display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 40px; align-items: center;
     }
-    .ref-kopf-marke { display: grid; place-items: center; }
-    .ref-kopf-marke .auto-mark {
-      width: 100%; max-width: 300px; height: auto; color: var(--white);
-      filter: drop-shadow(0 18px 40px rgba(0,10,40,0.45));
-      animation: fade-up 1s 0.3s cubic-bezier(.22,1,.36,1) both;
+    /* Eine echte Aufnahme statt der gezeichneten Marke – auf einer Seite,
+       die von Fotos handelt, ist eine Zeichnung im Kopf das falsche Signal. */
+    .ref-kopf-bild {
+      margin: 0; border-radius: 20px; overflow: hidden;
+      box-shadow: 0 26px 64px rgba(0,10,40,0.42);
+      border: 1px solid rgba(255,255,255,0.18);
+      animation: fade-up 1s 0.25s cubic-bezier(.22,1,.36,1) both;
+    }
+    .ref-kopf-bild img {
+      display: block; width: 100%; height: auto;
+      aspect-ratio: 4 / 3; object-fit: cover;
     }
     @media (max-width: 860px) {
       .ref-kopf-inner { grid-template-columns: 1fr; gap: 26px; }
-      .ref-kopf-marke { justify-items: start; }
-      .ref-kopf-marke .auto-mark { max-width: 210px; }
+      .ref-kopf-bild { border-radius: 16px; }
     }
     .ref-kopf-inner h1 {
       font-family: var(--font-condensed);
