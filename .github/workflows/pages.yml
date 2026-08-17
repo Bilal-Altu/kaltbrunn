@@ -25,21 +25,40 @@ jobs:
 
       # Nachgeladene Fremdressourcen sind der DSGVO-Angriffspunkt und kosten
       # Ladezeit. Verweise im Text (Links, canonical, og:url) sind erlaubt.
-      - name: Prüfen, dass die Seite keine externen Dienste nachlädt
+      - name: Prüfen, dass die Seiten keine externen Dienste nachladen
         run: |
           muster='<script[^>]+src="https?://|<iframe|<img[^>]+src="https?://|<link[^>]+rel="(stylesheet|preload)"[^>]+href="https?://|@import[^;]*https?://|url\((["'"'"']?)https?://'
-          if grep -Eqi "$muster" index.html; then
-            echo "::error file=index.html::lädt externe Ressourcen nach"
-            grep -Eoi "$muster" index.html | sort -u
+          for datei in index.html referenzen.html; do
+            if grep -Eqi "$muster" "$datei"; then
+              echo "::error file=$datei::lädt externe Ressourcen nach"
+              grep -Eoi "$muster" "$datei" | sort -u
+              exit 1
+            fi
+          done
+          echo "keine externen Ressourcen"
+
+      # referenzen.html wird aus index.html gebaut. Läuft der Bau nicht mehr
+      # durch oder weicht das Ergebnis ab, ist die Datei von Hand geändert
+      # worden – dann laufen Kopf, Navigation und Fußzeile auseinander.
+      - name: Prüfen, dass referenzen.html zum Bauskript passt
+        run: |
+          cp referenzen.html /tmp/vorher.html
+          python3 bau_referenzen.py
+          if ! diff -q /tmp/vorher.html referenzen.html >/dev/null; then
+            echo "::error file=referenzen.html::weicht vom Bauskript ab – bitte 'python3 bau_referenzen.py' laufen lassen und das Ergebnis einchecken"
+            diff /tmp/vorher.html referenzen.html | head -40
             exit 1
           fi
-          echo "keine externen Ressourcen"
+          echo "referenzen.html ist aktuell"
 
       - name: Seite einsammeln
         run: |
           mkdir -p _site
-          cp index.html  _site/index.html
-          cp robots.txt  _site/robots.txt
+          cp index.html      _site/index.html
+          cp referenzen.html _site/referenzen.html
+          cp robots.txt      _site/robots.txt
+          mkdir -p _site/fotos
+          cp fotos/*.webp    _site/fotos/
           touch _site/.nojekyll
 
       - name: Auf gh-pages veröffentlichen

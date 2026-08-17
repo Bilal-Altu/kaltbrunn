@@ -2,16 +2,48 @@
 
 Kfz-Gutachten mit Sachverstand · Heppenheim, Kreis Bergstraße
 
-`index.html` ist die Seite: **eine einzige Datei ohne jede externe Verbindung**.
+Zwei Seiten: `index.html` und `referenzen.html` — **ohne jede externe
+Verbindung**.
 Schriften, Bilder und Skripte stecken als Data-URI darin — keine Google Fonts,
 keine Cookies, kein Tracking. Damit entfällt der DSGVO-Klassiker „IP-Adresse an
 Google übertragen“, und die Seite lädt in einem einzigen Request.
 
-| | |
-|---|---|
-| Größe | 231 KB |
-| Requests | 1 |
-| externe Verbindungen | 0 |
+| | index.html | referenzen.html |
+|---|---|---|
+| Größe | 235 KB | 181 KB + Fotos |
+| Requests | 1 | 1 + Fotos (eigene Adresse) |
+| externe Verbindungen | 0 | 0 |
+
+## Referenzen
+
+`referenzen.html` wird **gebaut, nicht von Hand bearbeitet**:
+
+```
+python3 bau_referenzen.py
+```
+
+Kopf, Schrift, Navigation und Fußzeile kommen aus `index.html`, damit die
+beiden Seiten nicht auseinanderlaufen. Neu ist nur der Inhalt zwischen
+`<main>` und `</main>`; Fälle und Bildtexte stehen in der Liste `FAELLE`
+oben im Skript. Der Pages-Workflow baut die Datei nach und bricht ab, wenn
+das Ergebnis vom eingecheckten Stand abweicht.
+
+Die Fotos liegen als Dateien unter `fotos/` und werden verlinkt statt
+eingebettet: eigene Adresse, kein Fremdanbieter, und der Browser lädt sie
+erst beim Scrollen.
+
+**Aktuell stehen dort Platzhalter.** Die Originalaufnahmen nach
+`fotos/original/` legen (01.jpg, 02.jpg … in der gewünschten Reihenfolge),
+dann:
+
+```
+python3 fotos/aufbereiten.py    # macht daraus 1600 px WebP
+python3 bau_referenzen.py
+```
+
+Vor dem Veröffentlichen der Fotos: siehe die Liste im Kopf von
+`fotos/aufbereiten.py` — Kennzeichen, gespiegelte Personen, Firmenaufkleber
+und die Einwilligung der Auftraggeber.
 
 Marke: das eingedrückte Auto mit den Aufprallstrahlen, im Navigationskopf
 klein und im Anriss groß — frei stehend, ohne Stempelring.
@@ -27,7 +59,7 @@ Marke kommt und dem Blau die Amtskühle nimmt.
 
 ## Bearbeiten
 
-Die Datei wird direkt bearbeitet — kein Build, kein Werkzeug. Die langen
+`index.html` wird direkt bearbeitet — kein Build, kein Werkzeug. Die langen
 Base64-Blöcke sind die eingebettete Schrift (Archivo, variabel) und das
 Porträt; dazwischen steht ganz normales HTML, CSS und JavaScript.
 
@@ -42,8 +74,8 @@ python -m http.server 4599
 
 **Live: https://bilal-altu.github.io/kaltbrunn/**
 
-Jeder Push auf `main` veröffentlicht die Seite. Der Workflow prüft sie zuerst
-und bricht ab, sobald sie wieder eine Fremdressource nachlädt — die
+Jeder Push auf `main` veröffentlicht beide Seiten. Der Workflow prüft sie
+zuerst und bricht ab, sobald eine wieder eine Fremdressource nachlädt — die
 DSGVO-Sauberkeit kann so nicht unbemerkt verloren gehen; danach schiebt er das
 Ergebnis auf den Zweig `gh-pages`.
 
