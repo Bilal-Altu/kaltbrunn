@@ -599,6 +599,52 @@
     .warum-item h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 10px; }
     .warum-item p { font-size: 0.87rem; color: rgba(255,255,255,0.68); line-height: 1.68; }
 
+
+    /* ── IHR GUTES RECHT ── */
+    #ihr-recht { background: var(--white); }
+    .recht-inner { max-width: 1240px; margin: 0 auto; }
+    .recht-karten {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .recht-karte {
+      background: var(--gray-light); border: 1px solid var(--gray-mid);
+      border-radius: 18px; padding: 30px 28px;
+      transition: transform 0.45s cubic-bezier(.16,1,.3,1), box-shadow 0.45s cubic-bezier(.16,1,.3,1);
+    }
+    .recht-karte:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,42,115,0.12); }
+    .recht-symbol {
+      width: 46px; height: 46px; margin-bottom: 18px;
+      border: 1px solid var(--gray-mid); border-radius: 14px; background: var(--white);
+      display: grid; place-items: center; color: var(--flamme-tief);
+      transition: border-color 0.3s, background 0.3s, color 0.3s;
+    }
+    .recht-symbol svg {
+      width: 23px; height: 23px; fill: none; stroke: currentColor;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .recht-karte:hover .recht-symbol { border-color: var(--flamme-tief); background: var(--flamme-tief); color: var(--white); }
+    .recht-karte h3 { font-size: 1rem; font-weight: 700; color: var(--blue-dark); margin-bottom: 10px; }
+    .recht-karte p { font-size: 0.88rem; color: var(--gray-text); line-height: 1.65; }
+    .recht-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
+      margin-top: 24px; padding: 22px 28px;
+      background: var(--blue-dark); border-radius: 18px;
+      text-decoration: none; transition: background 0.25s, transform 0.25s;
+    }
+    .recht-cta:hover { background: var(--blue); transform: translateY(-2px); }
+    .recht-cta span { color: rgba(255,255,255,0.9); font-size: 0.95rem; }
+    .recht-cta strong {
+      font-family: var(--font-condensed); font-size: 1.35rem; font-weight: 900;
+      color: var(--white); letter-spacing: -0.01em; white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+      .recht-karte { padding: 24px 22px; }
+      .recht-cta { padding: 20px 22px; gap: 10px; }
+      .recht-cta strong { font-size: 1.2rem; }
+    }
+
     /* ── KONTAKT ── */
     #kontakt { background: var(--gray-light); }
     .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
@@ -616,6 +662,7 @@
     .kontakt-form { display: flex; flex-direction: column; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
     label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px; color: var(--blue-dark); }
+    .feld-optional { font-weight: 400; color: var(--gray-text); }
     input, textarea, select {
       font-family: var(--font-sans); border: 1.5px solid var(--gray-mid);
       border-radius: 12px; padding: 13px 15px; font-size: 0.9rem; color: var(--text);
@@ -820,6 +867,7 @@
     <li><a href="#ueber">Über mich</a></li>
     <li><a href="referenzen.html">Referenzen</a></li>
     <li><a href="#warum">Warum ich</a></li>
+    <li><a href="#ihr-recht">Ihr Recht</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
@@ -834,6 +882,7 @@
   <a href="#ueber">Über mich</a>
   <a href="referenzen.html">Referenzen</a>
   <a href="#warum">Warum ich</a>
+  <a href="#ihr-recht">Ihr Recht</a>
   <a href="#kontakt">Kontakt</a>
   <a href="#kontakt" class="mobile-menu-cta">Gutachten anfragen →</a>
 </div>
@@ -845,11 +894,11 @@
   <div class="hero-inner">
   <div class="hero-content">
     <div class="hero-eyebrow">Kfz-Sachverständiger in Heppenheim</div>
-    <h1>Nach dem Unfall<br>schnell wieder<br><span>zu Ihrem Recht.</span></h1>
-    <p>Ich bin Nurettin Sogukcesme, Kfz-Sachverständiger in Heppenheim. Ich sehe mir Ihr Fahrzeug meist innerhalb von 24 Stunden an und schreibe ein Gutachten, das vor Versicherung und Gericht Bestand hat.</p>
+    <h1>Ihr Unfall. Ihr Recht.<br><span>Mein Gutachten<br>schützt Ihr Geld.</span></h1>
+    <p>Ihr freier Kfz-Sachverständiger im Kreis Bergstraße und der Rhein-Neckar-Region. Absolut weisungsfrei, fachlich kompromisslos und direkt für Sie erreichbar.</p>
     <div class="hero-cta">
-      <a href="#kontakt" class="btn-primary">Gutachten anfragen</a>
-      <a href="#leistungen" class="btn-outline">Was ich mache</a>
+      <a href="tel:+4917637998836" class="btn-primary">Jetzt anrufen: +49 176 37998836</a>
+      <a href="#kontakt" class="btn-outline">Online-Anfrage senden</a>
       <a href="tel:+4917637998836" class="btn-call-mobile">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.07 2.18 2 2 0 012.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         Jetzt anrufen: +49 176 37998836
@@ -904,34 +953,44 @@
 
 <!-- LEISTUNGEN -->
 <section id="leistungen">
-  <div class="reveal"><div class="section-label">Was ich für Sie tue</div></div>
-  <h2 class="section-title reveal delay-1">Womit ich Ihnen helfe</h2>
-  <p class="section-intro reveal delay-2">Vom Unfallschaden bis zur Fahrzeugbewertung. Ich arbeite für Sie – nicht für die Versicherung und nicht für die Werkstatt.</p>
+  <div class="reveal"><div class="section-label">Meine Leistungen</div></div>
+  <h2 class="section-title reveal delay-1">Meine Leistungen in Ihrer Region</h2>
+  <p class="section-intro reveal delay-2">Von meinem Standort in Heppenheim aus bin ich schnell bei Ihnen im gesamten Kreis Bergstraße sowie in der Rhein-Neckar-Region – unter anderem Bensheim, Weinheim, Mannheim und Heidelberg.</p>
   <div class="leistungen-grid">
     <div class="leistung-card featured reveal delay-1">
       <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 15.5h17M5 15.5V19h2.2M19 15.5V19h-2.2"/><path d="M5.4 15.5l1.9-5.1a3 3 0 0 1 2.8-2h3.8a3 3 0 0 1 2.8 2l1.9 5.1"/><circle cx="8.2" cy="18.6" r="1.5"/><circle cx="15.8" cy="18.6" r="1.5"/></svg></span>
-      <h3>Unfallgutachten</h3>
-      <p>Ich halte den Schaden vollständig und neutral fest, damit Sie bekommen, was Ihnen zusteht. War der Unfall unverschuldet, zahlt das Gutachten in aller Regel die gegnerische Versicherung – für Sie bleibt es kostenlos.</p>
+      <h3>Schadengutachten</h3>
+      <p>Haftpflicht- und Kaskoschäden. Ich halte den Schaden vollständig und neutral fest, damit Sie bekommen, was Ihnen zusteht. War der Unfall unverschuldet, zahlt das Gutachten in aller Regel die gegnerische Versicherung – für Sie bleibt es kostenlos.</p>
     </div>
     <div class="leistung-card reveal delay-2">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 7.4A6.6 6.6 0 0 0 7.6 12 6.6 6.6 0 0 0 17 16.6"/><path d="M4.6 10.4h8.2M4.6 13.6h8.2"/></svg></span>
+      <h3>Wertgutachten</h3>
+      <p>Was ist Ihr Fahrzeug wirklich wert? Ich ermittle es nachvollziehbar – für Kauf und Verkauf, Versicherung, Erbschaft oder das Finanzamt.</p>
+    </div>
+    <div class="leistung-card reveal delay-3">
       <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="1.8" y="7.4" width="11.6" height="8.2" rx="1.2"/><path d="M13.4 10.4h3.9l2.9 3v2.2h-6.8"/><circle cx="6.4" cy="18.2" r="1.5"/><circle cx="17.2" cy="18.2" r="1.5"/></svg></span>
-      <h3>Fuhrparkmanagement</h3>
-      <p>Technische Betreuung und Bewertung von Firmenfahrzeugen und Flotten – planbar und mit einem Auge auf die Kosten.</p>
+      <h3>Nutzfahrzeuge &amp; Fuhrpark</h3>
+      <p>LKW, Transporter, Busse und Anhänger. Angefangen habe ich als Nutzfahrzeug-Mechatroniker – hier bin ich zu Hause. Dazu die technische Betreuung ganzer Flotten, planbar und mit einem Auge auf die Kosten.</p>
+    </div>
+    <div class="leistung-card reveal delay-1">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M6 7h12"/><path d="M6 7l-2.6 5.6h5.2L6 7z"/><path d="M18 7l-2.6 5.6h5.2L18 7z"/><path d="M8.6 20h6.8"/></svg></span>
+      <h3>Prüfung &amp; Gegengutachten</h3>
+      <p>Die Versicherung hat gekürzt oder ihr eigenes Gutachten vorgelegt? Ich prüfe es nach und halte dagegen, wo es sachlich nicht trägt.</p>
+    </div>
+    <div class="leistung-card reveal delay-2">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 16.5l3.6-4.4 2.6 2.2 3.3-5"/><circle cx="16.4" cy="8.4" r="3.6"/><path d="M19.1 11.1L21.5 13.6"/><path d="M3 20h18"/></svg></span>
+      <h3>Technische Analysen</h3>
+      <p>Komplexe Fehlerbilder, bei denen niemand die Ursache findet. Ursache belegen, Bewertung herleiten, nachvollziehbar dokumentieren – dieselbe Methodik wie in der Qualitätssicherung.</p>
     </div>
     <div class="leistung-card reveal delay-3">
       <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="1.4"/><path d="M7 8.4v3M11 8.4v4M15 8.4v3M19 8.4v4"/></svg></span>
       <h3>Karosserievermessung</h3>
       <p>Millimetergenaue Vermessung der Karosserie: Unfallschäden nachweisen, verdeckte Vorschäden finden, Reparaturen kontrollieren.</p>
     </div>
-    <div class="leistung-card reveal delay-1">
-      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 7.4A6.6 6.6 0 0 0 7.6 12 6.6 6.6 0 0 0 17 16.6"/><path d="M4.6 10.4h8.2M4.6 13.6h8.2"/></svg></span>
-      <h3>Wertgutachten</h3>
-      <p>Was ist Ihr Fahrzeug wirklich wert? Ich ermittle es nachvollziehbar – für Kauf und Verkauf, Versicherung, Erbschaft oder das Finanzamt.</p>
-    </div>
-    <div class="leistung-card reveal delay-2">
+    <div class="leistung-card reveal delay-4">
       <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2" y="6.6" width="15.4" height="9" rx="1.4"/><path d="M17.4 10h2.1L22 12.6v3h-4.6"/><circle cx="7" cy="18.2" r="1.5"/><circle cx="17.4" cy="18.2" r="1.5"/></svg></span>
-      <h3>Wohnmobil-Gutachten</h3>
-      <p>Wohnmobil und Wohnwagen sind ein eigenes Kapitel: Schaden bewerten, Wert ermitteln, Technik beurteilen.</p>
+      <h3>Wohnmobil &amp; Wohnwagen</h3>
+      <p>Ein eigenes Kapitel: Schaden bewerten, Wert ermitteln, Technik beurteilen.</p>
     </div>
   </div>
   <div class="fahrzeug-strip reveal delay-3">
@@ -939,7 +998,7 @@
     <span class="fahrzeug-chip">PKW</span>
     <span class="fahrzeug-chip">Wohnwagen &amp; Wohnmobil</span>
     <span class="fahrzeug-chip">Motorrad</span>
-    <span class="fahrzeug-chip">LKW &amp; Nutzfahrzeuge</span>
+    <span class="fahrzeug-chip">LKW, Bus &amp; Transporter</span>
   </div>
   <a class="ref-teaser reveal" href="referenzen.html">
     <span class="ref-teaser-text">
@@ -960,9 +1019,9 @@
     </div>
     <div class="ueber-text reveal-right">
       <div class="section-label">Über mich</div>
-      <h2 class="section-title">Der Mensch hinter<br>dem Gutachten.</h2>
-      <p>Ich bin Nurettin Sogukcesme. Angefangen habe ich als Nutzfahrzeug-Mechatroniker, mit den Händen am Fahrzeug. Nach dem Maschinenbaustudium beurteile ich hauptberuflich als Qualitätsingenieur und Auditor bei einem Premium-Auto­hersteller im Raum Stuttgart Schäden und Fehlerbilder: Ursache belegen, Bewertung herleiten, alles nachvollziehbar dokumentieren.</p>
-      <p>Genauso arbeite ich an Ihrem Gutachten. Von Heppenheim aus, für Privatleute, Anwälte und Versicherungen im Kreis Bergstraße und der Rhein-Neckar-Region. Wenn Sie anrufen, gehe ich selbst ran.</p>
+      <h2 class="section-title">Meisterhafter Blick.<br>Akademische Präzision.</h2>
+      <p>Vom Blaumann im Nutzfahrzeug-Betrieb über das Maschinenbaustudium bis zum Qualitätsingenieur bei einem Premium-Auto­hersteller: Mein Weg zeichnet sich durch pure Begeisterung für Fahrzeugtechnik aus.</p>
+      <p>Als Ihr unabhängiger Kfz-Sachverständiger bringe ich diese gebündelte Expertise direkt zu Ihnen. Ob nach einem Unfall, für eine Wertermittlung oder bei technischen Unklarheiten – ich sichere Ihre Ansprüche mit absoluter Präzision. Wenn Sie anrufen, gehe ich selbst ran.</p>
       <ul class="ueber-fakten">
         <li><b>Ausbildung</b>Nutzfahrzeug-Mechatroniker, danach B.&nbsp;Eng. Maschinenbau</li>
         <li><b>Qualifikationen</b>VDA&nbsp;6.3 Prozessauditor · DGQ-Qualitätsmanager · Elektrofachkraft für HV-Komponenten</li>
@@ -980,13 +1039,49 @@
 <!-- WARUM WIR -->
 <section id="warum">
   <div class="reveal"><div class="section-label">Warum ich</div></div>
-  <h2 class="section-title reveal delay-1">Warum Ingenieurbüro Kaltbrunn?</h2>
-  <p class="section-intro reveal delay-2">Weil ein Gutachten nur so gut ist wie die Erfahrung dahinter.</p>
+  <h2 class="section-title reveal delay-1">Warum mein Gutachten den Unterschied macht</h2>
+  <p class="section-intro reveal delay-2">Weil ein Gutachten nur so gut ist wie die Erfahrung dahinter – und so viel wert wie seine Unabhängigkeit.</p>
   <div class="warum-grid">
-    <div class="warum-item reveal delay-1"><div class="warum-num">01</div><h3>Echte Ingenieursexpertise</h3><p>Ingenieurwissen und 15 Jahre Praxis aus der Automobilindustrie – die Grundlage jeder belastbaren Bewertung.</p></div>
-    <div class="warum-item reveal delay-2"><div class="warum-num">02</div><h3>100% neutral &amp; unabhängig</h3><p>Ich arbeite ausschließlich für meine Auftraggeber – ohne Bindung an Versicherungen, Werkstätten oder Hersteller.</p></div>
-    <div class="warum-item reveal delay-3"><div class="warum-num">03</div><h3>Regional verwurzelt</h3><p>Heppenheim und der ganze Kreis Bergstraße: kurze Wege, schnelle Termine und ein Ansprechpartner mit Namen und Handynummer statt einer Hotline.</p></div>
-    <div class="warum-item reveal delay-4"><div class="warum-num">04</div><h3>Gerichtsverwertbar</h3><p>Klar aufgebaut, vollständig belegt und nach anerkannten Standards erstellt – meine Gutachten halten der Prüfung durch Gerichte, Anwälte und Versicherungen stand.</p></div>
+    <div class="warum-item reveal delay-1"><div class="warum-num">01</div><h3>Echte Unabhängigkeit</h3><p>Ich arbeite ausschließlich für Sie als Fahrzeughalter, für Anwälte oder Gerichte – niemals im Auftrag von Versicherungen.</p></div>
+    <div class="warum-item reveal delay-2"><div class="warum-num">02</div><h3>Premium-Qualitätsstandard</h3><p>Durch meine Tätigkeit als Qualitätsingenieur und Auditor kenne ich die strengsten Standards der Automobilindustrie.</p></div>
+    <div class="warum-item reveal delay-3"><div class="warum-num">03</div><h3>Fundierte Beweissicherung</h3><p>Ich ermittle Schadensursachen lückenlos, leite Bewertungen logisch her und dokumentiere alles rechtssicher.</p></div>
+    <div class="warum-item reveal delay-4"><div class="warum-num">04</div><h3>Direkter Draht</h3><p>Bei mir gibt es kein Callcenter. Wenn Sie anrufen, sprechen Sie direkt mit mir – Ihrem Experten.</p></div>
+  </div>
+</section>
+
+<!-- IHR GUTES RECHT -->
+<section id="ihr-recht">
+  <div class="recht-inner">
+    <div class="reveal"><div class="section-label">Rechtlicher Schutz</div></div>
+    <h2 class="section-title reveal delay-1">Ihr gutes Recht bei einem Unfallschaden</h2>
+    <p class="section-intro reveal delay-2">Ein Unfall bringt ohnehin genug Ärger mit sich. Umso
+       wichtiger ist jemand, dem Sie blind vertrauen können. Da ich vollkommen weisungsfrei und
+       unabhängig von Versicherungsgesellschaften arbeite, steht allein Ihr Recht im Fokus.</p>
+    <div class="recht-karten">
+      <div class="recht-karte reveal delay-1">
+        <span class="recht-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6v4.6l3 1.8"/></svg></span>
+        <h3>Freie Gutachterwahl</h3>
+        <p>Bei einem unverschuldeten Unfall haben Sie das gesetzliche Recht, Ihren Gutachter
+           selbst zu wählen. Niemand kann Ihnen einen vorschreiben – auch die Versicherung des
+           Unfallgegners nicht.</p>
+      </div>
+      <div class="recht-karte reveal delay-2">
+        <span class="recht-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M15.2 9.2a3.9 3.9 0 00-6.4 2.8 3.9 3.9 0 006.4 2.8"/><path d="M7.6 11h5M7.6 13.2h5"/></svg></span>
+        <h3>Kostenübernahme</h3>
+        <p>Die Kosten für mein unabhängiges Gutachten trägt in diesem Fall die Versicherung des
+           Unfallverursachers. Für Sie bleibt es kostenlos.</p>
+      </div>
+      <div class="recht-karte reveal delay-3">
+        <span class="recht-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.4c0 4.3-3 8.3-7.5 9.6-4.5-1.3-7.5-5.3-7.5-9.6V6L12 3z"/><path d="M8.8 12l2.2 2.2 4.2-4.4"/></svg></span>
+        <h3>Schutz vor Kürzungen</h3>
+        <p>Versicherungen versuchen oft, den Schaden eigenmächtig herunterzurechnen. Ein
+           belastbares Gutachten ist das, was zwischen Ihnen und diesem Verlust steht.</p>
+      </div>
+    </div>
+    <a class="recht-cta reveal delay-4" href="tel:+4917637998836">
+      <span>Unsicher, was Ihnen zusteht? Rufen Sie mich an, das kostet nichts.</span>
+      <strong>+49 176 37998836</strong>
+    </a>
   </div>
 </section>
 
@@ -994,9 +1089,9 @@
 <section id="kontakt">
   <div class="kontakt-inner">
     <div class="reveal-left">
-      <div class="section-label">Sprechen wir</div>
-      <h2 class="section-title">Kontakt</h2>
-      <p class="section-intro" style="margin-bottom:32px;">Erzählen Sie mir kurz, was passiert ist. Ich melde mich zurück und wir finden schnell einen Termin. Das erste Gespräch kostet nichts.</p>
+      <div class="section-label">Kontakt</div>
+      <h2 class="section-title">Schnelle Hilfe im Schadensfall</h2>
+      <p class="section-intro" style="margin-bottom:32px;">Verlieren Sie nach einem Schaden keine wertvolle Zeit. Rufen Sie mich direkt an oder nutzen Sie das Formular – die Erstanfrage ist kostenlos.</p>
       <div class="kontakt-row">
         <div class="kontakt-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
         <div><div class="kontakt-label">Adresse</div><div class="kontakt-val">Mannheimer Straße 1<br>64646 Heppenheim</div></div>
@@ -1015,7 +1110,7 @@
       </div>
     </div>
     <div class="reveal-right">
-      <h3 style="font-size:1rem;font-weight:700;color:var(--blue-dark);margin-bottom:20px;">Kurz beschreiben, was passiert ist</h3>
+      <h3 style="font-size:1rem;font-weight:700;color:var(--blue-dark);margin-bottom:20px;">Kostenlose Erstanfrage</h3>
       <form class="kontakt-form" id="kontakt-form" onsubmit="return sendKontaktForm(event)">
         <div class="form-row">
           <div class="form-group"><label for="k-vorname">Vorname</label><input id="k-vorname" type="text" placeholder="Max" required/></div>
@@ -1024,14 +1119,20 @@
         <div class="form-group"><label for="k-email">E-Mail</label><input id="k-email" type="email" placeholder="max@beispiel.de" required/></div>
         <div class="form-group"><label for="k-telefon">Telefon</label><input id="k-telefon" type="tel" placeholder="+49 ..."/></div>
         <div class="form-group">
+          <label for="k-fahrzeug">Kennzeichen / Fahrzeug <span class="feld-optional">optional</span></label>
+          <input id="k-fahrzeug" type="text" placeholder="z. B. HP-XX 123 · BMW X1"/>
+        </div>
+        <div class="form-group">
           <label for="k-art">Art des Gutachtens</label>
           <select id="k-art">
             <option value="">Bitte wählen…</option>
-            <option>Unfallgutachten</option>
-            <option>Fuhrparkmanagement</option>
-            <option>Karosserievermessung</option>
+            <option>Schadengutachten (Unfall)</option>
             <option>Wertgutachten</option>
-            <option>Wohnmobil-Gutachten</option>
+            <option>Nutzfahrzeuge &amp; Fuhrpark</option>
+            <option>Prüfung / Gegengutachten</option>
+            <option>Technische Analyse</option>
+            <option>Karosserievermessung</option>
+            <option>Wohnmobil &amp; Wohnwagen</option>
             <option>Sonstiges</option>
           </select>
         </div>
@@ -1040,7 +1141,7 @@
           <input id="k-consent" type="checkbox" required style="margin-top:3px;flex-shrink:0;width:16px;height:16px;"/>
           <span>Ich habe die <a href="#datenschutz" style="color:var(--blue);">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden.</span>
         </label>
-        <button type="submit" class="btn-primary" style="align-self:flex-start;margin-top:4px;color:var(--blue-dark);">Anfrage abschicken →</button>
+        <button type="submit" class="btn-primary" style="align-self:flex-start;margin-top:4px;color:var(--blue-dark);">Jetzt kostenlose Erstanfrage senden →</button>
       </form>
     </div>
   </div>
@@ -1204,6 +1305,14 @@
           "name": "Weinheim"
         },
         {
+          "@type": "City",
+          "name": "Mannheim"
+        },
+        {
+          "@type": "City",
+          "name": "Heidelberg"
+        },
+        {
           "@type": "AdministrativeArea",
           "name": "Rhein-Neckar-Region"
         }
@@ -1226,7 +1335,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Unfallgutachten"
+              "name": "Schadengutachten"
             }
           },
           {
@@ -1240,6 +1349,27 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "name": "Nutzfahrzeug- und Fuhrparkgutachten"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Prüfung und Gegengutachten"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Technische Schadenanalyse"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
               "name": "Karosserievermessung"
             }
           },
@@ -1247,14 +1377,7 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Wohnmobil-Gutachten"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Fuhrpark- und Flottenbetreuung"
+              "name": "Wohnmobil- und Wohnwagengutachten"
             }
           }
         ]
@@ -1311,6 +1434,7 @@
     const nachname  = document.getElementById('k-nachname').value.trim();
     const email     = document.getElementById('k-email').value.trim();
     const telefon   = document.getElementById('k-telefon').value.trim();
+    const fahrzeug  = document.getElementById('k-fahrzeug').value.trim();
     const art       = document.getElementById('k-art').value;
     const nachricht = document.getElementById('k-nachricht').value.trim();
 
@@ -1319,6 +1443,7 @@
       `Name: ${vorname} ${nachname}\n` +
       `E-Mail: ${email}\n` +
       (telefon ? `Telefon: ${telefon}\n` : '') +
+      (fahrzeug ? `Kennzeichen / Fahrzeug: ${fahrzeug}\n` : '') +
       (art ? `Art des Gutachtens: ${art}\n` : '') +
       `\nNachricht:\n${nachricht}`;
 

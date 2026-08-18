@@ -10,7 +10,7 @@ Google übertragen“, und die Seite lädt in einem einzigen Request.
 
 | | index.html | referenzen.html |
 |---|---|---|
-| Größe | 235 KB | 181 KB + 423 KB Fotos |
+| Größe | 250 KB | 183 KB + 423 KB Fotos |
 | Requests | 1 | 1 + 7 Fotos (eigene Adresse) |
 | externe Verbindungen | 0 | 0 |
 
@@ -96,6 +96,23 @@ schaltet Pages dagegen ohne Zutun in den Einstellungen frei.
 `robots.txt` sperrt die Vorschauadresse für Suchmaschinen, damit sie der
 späteren echten Domain keine doppelten Inhalte macht. **Vor dem Livegang unter
 eigener Domain muss die Datei weg.**
+
+## Texte
+
+Die Inhalte stammen aus Nurettins eigenem Entwurf (E-Mail vom 18.08.),
+seine Platzhalter für Telefon und E-Mail sind mit den echten Daten gefüllt.
+
+Zwei Formulierungen daraus stehen bewusst so da und sollten vor dem
+Livegang noch einmal von ihm bestätigt werden:
+
+- **„Meisterhafter Blick"** als Überschrift bei „Über mich". Gemeint ist
+  der geschulte Blick, nicht ein Meistertitel — er ist B. Eng., kein
+  Handwerksmeister. Missverständlich ist es trotzdem.
+- **„Vom Blaumann … bis zum Qualitätsingenieur"** beschreibt den Weg;
+  die Tätigkeit beim Hersteller läuft weiter. Seine ursprüngliche
+  Alternativ-Überschrift („Vom Premium-Hersteller **zum** unabhängigen
+  Gutachter") hätte einen Wechsel behauptet, den es nicht gibt — die ist
+  deshalb nicht übernommen.
 
 ## Vor dem Livegang
 

@@ -24,27 +24,33 @@ ZIEL = os.path.join(HIER, 'referenzen.html')
 
 # ── Die Fälle ─────────────────────────────────────────────────────────────
 # datei, Fahrzeug, Schadenbild, Aufnahme, ausfuehrlich
+#
+# ACHTUNG: Diese Texte gehören Nurettin, nicht dem Bild. Was auf einer
+# Aufnahme zu sehen ist, sagt nicht, was tatsächlich kaputt war – beim
+# Toyota etwa war die Lenkachse gebrochen, was man dem Foto nicht ansieht.
+# Neue Fälle deshalb immer mit seiner Beschreibung eintragen, nicht mit
+# einer aus dem Bild abgeleiteten.
 FAELLE = [
     ('01-bmw-x1-streifschaden.webp', 'BMW X1',
      'Streifschaden über beide Türen', 'Februar 2026',
      'Langgezogener Streifschaden über hintere Tür, Schweller und Seitenwand. '
      'Der Maßstab im Bild hält die Höhe über der Fahrbahn fest – daraus lässt '
-     'sich später ableiten, welches Fahrzeug den Schaden verursacht haben kann.'),
+     'sich ableiten, welche Fahrzeughöhe zum Schadenbild passt.'),
     ('02-toyota-corolla-heck-links.webp', 'Toyota Corolla Hybrid',
-     'Heck links eingedrückt', 'Januar 2025',
-     'Stoßfänger gerissen, Seitenwand eingedrückt, Radlauf verformt. '
-     'Sichtbar sind auch die Folgen für die dahinterliegenden Halter – bei '
-     'solchen Schäden entscheidet die verdeckte Struktur über die Reparaturkosten.'),
+     'Lenkachse gebrochen', 'Januar 2025',
+     'Beim Aufprall ist die Lenkachse gebrochen. Von außen sieht man Stoßfänger '
+     'und Radlauf – dass die Achse hin ist, zeigt sich erst darunter. Genau solche '
+     'verdeckten Schäden entscheiden über die Reparaturkosten.'),
     ('03-toyota-corolla-heck-detail.webp', 'Toyota Corolla Hybrid',
      'Heckstoßfänger, Detailaufnahme', 'August 2024',
-     'Detail derselben Schadenart aus einem anderen Fall: Stoßfänger großflächig '
-     'eingedrückt und aufgerissen. Kunststoff federt zurück – ohne Aufnahme im '
-     'unbelasteten Zustand lässt sich die Tiefe später nicht mehr belegen.'),
+     'Stoßfänger großflächig eingedrückt und aufgerissen. Kunststoff federt zurück – '
+     'ohne Aufnahme im unbelasteten Zustand lässt sich die Tiefe später nicht mehr '
+     'belegen.'),
     ('04-mercedes-e-front-links.webp', 'Mercedes-Benz E-Klasse',
-     'Front links, Vermessung vor Ort', 'Juli 2025',
-     'Aufnahme der Fahrzeugecke mit Maßstab, direkt am Unfallort in der Engstelle. '
-     'Die Höhe über der Fahrbahn ist festgehalten, bevor das Fahrzeug bewegt wird – '
-     'danach lässt sie sich nicht mehr sauber ermitteln.'),
+     'Front rechts', 'Juli 2025',
+     'Aufgenommen am Unfallort in der Engstelle. Der Maßstab hält die Höhe über '
+     'der Fahrbahn fest, bevor das Fahrzeug bewegt wird – danach lässt sie sich '
+     'nicht mehr sauber ermitteln.'),
     ('05-bmw-lack-detail.webp', 'BMW',
      'Delle im Reflexionsstreifen', 'Mai 2025',
      'Eine flache Delle sieht man auf dunklem Lack mit bloßem Auge kaum. Im '
@@ -56,10 +62,10 @@ FAELLE = [
      'Verformung gehört die Aufnahme dazu: Sie belegt den Zustand zum '
      'Zeitpunkt der Besichtigung.'),
     ('07-audi-a6-heck-rechts.webp', 'Audi A6',
-     'Heck rechts, Streif- und Druckschaden', 'Juni 2024',
-     'Streifspuren über Stoßfänger und Seitenwand mit leichter Verformung. '
-     'Helle Lackierungen zeigen Fremdlackantrag besonders deutlich – ein '
-     'Hinweis auf das verursachende Fahrzeug.'),
+     'Heckschaden mit starker Deformation', 'Juni 2024',
+     'Die hellen Streifspuren auf Stoßfänger und Seitenwand sind nur das, was von '
+     'außen zu sehen ist. Helle Lackierungen zeigen Fremdlackantrag besonders '
+     'deutlich – ein Hinweis auf das verursachende Fahrzeug.'),
 ]
 
 
