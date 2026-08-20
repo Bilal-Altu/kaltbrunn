@@ -108,11 +108,14 @@ Livegang noch einmal von ihm bestätigt werden:
 - **„Meisterhafter Blick"** als Überschrift bei „Über mich". Gemeint ist
   der geschulte Blick, nicht ein Meistertitel — er ist B. Eng., kein
   Handwerksmeister. Missverständlich ist es trotzdem.
-- **„Vom Blaumann … bis zum Qualitätsingenieur"** beschreibt den Weg;
-  die Tätigkeit beim Hersteller läuft weiter. Seine ursprüngliche
-  Alternativ-Überschrift („Vom Premium-Hersteller **zum** unabhängigen
-  Gutachter") hätte einen Wechsel behauptet, den es nicht gibt — die ist
-  deshalb nicht übernommen.
+- **„Vom Premium-Hersteller zum unabhängigen Gutachter"** ist die
+  Anriss-Überschrift, auf Bilals ausdrückliche Entscheidung. Der Hinweis
+  bleibt hier stehen, damit ihn niemand später sucht: Das „vom … zum"
+  liest sich wie ein abgeschlossener Wechsel, die Tätigkeit beim
+  Hersteller läuft aber weiter. Im Abschnitt darunter steht es richtig
+  („Vom Blaumann … bis zum Qualitätsingenieur"), und die Unterzeile
+  nennt ihn „freier Kfz-Sachverständiger" — der Widerspruch ist damit
+  entschärft, aber nicht ganz weg.
 
 ## Vor dem Livegang
 
