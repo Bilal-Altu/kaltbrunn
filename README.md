@@ -97,6 +97,36 @@ schaltet Pages dagegen ohne Zutun in den Einstellungen frei.
 späteren echten Domain keine doppelten Inhalte macht. **Vor dem Livegang unter
 eigener Domain muss die Datei weg.**
 
+## Unfall-Sequenz
+
+Zwischen Vertrauensleiste und Leistungen liegt eine Scroll-Erzählung: zwei
+Wagen stoßen zusammen, ein Handy fährt hoch, auf dem Schirm lädt diese
+Seite, am Ende steht der Aufruf.
+
+Sie steht **bewusst nicht als Vorspann vor der Seite**. Wer gerade einen
+Unfall hatte, will die Nummer sofort — ein Vorspann hätte genau die
+Anrufe gekostet, um die es geht. Anriss und Telefonnummer sind ab der
+ersten Sekunde da.
+
+Gesteuert wird über fünf Fortschrittswerte, die das Skript beim Scrollen
+als CSS-Variablen auf `.unfall-szene` setzt (`--anfahrt`, `--knall`,
+`--nach`, `--handy`, `--zoom`). Bewegt werden ausschließlich `transform`
+und `opacity`. Die Phasengrenzen stehen im Skript in einer Zeile:
+
+```
+--anfahrt  0 – 30 %      --handy  52 – 78 %
+--knall   28 – 38 %      --zoom   78 – 100 %
+--nach    36 – 52 %
+```
+
+Die Wagenwege sind auf die **Fahrzeugmitte** bezogen, nicht auf die linke
+Kante: `left: 50 %` setzt die linke Kante in die Bildmitte, und genau
+dieser Denkfehler hatte den Gegner am Handy aus dem Bild geschoben.
+`-96 %` heißt jetzt „rechte Kante an der Bildmitte".
+
+Wer `prefers-reduced-motion` gesetzt hat, bekommt kein Sticky und keinen
+Scrollweg, sondern das Schlussbild mit allen vier Sätzen untereinander.
+
 ## Texte
 
 Die Inhalte stammen aus Nurettins eigenem Entwurf (E-Mail vom 18.08.),

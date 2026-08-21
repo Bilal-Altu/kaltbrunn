@@ -645,6 +645,215 @@
       .recht-cta strong { font-size: 1.2rem; }
     }
 
+
+    /* ══ UNFALL-SEQUENZ ═══════════════════════════════════════════════════
+       Scroll-Erzaehlung: zwei Wagen stossen zusammen, einer der Beteiligten
+       ruft diese Seite auf. Bewusst hinter dem Anriss – ein Vorspann haette
+       genau die Anrufe gekostet, um die es geht.
+       Gesteuert wird ueber vier Fortschrittswerte, die das Skript als
+       CSS-Variablen setzt; hier steht nur, was daraus wird. */
+    .unfall { height: 320vh; position: relative; padding: 0; background: var(--blue-dark); }
+    .unfall-buehne { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+    .unfall-szene {
+      --anfahrt: 0; --knall: 0; --nach: 0; --handy: 0; --zoom: 0;
+      position: absolute; inset: 0; overflow: hidden;
+      background:
+        radial-gradient(70% 55% at 50% 30%, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%),
+        linear-gradient(180deg, var(--blue-dark) 0%, #062a6e 55%, #08347f 100%);
+    }
+    .nur-vorlesen {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+    }
+
+    .unfall-himmel {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 76px 76px;
+      opacity: calc(1 - var(--zoom));
+    }
+
+    .strasse {
+      position: absolute; left: -5%; right: -5%; top: 58%; height: 22%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.05));
+      border-top: 2px solid rgba(255,255,255,0.16);
+      opacity: calc(1 - var(--zoom));
+    }
+    .strasse-striche {
+      position: absolute; left: 0; right: 0; top: 46%; height: 4px;
+      background: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.5) 0 46px, rgba(255,255,255,0) 46px 96px);
+      opacity: 0.7;
+    }
+
+    .wagen {
+      position: absolute; top: 64%; left: 50%;
+      width: clamp(180px, 28vw, 350px);
+      opacity: calc(1 - var(--zoom));
+      will-change: transform;
+    }
+    .wagen .auto-mark { width: 100%; height: auto; display: block; }
+    .wagen-dreh { transform-origin: 50% 80%; }
+
+    /* Der nahe Wagen kommt von links, der Gegner von rechts. Nach dem
+       Aufprall federn beide zurueck und stehen schief. */
+    .wagen-a {
+      transform: translate(calc(-260% + var(--anfahrt) * 164% + var(--nach) * -8%), -50%);
+    }
+    .wagen-a .wagen-dreh { transform: rotate(calc(var(--nach) * -5deg)); }
+    .wagen-b {
+      transform: translate(calc(160% - var(--anfahrt) * 164% + var(--nach) * 8%), -50%) scaleX(-1);
+    }
+    .wagen-b .wagen-dreh { transform: rotate(calc(var(--nach) * 4deg)); }
+
+    .knall {
+      position: absolute; left: 50%; top: 60%;
+      width: 0; height: 0; pointer-events: none;
+      transform: translate(-50%, -50%) scale(calc(0.2 + var(--knall) * 1.1));
+      opacity: calc(var(--knall) * (1 - var(--nach) * 0.55) * (1 - var(--zoom)));
+    }
+    .knall span {
+      position: absolute; left: 0; top: 0;
+      width: clamp(26px, 4.4vw, 54px); height: 6px; border-radius: 4px;
+      background: linear-gradient(90deg, #ff3d2e, #ff8a1f 55%, #ffd93d);
+      transform-origin: 0 50%;
+    }
+    .knall span:nth-child(1) { transform: rotate(-14deg)  translateX(clamp(30px,5vw,64px)); }
+    .knall span:nth-child(2) { transform: rotate(28deg)   translateX(clamp(34px,5.6vw,72px)); }
+    .knall span:nth-child(3) { transform: rotate(70deg)   translateX(clamp(26px,4.4vw,56px)); }
+    .knall span:nth-child(4) { transform: rotate(118deg)  translateX(clamp(32px,5.2vw,68px)); }
+    .knall span:nth-child(5) { transform: rotate(160deg)  translateX(clamp(28px,4.8vw,60px)); }
+    .knall span:nth-child(6) { transform: rotate(206deg)  translateX(clamp(34px,5.6vw,72px)); }
+    .knall span:nth-child(7) { transform: rotate(252deg)  translateX(clamp(26px,4.4vw,56px)); }
+    .knall span:nth-child(8) { transform: rotate(306deg)  translateX(clamp(30px,5vw,64px)); }
+
+    .truemmer { position: absolute; left: 50%; top: 60%; pointer-events: none;
+                opacity: calc(var(--nach) * (1 - var(--handy) * 0.8)); }
+    .truemmer i {
+      position: absolute; width: 7px; height: 7px; border-radius: 2px;
+      background: rgba(255,255,255,0.75);
+    }
+    .truemmer i:nth-child(1) { transform: translate(calc(var(--nach) * -120px), calc(var(--nach) * -40px)) rotate(35deg); }
+    .truemmer i:nth-child(2) { transform: translate(calc(var(--nach) * 110px),  calc(var(--nach) * -62px)) rotate(-20deg); }
+    .truemmer i:nth-child(3) { transform: translate(calc(var(--nach) * -70px),  calc(var(--nach) * 46px))  rotate(60deg); }
+    .truemmer i:nth-child(4) { transform: translate(calc(var(--nach) * 84px),   calc(var(--nach) * 38px))  rotate(-48deg); }
+    .truemmer i:nth-child(5) { transform: translate(calc(var(--nach) * -150px), calc(var(--nach) * 16px))  rotate(12deg); }
+    .truemmer i:nth-child(6) { transform: translate(calc(var(--nach) * 148px),  calc(var(--nach) * 8px))   rotate(-70deg); }
+
+    /* Handy: faehrt hoch, dann waechst der Schirm ueber das Bild */
+    .handy {
+      position: absolute; left: 50%; top: 50%;
+      width: clamp(140px, 16vw, 196px);
+      transform:
+        translate(-50%, calc(-50% + (1 - var(--handy)) * 80vh))
+        scale(calc(1 + var(--zoom) * 1.7));
+      opacity: calc((0.15 + var(--handy) * 0.85) * (1 - max(0, var(--zoom) - 0.45) / 0.55));
+      will-change: transform;
+    }
+    .handy-rahmen {
+      border-radius: 26px; padding: 9px;
+      background: linear-gradient(160deg, #dfe8f6, #9db4d6);
+      box-shadow: 0 30px 70px rgba(0,8,30,0.55);
+    }
+    .handy-schirm {
+      border-radius: 18px; overflow: hidden; background: var(--white);
+      aspect-ratio: 9 / 17.5; display: flex; flex-direction: column;
+    }
+    .mini-nav {
+      background: var(--blue-dark); color: var(--white);
+      font-size: 0.44rem; font-weight: 500; letter-spacing: 0.1px;
+      padding: 7px 8px; display: flex; align-items: center; gap: 5px;
+    }
+    .mini-nav b { font-weight: 800; }
+    .mini-marke {
+      width: 15px; height: 7px; border-radius: 2px; flex-shrink: 0;
+      background: rgba(255,255,255,0.85);
+    }
+    .mini-inhalt {
+      flex: 1; padding: 10px 9px;
+      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mini-zeile { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.85); }
+    .mini-zeile.lang { width: 88%; }
+    .mini-zeile.mittel { width: 62%; }
+    .mini-nummer {
+      margin-top: 6px; color: var(--white);
+      font-family: var(--font-condensed); font-weight: 900;
+      font-size: 0.62rem; letter-spacing: -0.01em;
+    }
+    .mini-karten {
+      margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+    }
+    .mini-karten i { height: 22px; border-radius: 4px; background: rgba(255,255,255,0.18); }
+    .mini-knopf {
+      margin-top: auto; text-align: center;
+      background: var(--white); color: var(--blue-dark);
+      font-size: 0.46rem; font-weight: 800;
+      padding: 6px 4px; border-radius: 100px;
+    }
+
+    .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center; }
+    .unfall-texte p {
+      position: absolute; left: 0; right: 0;
+      font-family: var(--font-condensed);
+      font-size: clamp(1.3rem, 3.2vw, 2.3rem); font-weight: 900;
+      color: var(--white); letter-spacing: -0.02em; line-height: 1.2;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.28s, transform 0.28s;
+    }
+    .unfall-szene[data-schritt="1"] p[data-schritt="1"],
+    .unfall-szene[data-schritt="2"] p[data-schritt="2"],
+    .unfall-szene[data-schritt="3"] p[data-schritt="3"],
+    .unfall-szene[data-schritt="4"] p[data-schritt="4"] { opacity: 1; transform: none; }
+
+    .unfall-schluss {
+      position: absolute; left: 6%; right: 6%; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-align: center;
+      opacity: calc(max(0, var(--zoom) - 0.45) / 0.55);
+      pointer-events: none;
+    }
+    .unfall-szene[data-schritt="5"] .unfall-schluss { pointer-events: auto; }
+    .unfall-schluss strong {
+      font-family: var(--font-condensed); font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 900; color: var(--white); letter-spacing: -0.02em;
+    }
+    .unfall-schluss span { color: rgba(255,255,255,0.9); font-size: 0.95rem; max-width: 520px; }
+    .unfall-knoepfe { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+
+    .unfall-hinweis {
+      position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+      color: rgba(255,255,255,0.6); font-size: 0.78rem;
+      opacity: calc(1 - var(--anfahrt));
+    }
+
+    @media (max-width: 700px) {
+      .unfall { height: 300vh; }
+      .wagen { width: clamp(150px, 46vw, 230px); }
+      .handy { width: clamp(148px, 42vw, 190px); }
+      .unfall-texte { top: 9%; }
+      .unfall-schluss { top: 52%; }
+      .unfall-knoepfe .btn-primary, .unfall-knoepfe .btn-outline { flex: 1 1 100%; text-align: center; }
+    }
+
+    /* Wer Bewegung abbestellt hat, bekommt das Schlussbild ohne Scroll-Weg. */
+    @media (prefers-reduced-motion: reduce) {
+      .unfall { height: auto; }
+      .unfall-buehne { position: static; height: auto; }
+      .unfall-szene {
+        position: relative; inset: auto; min-height: 60vh;
+        --anfahrt: 1; --knall: 0; --nach: 1; --handy: 1; --zoom: 0;
+        padding: 80px 0 100px;
+      }
+      .unfall-hinweis { display: none; }
+      .unfall-schluss { position: static; opacity: 1; pointer-events: auto; margin-top: 40px; }
+      .unfall-texte { position: static; }
+      .unfall-texte p { position: static; opacity: 1; transform: none; margin-bottom: 6px; }
+    }
+
     /* ── KONTAKT ── */
     #kontakt { background: var(--gray-light); }
     .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
@@ -962,6 +1171,61 @@
   <div class="trust-item reveal delay-3"><div class="trust-check">✓</div> 15 Jahre Automobilindustrie</div>
   <div class="trust-item reveal delay-4"><div class="trust-check">✓</div> Termine oft schon am nächsten Tag</div>
 </div>
+
+<!-- UNFALL-SEQUENZ -->
+<section id="unfall" class="unfall" aria-labelledby="unfall-titel">
+  <h2 id="unfall-titel" class="nur-vorlesen">Wie aus einem Unfall ein Gutachten wird</h2>
+  <div class="unfall-buehne">
+    <div class="unfall-szene" id="unfall-szene">
+      <div class="unfall-himmel"></div>
+      <div class="strasse"><div class="strasse-striche"></div></div>
+
+      <div class="wagen wagen-a"><div class="wagen-dreh"><svg class="auto-mark" aria-hidden="true" focusable="false" viewBox="0 -16 262 110" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.00 74.00 C12.33 69.33 9.33 64.67 9.00 60.00 C8.67 55.33 11.00 50.67 12.00 46.00 C20.67 44.00 29.33 44.67 38.00 40.00 C46.67 35.33 55.33 25.33 64.00 18.00 C77.33 15.67 92.33 11.67 104.00 11.00 C115.67 10.33 124.00 13.00 134.00 14.00 C142.00 20.67 152.00 29.50 158.00 34.00 C164.00 38.50 166.00 38.67 170.00 41.00 C177.33 41.33 185.67 43.00 192.00 42.00 C198.33 41.00 202.67 37.33 208.00 35.00 C210.00 42.67 213.67 51.50 214.00 58.00 C214.33 64.50 211.33 68.67 210.00 74.00 C206.67 77.33 210.00 81.67 200.00 84.00 C190.00 86.33 171.67 87.33 150.00 88.00 C128.33 88.67 90.00 88.67 70.00 88.00 C50.00 87.33 39.33 86.33 30.00 84.00 C20.67 81.67 19.33 77.33 14.00 74.00 Z" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/> <path d="M170.00 41.00 C171.33 47.33 173.00 52.50 174.00 60.00 C175.00 67.50 175.33 77.33 176.00 86.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M72.00 30.00 C80.00 27.33 87.33 23.00 96.00 22.00 C104.67 21.00 114.67 23.33 124.00 24.00 C131.33 30.67 138.67 37.33 146.00 44.00 C130.67 45.00 111.33 47.00 100.00 47.00 C88.67 47.00 85.33 45.00 78.00 44.00 C76.00 39.33 74.00 34.67 72.00 30.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M107 23 L112 46" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.4"/> <path d="M16.00 50.00 C23.33 49.50 42.67 47.50 60.00 47.00 C77.33 46.50 102.00 47.17 120.00 47.00 C138.00 46.83 160.00 46.17 168.00 46.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2"/> <path d="M182.00 52.00 C186.00 51.00 190.00 50.00 194.00 49.00 C194.00 54.67 194.00 60.33 194.00 66.00 C190.00 66.67 186.00 67.33 182.00 68.00 C182.00 62.67 182.00 57.33 182.00 52.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M197.00 48.00 C200.67 47.33 204.33 46.67 208.00 46.00 C208.00 51.67 208.00 57.33 208.00 63.00 C204.33 63.67 200.67 64.33 197.00 65.00 C197.00 59.33 197.00 53.67 197.00 48.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M172.00 44.00 C174.67 43.67 178.50 42.00 180.00 43.00 C181.50 44.00 182.17 48.50 181.00 50.00 C179.83 51.50 175.67 51.33 173.00 52.00 C172.67 49.33 172.33 46.67 172.00 44.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M199.00 39.00 C202.33 38.33 205.67 37.67 209.00 37.00 C209.33 39.33 211.50 42.50 210.00 44.00 C208.50 45.50 203.33 45.33 200.00 46.00 C199.67 43.67 199.33 41.33 199.00 39.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M180 74 L208 71" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2"/> <circle cx="58" cy="68" r="21" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="58" cy="68" r="16.4" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M61.7 68.8 L73.2 71.2"/><path d="M60.5 70.8 L68.4 79.5"/><path d="M58.4 71.8 L59.6 83.5"/><path d="M56.1 71.3 L50.2 81.5"/><path d="M54.5 69.5 L43.8 74.3"/><path d="M54.3 67.2 L42.8 64.8"/><path d="M55.5 65.2 L47.6 56.5"/><path d="M57.6 64.2 L56.4 52.5"/><path d="M59.9 64.7 L65.8 54.5"/><path d="M61.5 66.5 L72.2 61.7"/></g> <circle cx="58" cy="68" r="3.6" fill="#ffffff"/> <circle cx="150" cy="72" r="23" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="150" cy="72" r="17.9" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M154.0 72.9 L166.6 75.5"/><path d="M152.8 75.1 L161.4 84.6"/><path d="M150.4 76.1 L151.8 88.9"/><path d="M147.9 75.6 L141.5 86.7"/><path d="M146.2 73.7 L134.5 78.9"/><path d="M146.0 71.1 L133.4 68.5"/><path d="M147.2 68.9 L138.6 59.4"/><path d="M149.6 67.9 L148.2 55.1"/><path d="M152.1 68.4 L158.5 57.3"/><path d="M153.8 70.3 L165.5 65.1"/></g> <circle cx="150" cy="72" r="3.9" fill="#ffffff"/> <g stroke="#ff8a1f" stroke-width="4.4" stroke-linecap="round"><path d="M228 30 L248 12"/><path d="M220 14 L230 -6"/><path d="M234 50 L256 44"/><path d="M207 6 L210 -12"/></g> </svg></div></div>
+      <div class="wagen wagen-b"><div class="wagen-dreh"><svg class="auto-mark" aria-hidden="true" focusable="false" viewBox="0 -16 262 110" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.00 74.00 C12.33 69.33 9.33 64.67 9.00 60.00 C8.67 55.33 11.00 50.67 12.00 46.00 C20.67 44.00 29.33 44.67 38.00 40.00 C46.67 35.33 55.33 25.33 64.00 18.00 C77.33 15.67 92.33 11.67 104.00 11.00 C115.67 10.33 124.00 13.00 134.00 14.00 C142.00 20.67 152.00 29.50 158.00 34.00 C164.00 38.50 166.00 38.67 170.00 41.00 C177.33 41.33 185.67 43.00 192.00 42.00 C198.33 41.00 202.67 37.33 208.00 35.00 C210.00 42.67 213.67 51.50 214.00 58.00 C214.33 64.50 211.33 68.67 210.00 74.00 C206.67 77.33 210.00 81.67 200.00 84.00 C190.00 86.33 171.67 87.33 150.00 88.00 C128.33 88.67 90.00 88.67 70.00 88.00 C50.00 87.33 39.33 86.33 30.00 84.00 C20.67 81.67 19.33 77.33 14.00 74.00 Z" fill="#0d2f63" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/> <path d="M170.00 41.00 C171.33 47.33 173.00 52.50 174.00 60.00 C175.00 67.50 175.33 77.33 176.00 86.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M72.00 30.00 C80.00 27.33 87.33 23.00 96.00 22.00 C104.67 21.00 114.67 23.33 124.00 24.00 C131.33 30.67 138.67 37.33 146.00 44.00 C130.67 45.00 111.33 47.00 100.00 47.00 C88.67 47.00 85.33 45.00 78.00 44.00 C76.00 39.33 74.00 34.67 72.00 30.00 Z" fill="#7fa6dc" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M107 23 L112 46" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.4"/> <path d="M16.00 50.00 C23.33 49.50 42.67 47.50 60.00 47.00 C77.33 46.50 102.00 47.17 120.00 47.00 C138.00 46.83 160.00 46.17 168.00 46.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2"/> <path d="M182.00 52.00 C186.00 51.00 190.00 50.00 194.00 49.00 C194.00 54.67 194.00 60.33 194.00 66.00 C190.00 66.67 186.00 67.33 182.00 68.00 C182.00 62.67 182.00 57.33 182.00 52.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M197.00 48.00 C200.67 47.33 204.33 46.67 208.00 46.00 C208.00 51.67 208.00 57.33 208.00 63.00 C204.33 63.67 200.67 64.33 197.00 65.00 C197.00 59.33 197.00 53.67 197.00 48.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M172.00 44.00 C174.67 43.67 178.50 42.00 180.00 43.00 C181.50 44.00 182.17 48.50 181.00 50.00 C179.83 51.50 175.67 51.33 173.00 52.00 C172.67 49.33 172.33 46.67 172.00 44.00 Z" fill="#7fa6dc" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M199.00 39.00 C202.33 38.33 205.67 37.67 209.00 37.00 C209.33 39.33 211.50 42.50 210.00 44.00 C208.50 45.50 203.33 45.33 200.00 46.00 C199.67 43.67 199.33 41.33 199.00 39.00 Z" fill="#7fa6dc" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M180 74 L208 71" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2"/> <circle cx="58" cy="68" r="21" fill="#0d2f63" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="58" cy="68" r="16.4" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M61.7 68.8 L73.2 71.2"/><path d="M60.5 70.8 L68.4 79.5"/><path d="M58.4 71.8 L59.6 83.5"/><path d="M56.1 71.3 L50.2 81.5"/><path d="M54.5 69.5 L43.8 74.3"/><path d="M54.3 67.2 L42.8 64.8"/><path d="M55.5 65.2 L47.6 56.5"/><path d="M57.6 64.2 L56.4 52.5"/><path d="M59.9 64.7 L65.8 54.5"/><path d="M61.5 66.5 L72.2 61.7"/></g> <circle cx="58" cy="68" r="3.6" fill="#ffffff"/> <circle cx="150" cy="72" r="23" fill="#0d2f63" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="150" cy="72" r="17.9" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M154.0 72.9 L166.6 75.5"/><path d="M152.8 75.1 L161.4 84.6"/><path d="M150.4 76.1 L151.8 88.9"/><path d="M147.9 75.6 L141.5 86.7"/><path d="M146.2 73.7 L134.5 78.9"/><path d="M146.0 71.1 L133.4 68.5"/><path d="M147.2 68.9 L138.6 59.4"/><path d="M149.6 67.9 L148.2 55.1"/><path d="M152.1 68.4 L158.5 57.3"/><path d="M153.8 70.3 L165.5 65.1"/></g> <circle cx="150" cy="72" r="3.9" fill="#ffffff"/> <g stroke="#ff8a1f" stroke-width="4.4" stroke-linecap="round"><path d="M228 30 L248 12"/><path d="M220 14 L230 -6"/><path d="M234 50 L256 44"/><path d="M207 6 L210 -12"/></g> </svg></div></div>
+
+      <div class="knall" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="truemmer" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+
+      <div class="handy" aria-hidden="true">
+        <div class="handy-rahmen">
+          <div class="handy-schirm">
+            <div class="mini-nav"><span class="mini-marke"></span>Ingenieurbüro <b>Kaltbrunn</b></div>
+            <div class="mini-inhalt">
+              <div class="mini-zeile lang"></div>
+              <div class="mini-zeile mittel"></div>
+              <div class="mini-nummer">+49 176 37998836</div>
+              <div class="mini-karten"><i></i><i></i><i></i><i></i></div>
+              <div class="mini-knopf">Jetzt anrufen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="unfall-texte">
+        <p data-schritt="1">Es dauert eine Sekunde.</p>
+        <p data-schritt="2">Danach schickt die Versicherung des anderen ihren Gutachter.</p>
+        <p data-schritt="3">Sie dürfen Ihren eigenen wählen.</p>
+        <p data-schritt="4">Und der bin ich.</p>
+      </div>
+
+      <div class="unfall-schluss">
+        <strong>Ingenieurbüro Kaltbrunn</strong>
+        <span>Freie Gutachterwahl. Bei unverschuldetem Unfall zahlt die Gegenseite.</span>
+        <div class="unfall-knoepfe">
+          <a class="btn-primary" href="tel:+4917637998836">Jetzt anrufen: +49 176 37998836</a>
+          <a class="btn-outline" href="#kontakt">Online-Anfrage senden</a>
+        </div>
+      </div>
+
+      <div class="unfall-hinweis" aria-hidden="true">weiterscrollen</div>
+    </div>
+  </div>
+</section>
 
 <!-- LEISTUNGEN -->
 <section id="leistungen">
@@ -1437,6 +1701,45 @@
 </script>
 
 <script>
+
+  // Scroll-Sequenz Unfall: der Fortschritt der Sektion wird auf vier Werte
+  // verteilt, die das CSS als Variablen weiterverarbeitet. Nur Transformationen
+  // und Deckkraft, damit der Browser nichts neu setzen muss.
+  (function () {
+    const sektion = document.getElementById('unfall');
+    const szene = document.getElementById('unfall-szene');
+    if (!sektion || !szene) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const klemm = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+    const stueck = (p, von, bis) => klemm((p - von) / (bis - von));
+    let angefordert = false;
+
+    function zeichne() {
+      angefordert = false;
+      const r = sektion.getBoundingClientRect();
+      const weg = sektion.offsetHeight - window.innerHeight;
+      if (weg <= 0) return;
+      const p = klemm(-r.top / weg);
+
+      szene.style.setProperty('--anfahrt', stueck(p, 0, 0.30).toFixed(3));
+      szene.style.setProperty('--knall',   stueck(p, 0.28, 0.38).toFixed(3));
+      szene.style.setProperty('--nach',    stueck(p, 0.36, 0.52).toFixed(3));
+      szene.style.setProperty('--handy',   stueck(p, 0.52, 0.78).toFixed(3));
+      szene.style.setProperty('--zoom',    stueck(p, 0.78, 1).toFixed(3));
+
+      const schritt = p < 0.28 ? '1' : p < 0.52 ? '2' : p < 0.78 ? '3' : p < 0.93 ? '4' : '5';
+      if (szene.dataset.schritt !== schritt) szene.dataset.schritt = schritt;
+    }
+
+    function anfordern() {
+      if (!angefordert) { angefordert = true; requestAnimationFrame(zeichne); }
+    }
+    window.addEventListener('scroll', anfordern, { passive: true });
+    window.addEventListener('resize', anfordern);
+    zeichne();
+  })();
+
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });

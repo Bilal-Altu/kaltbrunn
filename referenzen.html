@@ -645,6 +645,215 @@
       .recht-cta strong { font-size: 1.2rem; }
     }
 
+
+    /* ══ UNFALL-SEQUENZ ═══════════════════════════════════════════════════
+       Scroll-Erzaehlung: zwei Wagen stossen zusammen, einer der Beteiligten
+       ruft diese Seite auf. Bewusst hinter dem Anriss – ein Vorspann haette
+       genau die Anrufe gekostet, um die es geht.
+       Gesteuert wird ueber vier Fortschrittswerte, die das Skript als
+       CSS-Variablen setzt; hier steht nur, was daraus wird. */
+    .unfall { height: 320vh; position: relative; padding: 0; background: var(--blue-dark); }
+    .unfall-buehne { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+    .unfall-szene {
+      --anfahrt: 0; --knall: 0; --nach: 0; --handy: 0; --zoom: 0;
+      position: absolute; inset: 0; overflow: hidden;
+      background:
+        radial-gradient(70% 55% at 50% 30%, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%),
+        linear-gradient(180deg, var(--blue-dark) 0%, #062a6e 55%, #08347f 100%);
+    }
+    .nur-vorlesen {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+    }
+
+    .unfall-himmel {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 76px 76px;
+      opacity: calc(1 - var(--zoom));
+    }
+
+    .strasse {
+      position: absolute; left: -5%; right: -5%; top: 58%; height: 22%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.05));
+      border-top: 2px solid rgba(255,255,255,0.16);
+      opacity: calc(1 - var(--zoom));
+    }
+    .strasse-striche {
+      position: absolute; left: 0; right: 0; top: 46%; height: 4px;
+      background: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.5) 0 46px, rgba(255,255,255,0) 46px 96px);
+      opacity: 0.7;
+    }
+
+    .wagen {
+      position: absolute; top: 64%; left: 50%;
+      width: clamp(180px, 28vw, 350px);
+      opacity: calc(1 - var(--zoom));
+      will-change: transform;
+    }
+    .wagen .auto-mark { width: 100%; height: auto; display: block; }
+    .wagen-dreh { transform-origin: 50% 80%; }
+
+    /* Der nahe Wagen kommt von links, der Gegner von rechts. Nach dem
+       Aufprall federn beide zurueck und stehen schief. */
+    .wagen-a {
+      transform: translate(calc(-260% + var(--anfahrt) * 164% + var(--nach) * -8%), -50%);
+    }
+    .wagen-a .wagen-dreh { transform: rotate(calc(var(--nach) * -5deg)); }
+    .wagen-b {
+      transform: translate(calc(160% - var(--anfahrt) * 164% + var(--nach) * 8%), -50%) scaleX(-1);
+    }
+    .wagen-b .wagen-dreh { transform: rotate(calc(var(--nach) * 4deg)); }
+
+    .knall {
+      position: absolute; left: 50%; top: 60%;
+      width: 0; height: 0; pointer-events: none;
+      transform: translate(-50%, -50%) scale(calc(0.2 + var(--knall) * 1.1));
+      opacity: calc(var(--knall) * (1 - var(--nach) * 0.55) * (1 - var(--zoom)));
+    }
+    .knall span {
+      position: absolute; left: 0; top: 0;
+      width: clamp(26px, 4.4vw, 54px); height: 6px; border-radius: 4px;
+      background: linear-gradient(90deg, #ff3d2e, #ff8a1f 55%, #ffd93d);
+      transform-origin: 0 50%;
+    }
+    .knall span:nth-child(1) { transform: rotate(-14deg)  translateX(clamp(30px,5vw,64px)); }
+    .knall span:nth-child(2) { transform: rotate(28deg)   translateX(clamp(34px,5.6vw,72px)); }
+    .knall span:nth-child(3) { transform: rotate(70deg)   translateX(clamp(26px,4.4vw,56px)); }
+    .knall span:nth-child(4) { transform: rotate(118deg)  translateX(clamp(32px,5.2vw,68px)); }
+    .knall span:nth-child(5) { transform: rotate(160deg)  translateX(clamp(28px,4.8vw,60px)); }
+    .knall span:nth-child(6) { transform: rotate(206deg)  translateX(clamp(34px,5.6vw,72px)); }
+    .knall span:nth-child(7) { transform: rotate(252deg)  translateX(clamp(26px,4.4vw,56px)); }
+    .knall span:nth-child(8) { transform: rotate(306deg)  translateX(clamp(30px,5vw,64px)); }
+
+    .truemmer { position: absolute; left: 50%; top: 60%; pointer-events: none;
+                opacity: calc(var(--nach) * (1 - var(--handy) * 0.8)); }
+    .truemmer i {
+      position: absolute; width: 7px; height: 7px; border-radius: 2px;
+      background: rgba(255,255,255,0.75);
+    }
+    .truemmer i:nth-child(1) { transform: translate(calc(var(--nach) * -120px), calc(var(--nach) * -40px)) rotate(35deg); }
+    .truemmer i:nth-child(2) { transform: translate(calc(var(--nach) * 110px),  calc(var(--nach) * -62px)) rotate(-20deg); }
+    .truemmer i:nth-child(3) { transform: translate(calc(var(--nach) * -70px),  calc(var(--nach) * 46px))  rotate(60deg); }
+    .truemmer i:nth-child(4) { transform: translate(calc(var(--nach) * 84px),   calc(var(--nach) * 38px))  rotate(-48deg); }
+    .truemmer i:nth-child(5) { transform: translate(calc(var(--nach) * -150px), calc(var(--nach) * 16px))  rotate(12deg); }
+    .truemmer i:nth-child(6) { transform: translate(calc(var(--nach) * 148px),  calc(var(--nach) * 8px))   rotate(-70deg); }
+
+    /* Handy: faehrt hoch, dann waechst der Schirm ueber das Bild */
+    .handy {
+      position: absolute; left: 50%; top: 50%;
+      width: clamp(140px, 16vw, 196px);
+      transform:
+        translate(-50%, calc(-50% + (1 - var(--handy)) * 80vh))
+        scale(calc(1 + var(--zoom) * 1.7));
+      opacity: calc((0.15 + var(--handy) * 0.85) * (1 - max(0, var(--zoom) - 0.45) / 0.55));
+      will-change: transform;
+    }
+    .handy-rahmen {
+      border-radius: 26px; padding: 9px;
+      background: linear-gradient(160deg, #dfe8f6, #9db4d6);
+      box-shadow: 0 30px 70px rgba(0,8,30,0.55);
+    }
+    .handy-schirm {
+      border-radius: 18px; overflow: hidden; background: var(--white);
+      aspect-ratio: 9 / 17.5; display: flex; flex-direction: column;
+    }
+    .mini-nav {
+      background: var(--blue-dark); color: var(--white);
+      font-size: 0.44rem; font-weight: 500; letter-spacing: 0.1px;
+      padding: 7px 8px; display: flex; align-items: center; gap: 5px;
+    }
+    .mini-nav b { font-weight: 800; }
+    .mini-marke {
+      width: 15px; height: 7px; border-radius: 2px; flex-shrink: 0;
+      background: rgba(255,255,255,0.85);
+    }
+    .mini-inhalt {
+      flex: 1; padding: 10px 9px;
+      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mini-zeile { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.85); }
+    .mini-zeile.lang { width: 88%; }
+    .mini-zeile.mittel { width: 62%; }
+    .mini-nummer {
+      margin-top: 6px; color: var(--white);
+      font-family: var(--font-condensed); font-weight: 900;
+      font-size: 0.62rem; letter-spacing: -0.01em;
+    }
+    .mini-karten {
+      margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;
+    }
+    .mini-karten i { height: 22px; border-radius: 4px; background: rgba(255,255,255,0.18); }
+    .mini-knopf {
+      margin-top: auto; text-align: center;
+      background: var(--white); color: var(--blue-dark);
+      font-size: 0.46rem; font-weight: 800;
+      padding: 6px 4px; border-radius: 100px;
+    }
+
+    .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center; }
+    .unfall-texte p {
+      position: absolute; left: 0; right: 0;
+      font-family: var(--font-condensed);
+      font-size: clamp(1.3rem, 3.2vw, 2.3rem); font-weight: 900;
+      color: var(--white); letter-spacing: -0.02em; line-height: 1.2;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 0.28s, transform 0.28s;
+    }
+    .unfall-szene[data-schritt="1"] p[data-schritt="1"],
+    .unfall-szene[data-schritt="2"] p[data-schritt="2"],
+    .unfall-szene[data-schritt="3"] p[data-schritt="3"],
+    .unfall-szene[data-schritt="4"] p[data-schritt="4"] { opacity: 1; transform: none; }
+
+    .unfall-schluss {
+      position: absolute; left: 6%; right: 6%; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-align: center;
+      opacity: calc(max(0, var(--zoom) - 0.45) / 0.55);
+      pointer-events: none;
+    }
+    .unfall-szene[data-schritt="5"] .unfall-schluss { pointer-events: auto; }
+    .unfall-schluss strong {
+      font-family: var(--font-condensed); font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 900; color: var(--white); letter-spacing: -0.02em;
+    }
+    .unfall-schluss span { color: rgba(255,255,255,0.9); font-size: 0.95rem; max-width: 520px; }
+    .unfall-knoepfe { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+
+    .unfall-hinweis {
+      position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+      color: rgba(255,255,255,0.6); font-size: 0.78rem;
+      opacity: calc(1 - var(--anfahrt));
+    }
+
+    @media (max-width: 700px) {
+      .unfall { height: 300vh; }
+      .wagen { width: clamp(150px, 46vw, 230px); }
+      .handy { width: clamp(148px, 42vw, 190px); }
+      .unfall-texte { top: 9%; }
+      .unfall-schluss { top: 52%; }
+      .unfall-knoepfe .btn-primary, .unfall-knoepfe .btn-outline { flex: 1 1 100%; text-align: center; }
+    }
+
+    /* Wer Bewegung abbestellt hat, bekommt das Schlussbild ohne Scroll-Weg. */
+    @media (prefers-reduced-motion: reduce) {
+      .unfall { height: auto; }
+      .unfall-buehne { position: static; height: auto; }
+      .unfall-szene {
+        position: relative; inset: auto; min-height: 60vh;
+        --anfahrt: 1; --knall: 0; --nach: 1; --handy: 1; --zoom: 0;
+        padding: 80px 0 100px;
+      }
+      .unfall-hinweis { display: none; }
+      .unfall-schluss { position: static; opacity: 1; pointer-events: auto; margin-top: 40px; }
+      .unfall-texte { position: static; }
+      .unfall-texte p { position: static; opacity: 1; transform: none; margin-bottom: 6px; }
+    }
+
     /* ── KONTAKT ── */
     #kontakt { background: var(--gray-light); }
     .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
@@ -1196,6 +1405,45 @@
 </script>
 
 <script>
+
+  // Scroll-Sequenz Unfall: der Fortschritt der Sektion wird auf vier Werte
+  // verteilt, die das CSS als Variablen weiterverarbeitet. Nur Transformationen
+  // und Deckkraft, damit der Browser nichts neu setzen muss.
+  (function () {
+    const sektion = document.getElementById('unfall');
+    const szene = document.getElementById('unfall-szene');
+    if (!sektion || !szene) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const klemm = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+    const stueck = (p, von, bis) => klemm((p - von) / (bis - von));
+    let angefordert = false;
+
+    function zeichne() {
+      angefordert = false;
+      const r = sektion.getBoundingClientRect();
+      const weg = sektion.offsetHeight - window.innerHeight;
+      if (weg <= 0) return;
+      const p = klemm(-r.top / weg);
+
+      szene.style.setProperty('--anfahrt', stueck(p, 0, 0.30).toFixed(3));
+      szene.style.setProperty('--knall',   stueck(p, 0.28, 0.38).toFixed(3));
+      szene.style.setProperty('--nach',    stueck(p, 0.36, 0.52).toFixed(3));
+      szene.style.setProperty('--handy',   stueck(p, 0.52, 0.78).toFixed(3));
+      szene.style.setProperty('--zoom',    stueck(p, 0.78, 1).toFixed(3));
+
+      const schritt = p < 0.28 ? '1' : p < 0.52 ? '2' : p < 0.78 ? '3' : p < 0.93 ? '4' : '5';
+      if (szene.dataset.schritt !== schritt) szene.dataset.schritt = schritt;
+    }
+
+    function anfordern() {
+      if (!angefordert) { angefordert = true; requestAnimationFrame(zeichne); }
+    }
+    window.addEventListener('scroll', anfordern, { passive: true });
+    window.addEventListener('resize', anfordern);
+    zeichne();
+  })();
+
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
