@@ -188,6 +188,15 @@ Bilals Wunsch entfernt. Inhaltlich fehlt nichts: die drei Zusagen in der
 Anriss-Tafel decken dasselbe ab, und „15 Jahre" steht als Zahl direkt
 darunter.
 
+Sie hat aber zwei Dinge mitgenommen, die nachgezogen werden mussten. Der
+Anriss stand auf `min-height: 88svh` und zentrierte seinen Inhalt darin —
+solange die Leiste darunter lag, schloss die ihn ab; ohne sie blieben bei
+1440×900 je 136 px leeres Blau über und unter dem Inhalt, das unten in das
+ebenfalls blaue Sequenzbild überging. Jetzt richtet sich die Höhe nach dem
+Inhalt (`min-height: auto`), die Polsterung macht den Rand: gemessen 60 px
+bei jeder Fenstergröße. Und die Sequenz hat eine feine Linie oben bekommen
+— die Kante, die vorher die Leiste gezogen hat.
+
 Gesteuert wird über acht Fortschrittswerte plus eine Gangwelle, die das
 Skript beim Scrollen als CSS-Variablen auf `.unfall-szene` setzt. Bewegt
 werden ausschließlich `transform` und `opacity`.
@@ -294,19 +303,35 @@ absichtlich größer als nötig: iOS verschiebt beim Ein- und Ausblenden der
 Leiste kurz den Anzeigebereich, und ein `sticky`-Element rutscht mit —
 das lässt sich hier nicht nachstellen, kostet aber Pixel.
 
-### Einmal gebaut und wieder zurückgenommen
+### Der Schirm zieht erst spät auf
 
-Es gab eine Fassung, in der der Schirm **durchgehend zur Seite wurde**:
-Breite und Höhe gerechnet statt `scale()`, Seitenverhältnis wechselnd von
-9:17,5 auf das des Fensters, Schrift über Container-Anfragen mitwachsend.
-Sie füllte das Fenster nachweislich zu 100 % und kostete keine Bildrate
-(Median 16,7 ms wie vorher). Technisch war sie sauberer — die Fläche
-dahinter, die Mittelfarbe gegen die Kante, das Auflösen und die
-Überblendung entfielen alle.
+Zwei Anläufe, ein Ergebnis. Der erste ließ den Schirm **von Anfang an**
+zur Seite werden — Breite und Höhe gerechnet statt `scale()`, das
+Seitenverhältnis von 9:17,5 durchgehend auf das des Fensters wandernd.
+Technisch sauber, aber die Wachstumsphase davor gefiel besser.
 
-Bilal fand die Fassung davor trotzdem besser, und die steht deshalb hier.
-Wer sie wieder ausgraben will: Commit `cb5d428`, zurückgenommen in
-`f646f67`s Nachfolger. Nicht neu erfinden.
+Jetzt beides: bis `--zoom` 0,50 wächst das Handy **als Handy** über den
+Maßstab, ab dort übernehmen Breite und Höhe und ziehen den Schirm nach
+links und rechts auf, bis er bei 0,86 das Fenster deckt.
+
+```
+--f    = clamp(0, (--zoom − 0,50) / 0,36, 1)
+Breite = w0 + (100 % − w0) · f
+Höhe   = h0 + (100 % − h0) · f
+```
+
+Der Maßstab erreicht die 1 genau dort, wo `--f` anfängt — danach ändert
+sich nur noch der Kasten, hochskaliert wird nie. `--w0` ist nicht geraten,
+sondern aus einer Bedingung abgeleitet: der Kasten sitzt mittig (`top:
+50 %` ist nötig, damit er am Ende genau das Fenster deckt), die Seite
+trägt oben eine 68 px hohe Leiste, also braucht die größte Handy-Größe
+oben und unten je 92 px Rand. Rückwärts über `Höhe = (Breite − 28) ·
+17,5/9 + 28` aufgelöst ergibt das `(100vh − 212px) / 1,94444 + 28px`.
+Eine geratene vh-Zahl ließ bei 1440×700 einen einzigen Pixel übrig.
+
+Nachgemessen an neun Fenstergrößen von 320×650 bis 1920×1080: überall
+mindestens 22 px Luft unter der Leiste, und überall füllt der Schirm am
+Ende das Fenster.
 
 Der Scrollweg ist mit dem Aussteigen von 320vh auf **460vh** gewachsen
 (am Handy 400vh). Wer `prefers-reduced-motion` gesetzt hat, bekommt kein
