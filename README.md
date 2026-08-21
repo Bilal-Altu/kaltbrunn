@@ -212,6 +212,25 @@ werden ausschließlich `transform` und `opacity`.
 Schritte, die zum Stillstand hin auslaufen. In CSS gibt es dafür nichts
 Verlässliches, im Skript ist es eine Zeile.
 
+### Die Stadt im Hintergrund
+
+Der Hintergrund war leeres Blau. `marke/bau_stadt.py` legt eine
+Silhouette dahinter — **ohne nennenswerte Ladezeit**: kein Bild, sondern
+zwei Häuserreihen als je *ein* Pfad plus ein dritter für alle Fenster
+zusammen, mit ganzzahligen Koordinaten und relativen Befehlen. 3,4 KB roh,
+gemessen **+1,6 KB gzip** an der ganzen Seite (188,8 → 190,4 KB).
+
+Zwei Ebenen ergeben Tiefe: hinten niedriger und heller, vorn höher und
+dunkler, Fenster nur in der vorderen Reihe. Der Zufall ist mit festem
+Startwert angenagelt, damit jeder Lauf dieselbe Stadt ergibt und der
+Wächter im Workflow greift.
+
+**Mobile first**: die Grundregel gilt fürs Handy — feste Bandhöhe von
+96 px mit `xMidYMax slice`, die Silhouette wird dort seitlich beschnitten
+statt flachgedrückt. Ohne das stünden bei 390 px nur 54 px hohe Klötze da
+(Maßstab 0,24 statt 0,44). Erst ab 701 px folgt die Höhe dem
+Seitenverhältnis der Zeichnung, dann passt sie ohne Beschnitt.
+
 Das Strichmännchen ist aus Kästen gebaut und nicht aus SVG, damit jedes
 Glied einen eigenen Drehpunkt hat, ohne von `transform-box` abzuhängen.
 Der rechte Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren

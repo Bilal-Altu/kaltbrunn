@@ -58,7 +58,7 @@ jobs:
       # Fall, um den es geht: jemand schiebt in index.html von Hand am Pfad.
       - name: Prüfen, dass Monogramm und Wagen zu marke/ passen
         run: |
-          for teil in k wagen; do
+          for teil in k wagen stadt; do
             if ! grep -qF "$(cat marke/$teil.svg)" index.html; then
               echo "::error file=index.html::$teil weicht von marke/$teil.svg ab"
               exit 1

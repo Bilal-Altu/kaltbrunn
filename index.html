@@ -680,6 +680,26 @@
       opacity: calc(1 - var(--zoom));
     }
 
+    /* Stadt hinter allem. Mobile first: am Handy eine feste Bandhoehe mit
+       xMidYMax slice – die Silhouette wird dort seitlich beschnitten statt
+       flachgedrueckt, sonst stuenden bei 390 px nur 54 px hohe Kloetze da. 96 px ergibt
+       dort Massstab 0,44 statt 0,24.
+       Ab 701 px folgt die Hoehe dem Seitenverhaeltnis der Zeichnung, dann
+       passt sie ohne Beschnitt.
+
+       Kein Bild, sondern zwei Silhouetten als je ein Pfad plus einer fuer
+       alle Fenster: 3,4 KB, neben der eingebetteten Schrift faellt das
+       nicht auf. */
+    .stadt {
+      position: absolute; left: 0; right: 0; bottom: 42%;
+      height: 96px; z-index: 0; pointer-events: none;
+      opacity: calc(0.9 * (1 - var(--zoom)));
+    }
+    .stadt svg { width: 100%; height: 100%; display: block; }
+    @media (min-width: 701px) {
+      .stadt { height: auto; aspect-ratio: 1600 / 220; }
+    }
+
     .strasse {
       position: absolute; left: -5%; right: -5%; top: 58%; height: 22%;
       background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.05));
@@ -1074,7 +1094,7 @@
         --handy: 1; --zoom: 0;
         padding: 80px 0 100px;
       }
-      .unfall-hinweis, .figur, .seite-flaeche { display: none; }
+      .unfall-hinweis, .figur, .seite-flaeche, .stadt { display: none; }
       .unfall-schluss {
         position: static; width: auto; height: auto; overflow: visible;
         clip-path: none; white-space: normal; margin-top: 40px; text-align: center;
@@ -1426,6 +1446,7 @@
   <div class="unfall-buehne">
     <div class="unfall-szene" id="unfall-szene">
       <div class="unfall-himmel"></div>
+      <div class="stadt" aria-hidden="true"><svg class="stadt" viewBox="0 0 1600 220" preserveAspectRatio="xMidYMax slice" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M0 220 V123 h30 V220 H38 V142 h54 V220 H100 V146 h37 V220 H150 V158 h47 V220 H200 V136 h57 V220 H270 V120 h33 V220 H313 V121 h35 V220 H352 V167 h50 V220 H404 V147 h29 V220 H433 V173 h46 V220 H481 V154 h37 V220 H527 V166 h61 V220 H589 V157 h59 V220 H661 V175 h60 V220 H733 V118 h51 V220 H792 V178 h29 V220 H829 V177 h59 V220 H891 V172 h43 V220 H946 V136 h57 V220 H1010 V150 h39 V220 H1063 V125 h58 V220 H1121 V150 h38 V220 H1168 V157 h54 V220 H1226 V144 h47 V220 H1289 V141 h58 V220 H1354 V131 h55 V220 H1419 V175 h32 V220 H1454 V120 h45 V220 H1504 V179 h37 V220 H1547 V143 h41 V220 H1600 V220 Z" fill="var(--stadt-hinten,#0a2c6e)"/><path d="M0 220 V60 h44 V220 H66 V103 h35 V220 H101 V95 h72 V220 H191 V61 h60 V220 H253 V96 h41 V220 H295 V147 h37 V220 H341 V50 h75 V220 H431 V49 h39 V220 H481 V110 h35 V220 H519 V77 h47 V220 H570 V82 h70 V220 H650 V65 h58 V220 H712 V150 h34 V220 H761 V102 h46 V220 H810 V141 h72 V220 H902 V110 h73 V220 H983 V60 h66 V220 H1066 V93 h37 V220 H1104 V56 h49 V220 H1165 V117 h53 V220 H1237 V80 h76 V220 H1333 V130 h66 V220 H1410 V72 h72 V220 H1486 V130 h58 V220 H1548 V47 h45 V220 H1595 V150 h5 V220 H1600 V220 Z" fill="var(--stadt-vorn,#031843)"/><path d="M83 103 v-30 h2 v30 Z M137 95 v-28 h2 v28 Z M221 61 v-14 h2 v14 Z M266 96 h10 v-9 h-10 Z M378 50 v-17 h2 v17 Z M498 110 v-30 h2 v30 Z M776 102 h11 v-7 h-11 Z M938 110 v-26 h2 v26 Z M1434 72 h18 v-11 h-18 Z M1515 130 v-21 h2 v21 Z" fill="var(--stadt-vorn,#031843)"/><path d="M6 142h5v7h-5ZM107 141h5v7h-5ZM120 159h5v7h-5ZM133 123h5v7h-5ZM133 141h5v7h-5ZM146 177h5v7h-5ZM146 195h5v7h-5ZM197 125h5v7h-5ZM197 179h5v7h-5ZM210 107h5v7h-5ZM210 125h5v7h-5ZM210 143h5v7h-5ZM210 197h5v7h-5ZM223 197h5v7h-5ZM236 107h5v7h-5ZM236 197h5v7h-5ZM259 124h5v7h-5ZM314 157h5v7h-5ZM347 78h5v7h-5ZM347 96h5v7h-5ZM347 150h5v7h-5ZM360 78h5v7h-5ZM360 96h5v7h-5ZM360 132h5v7h-5ZM373 114h5v7h-5ZM373 186h5v7h-5ZM386 114h5v7h-5ZM399 78h5v7h-5ZM399 96h5v7h-5ZM399 186h5v7h-5ZM437 149h5v7h-5ZM437 167h5v7h-5ZM450 131h5v7h-5ZM487 156h5v7h-5ZM487 192h5v7h-5ZM500 138h5v7h-5ZM500 156h5v7h-5ZM525 105h5v7h-5ZM538 87h5v7h-5ZM538 159h5v7h-5ZM538 177h5v7h-5ZM551 195h5v7h-5ZM576 164h5v7h-5ZM576 182h5v7h-5ZM589 146h5v7h-5ZM615 92h5v7h-5ZM615 128h5v7h-5ZM656 147h5v7h-5ZM656 183h5v7h-5ZM669 75h5v7h-5ZM669 129h5v7h-5ZM669 147h5v7h-5ZM682 75h5v7h-5ZM731 196h5v7h-5ZM829 151h5v7h-5ZM934 138h5v7h-5ZM934 192h5v7h-5ZM989 70h5v7h-5ZM989 88h5v7h-5ZM989 124h5v7h-5ZM989 142h5v7h-5ZM989 160h5v7h-5ZM989 178h5v7h-5ZM989 196h5v7h-5ZM1002 178h5v7h-5ZM1015 70h5v7h-5ZM1015 142h5v7h-5ZM1072 157h5v7h-5ZM1110 120h5v7h-5ZM1110 138h5v7h-5ZM1110 192h5v7h-5ZM1123 84h5v7h-5ZM1123 156h5v7h-5ZM1123 174h5v7h-5ZM1123 192h5v7h-5ZM1136 66h5v7h-5ZM1136 120h5v7h-5ZM1136 174h5v7h-5ZM1171 181h5v7h-5ZM1197 163h5v7h-5ZM1243 180h5v7h-5ZM1256 126h5v7h-5ZM1256 198h5v7h-5ZM1269 90h5v7h-5ZM1269 144h5v7h-5ZM1269 198h5v7h-5ZM1282 198h5v7h-5ZM1352 158h5v7h-5ZM1352 176h5v7h-5ZM1352 194h5v7h-5ZM1365 176h5v7h-5ZM1378 176h5v7h-5ZM1416 100h5v7h-5ZM1416 118h5v7h-5ZM1416 172h5v7h-5ZM1416 190h5v7h-5ZM1429 82h5v7h-5ZM1429 172h5v7h-5ZM1442 118h5v7h-5ZM1455 190h5v7h-5ZM1505 176h5v7h-5ZM1518 158h5v7h-5ZM1518 176h5v7h-5ZM1518 194h5v7h-5ZM1554 129h5v7h-5ZM1554 165h5v7h-5ZM1567 75h5v7h-5Z" fill="var(--stadt-licht,#ffb478)" opacity="0.5"/></svg></div>
       <div class="strasse"><div class="strasse-striche"></div></div>
 
       <div class="wagen wagen-a"><div class="wagen-dreh"><svg class="skizze" viewBox="0 0 242 92" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
