@@ -210,13 +210,51 @@
         radial-gradient(95% 65% at 50% 118%, rgba(0,12,40,0.5), rgba(0,12,40,0) 68%),
         radial-gradient(70% 90% at -10% 50%, rgba(0,12,40,0.32), rgba(0,12,40,0) 60%),
         linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 55%, var(--blue-mid) 100%);
-      /* Vorher 88svh. Solange die Vertrauensleiste darunter lag, schloss
-         die den Anriss ab; ohne sie stand unten nur noch leeres Blau, das
-         in das ebenfalls blaue Sequenzbild ueberging. Jetzt richtet sich
-         die Hoehe nach dem Inhalt, die Polsterung macht den Rand. */
-      min-height: auto;
+      /* Genau eine Bildschirmhoehe, abzueglich der 68 px Navigationsleiste,
+         die #hero als margin-top traegt: Anriss und Sequenz enden bzw.
+         beginnen damit exakt an der Bildkante, man sieht nie zwei
+         Abschnitte gleichzeitig.
+
+         Vorher stand hier 88svh (da lugte die Sequenz 40 px hervor), dann
+         kurz min-height: auto – damit endete der Anriss schon bei 72 % der
+         Hoehe und die Stadt schob sich mit ins Bild. */
+      min-height: calc(100svh - 68px);
       display: flex; align-items: center;
       position: relative; overflow: hidden; padding: 60px 5%;
+    }
+
+    /* Der Anriss fuellt genau eine Bildschirmhoehe, damit man nie zwei
+       Abschnitte gleichzeitig sieht. Dadurch bleibt unten Platz – bei
+       1920x1080 sind es 275 px. Der bekommt hier eine Aufgabe statt leer
+       zu stehen: ein Hinweis, dass es weitergeht, und wohin.
+
+       Mobile first: am Handy passt der Anriss ohnehin nicht auf einen
+       Schirm, dort gibt es weder Platz noch Grund dafuer. Der Hinweis
+       erscheint erst ab 701 px. */
+    .hero-weiter { display: none; }
+    @media (min-width: 701px) {
+      #hero { padding-bottom: 96px; }
+      .hero-weiter {
+        display: flex; align-items: center; gap: 9px;
+        position: absolute; left: 50%; bottom: 30px; z-index: 4;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.75); text-decoration: none;
+        font-size: 0.82rem; transition: color 0.2s;
+      }
+      .hero-weiter:hover { color: var(--white); }
+      .hero-weiter i {
+        display: block; width: 9px; height: 9px;
+        border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+        transform: rotate(45deg) translate(-2px, -2px);
+        animation: weiter-tippen 2.2s ease-in-out infinite;
+      }
+      @keyframes weiter-tippen {
+        0%, 100% { transform: rotate(45deg) translate(-2px, -2px); }
+        50%      { transform: rotate(45deg) translate(1px, 1px); }
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-weiter i { animation: none; }
     }
     /* Zwei Spalten: links die Aussage, rechts etwas, das man anfassen kann.
        Eine halbe Seite Blau ohne Inhalt sah leer aus – das war sie auch. */
@@ -1438,6 +1476,7 @@
     </ul>
   </aside>
   </div>
+  <a class="hero-weiter" href="#unfall">Was nach einem Unfall passiert<i></i></a>
 </section>
 
 <!-- UNFALL-SEQUENZ -->

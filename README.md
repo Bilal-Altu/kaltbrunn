@@ -188,14 +188,25 @@ Bilals Wunsch entfernt. Inhaltlich fehlt nichts: die drei Zusagen in der
 Anriss-Tafel decken dasselbe ab, und „15 Jahre" steht als Zahl direkt
 darunter.
 
-Sie hat aber zwei Dinge mitgenommen, die nachgezogen werden mussten. Der
-Anriss stand auf `min-height: 88svh` und zentrierte seinen Inhalt darin —
-solange die Leiste darunter lag, schloss die ihn ab; ohne sie blieben bei
-1440×900 je 136 px leeres Blau über und unter dem Inhalt, das unten in das
-ebenfalls blaue Sequenzbild überging. Jetzt richtet sich die Höhe nach dem
-Inhalt (`min-height: auto`), die Polsterung macht den Rand: gemessen 60 px
-bei jeder Fenstergröße. Und die Sequenz hat eine feine Linie oben bekommen
-— die Kante, die vorher die Leiste gezogen hat.
+Sie hat aber die Höhe des Anrisses mitgenommen, und die brauchte zwei
+Anläufe. Der Anriss stand auf `min-height: 88svh` und zentrierte seinen
+Inhalt darin — solange die Leiste darunter lag, schloss die ihn ab; ohne
+sie blieben je 136 px leeres Blau, das unten in das ebenfalls blaue
+Sequenzbild überging. Der erste Versuch, `min-height: auto`, nahm den
+Freiraum weg, ließ den Anriss dafür schon bei 72 % der Fensterhöhe enden —
+die Stadt schob sich mit ins Bild und man sah zwei Abschnitte gleichzeitig.
+
+Jetzt **genau eine Bildschirmhöhe**: `calc(100svh - 68px)`, abzüglich der
+Navigationsleiste, die `#hero` als `margin-top` trägt. An neun
+Fenstergrößen nachgemessen: von der Sequenz ist bei Scrollstand null
+überall **0 px** zu sehen.
+
+Der Platz, der dadurch unten bleibt (bei 1920×1080 sind es 293 px),
+bekommt eine Aufgabe statt leer zu stehen: `.hero-weiter` sagt, dass es
+weitergeht und wohin. **Mobile first** — am Handy passt der Anriss ohnehin
+nicht auf einen Schirm, dort gibt es weder Platz noch Grund dafür; der
+Hinweis erscheint erst ab 701 px. Die Sequenz hat außerdem eine feine
+Linie oben bekommen, die Kante, die vorher die Leiste gezogen hat.
 
 Gesteuert wird über acht Fortschrittswerte plus eine Gangwelle, die das
 Skript beim Scrollen als CSS-Variablen auf `.unfall-szene` setzt. Bewegt
