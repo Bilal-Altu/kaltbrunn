@@ -824,147 +824,151 @@
        weil sich Prozente in translate auf das Element selbst beziehen und
        nicht auf die Buehne – genau daran ist die erste Fassung der Wagen
        schon einmal gescheitert. */
-    /* Das Handy wird in seiner ENDgroesse gebaut und heruntergerechnet,
-       nicht klein gebaut und hochgezogen. Hochskalieren war der Grund fuer
-       das unscharfe Bild: der Browser rastert eine Ebene einmal und zieht
-       die Bitmap auf – mit will-change: transform erst recht, weil das die
-       Ebene festschreibt. Deshalb ist will-change hier auch weg: der
-       Massstab aendert sich staendig, die Ebene muss neu gerastert werden
-       duerfen.
+    /* Der Schirm WIRD die Seite: er waechst nicht nur, er aendert dabei
+       sein Seitenverhaeltnis. Deshalb werden hier Breite und Hoehe
+       gerechnet statt per scale() gezogen – ein Massstab kann aus 9:17,5
+       nie 16:9 machen, und genau das muss passieren, damit der Schirm das
+       Fenster wirklich ausfuellt.
 
-       Die Breite haengt an der Fensterhoehe, damit der Schirm am Ende die
-       Hoehe fuellt, ohne oben und unten anzustossen: Schirmhoehe ist
-       (Breite - 28) mal 17,5/9, und 46vh + 28px ergibt daraus 89 % der
-       Fensterhoehe. Mit 60vh ragte der Kopf aus dem Bild und der Anriss
-       auf dem Schirm war nicht mehr zu sehen. */
+       Fuer den Flug aus der Hand in die Bildmitte bleibt es bei scale(),
+       das ist billiger und der Kasten aendert sich dort nicht. Erst im
+       Zoom uebernehmen Breite und Hoehe. Hochskaliert wird nie: bei
+       --handy 1 steht der Massstab auf 1 und bleibt dort.
+
+       Layout kostet das nur innerhalb dieses Kastens – .handy steht
+       absolut, die Geschwister ruehrt es nicht an, und contain haelt es
+       dabei fest. */
     .handy {
-      /* Etwas unter die Bildmitte gesetzt: die Seite traegt oben ihre
-         Navigationsleiste, und mittig zentriert verschwand der Kopf des
-         Schirms darunter. */
-      position: absolute; left: 50%; top: calc(50% + 30px); z-index: 5;
-      width: clamp(280px, calc(46vh + 28px), 500px);
-      /* An der erhobenen Hand gemessen. Der Wert ist gegen den Anker
-         gerechnet, und der liegt 30 px unter der Bildmitte – deshalb
-         3,3vh weniger als der reine Abstand zur Mitte. */
-      --hand-x: -26.5vw; --hand-y: 10.0vh;
+      position: absolute; left: 50%; top: 50%; z-index: 5;
+      /* Ausgangsmasse: Schirmhoehe ist (Breite - 28) mal 17,5/9.
+         40vh + 28px laesst den Kopf des Schirms unter der Navigationsleiste
+         der Seite frei. */
+      --w0: clamp(270px, calc(40vh + 28px), 470px);
+      --h0: calc((var(--w0) - 28px) * 1.94444 + 28px);
+      /* Fuellgrad: bei --zoom 0,82 ist die Seite erreicht und bleibt es. */
+      --f: min(1, calc(var(--zoom) / 0.82));
+      /* An der erhobenen Hand gemessen. */
+      --hand-x: -26.5vw; --hand-y: 13.3vh;
+      width:  calc(var(--w0) + (100% - var(--w0)) * var(--f));
+      height: calc(var(--h0) + (100% - var(--h0)) * var(--f));
       transform:
         translate(calc(-50% + (1 - var(--handy)) * var(--hand-x)),
                   calc(-50% + (1 - var(--handy)) * var(--hand-y)))
-        /* min(1, …) deckelt den Massstab. Darueber wuerde wieder
-           hochskaliert – genau das soll nicht mehr passieren. Die 1 ist bei
-           --zoom 0,60 erreicht, ab dort steht der Schirm in seiner
-           Rastergroesse und fuellt die Fensterhoehe. */
-        scale(calc(min(1, (0.028 + var(--handy) * 0.349) * (1 + var(--zoom) * 2.75))));
-      /* Am Ende loest sich das Handy in der Flaeche auf. Es stehen zu
-         lassen hinterliesse eine sichtbare Kante am Schirmrand – der
-         Verlauf im Schirm ist auf Schirmgroesse gerechnet, der dahinter
-         auf Fenstergroesse, und am Rand treffen sie nicht zusammen. */
-      opacity: calc(min(1, var(--handy) * 4)
-                    * (1 - max(0, var(--zoom) - 0.72) / 0.14));   /* Handy weg bis 0,86 */
+        scale(calc(0.028 + var(--handy) * 0.972));
+      opacity: min(1, calc(var(--handy) * 4));
+      contain: layout paint;
+      pointer-events: none;
     }
-    /* Der Rahmen traegt seinen Gehaeuseton auf einer eigenen Lage. Deckkraft
-       direkt auf .handy-rahmen haette den Schirm mit weggeblendet – der
-       gehoert aber sichtbar bleibend zur Seite, die daraus wird. */
-    .handy-rahmen { position: relative; border-radius: 46px; padding: 14px; }
+    .unfall-szene[data-schritt="5"] .handy { pointer-events: auto; }
+
+    /* Gehaeuse: Rand und Radius laufen mit dem Fuellgrad auf null, der
+       Gehaeuseton blendet weg. Die Deckkraft sitzt auf einer eigenen Lage –
+       direkt auf .handy-rahmen haette sie den Schirm mitgenommen. */
+    .handy-rahmen {
+      position: relative; height: 100%;
+      border-radius: calc(46px * (1 - var(--f)));
+      padding: calc(14px * (1 - var(--f)));
+    }
     .handy-rahmen::before {
       content: ''; position: absolute; inset: 0; border-radius: inherit;
       background: linear-gradient(160deg, #dfe8f6, #9db4d6);
       box-shadow: 0 30px 70px rgba(0,8,30,0.55);
-      opacity: calc(1 - max(0, var(--zoom) - 0.33) / 0.22);   /* Rahmen weg bis 0,55 */
+      opacity: calc(1 - min(1, var(--f) * 1.9));
     }
+    /* container-type macht die Schirmbreite zur Bezugsgroesse: die Schrift
+       waechst mit dem Kasten mit, statt hochgezogen zu werden. Deshalb ist
+       sie in jeder Groesse frisch gesetzt und nie ein aufgeblasenes Bild. */
     .handy-schirm {
-      position: relative;
-      border-radius: calc(32px * (1 - var(--zoom)));
-      overflow: hidden; background: var(--white);
-      aspect-ratio: 9 / 17.5; display: flex; flex-direction: column;
+      position: relative; height: 100%;
+      container-type: inline-size;
+      border-radius: calc(32px * (1 - var(--f)));
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
+      display: flex; flex-direction: column;
     }
-    /* Aus dem Schirm wird die Seite: diese Lage liegt hinter dem Miniinhalt
-       und traegt denselben Verlauf wie die Flaeche ausserhalb. Wenn der
-       Miniinhalt weg ist, ist Schirm gleich Seite und die Kante zwischen
-       beiden verschwindet. */
-    .mini-flaeche {
-      position: absolute; inset: 0;
-      /* Mittelfarbe zwischen --blue-dark und --blue, nicht deren Verlauf:
-         ein zweiter Verlauf auf Schirmgroesse traefe den dahinter am Rand
-         nie und liesse eine Kante stehen. */
-      background: #003489;
-      opacity: calc(max(0, var(--zoom) - 0.30) / 0.22);   /* Schirm wird Seite bis 0,52 */
-    }
-    .mini-nav, .mini-inhalt {
-      position: relative;
-      opacity: calc(1 - max(0, var(--zoom) - 0.58) / 0.14);   /* Inhalt weg bis 0,72 */
-    }
-    /* Auf dem Schirm standen Platzhalterbalken. Sobald das Handy gross
-       wird, sieht man dort also nichts – deshalb steht jetzt der echte
-       Anriss darauf. Die Schriftgroessen sind fuer die ENDgroesse gesetzt
-       (rund 500 px Schirmbreite); heruntergerechnet werden sie mit dem
-       Rest. */
+    /* Am Ende uebernimmt die echte Navigationsleiste der Seite. Bliebe die
+       des Schirms stehen, schauten vier Pixel darunter hervor und es waeren
+       sichtbar zwei Leisten. */
     .mini-nav {
+      opacity: calc(1 - max(0, var(--f) - 0.72) / 0.28);
       background: rgba(0,20,58,0.96); color: var(--white);
-      font-size: 0.86rem; font-weight: 500;
-      padding: 16px 18px; display: flex; align-items: center; gap: 9px;
+      font-size: clamp(0.6rem, 3.3cqw, 1.05rem); font-weight: 500;
+      padding: clamp(9px, 3.7cqw, 20px) clamp(11px, 4.3cqw, 52px);
+      display: flex; align-items: center; gap: clamp(6px, 2.1cqw, 12px);
       border-bottom: 1px solid rgba(255,255,255,0.10);
       --k-balken: #ffffff; --k-winkel: #4d8bf5;
     }
     .mini-nav b { font-weight: 800; }
-    .mini-nav .marke-k { height: 19px; width: auto; flex-shrink: 0; }
+    .mini-nav .marke-k { height: clamp(13px, 4.4cqw, 30px); width: auto; flex-shrink: 0; }
     .mini-inhalt {
-      flex: 1; padding: 30px 22px 26px;
-      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
-      display: flex; flex-direction: column; gap: 12px;
+      flex: 1; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(16px, 6cqw, 56px) clamp(14px, 5.2cqw, 48px);
+    }
+    /* Am Fenster waere eine Spalte ueber die volle Breite unlesbar lang –
+       ab hier begrenzt, darunter bindet die Grenze nicht. */
+    .mini-spalte {
+      width: 100%; max-width: 680px;
+      display: flex; flex-direction: column; gap: clamp(6px, 2.7cqw, 15px);
     }
     .mini-anriss {
       font-family: var(--font-condensed); font-weight: 900;
-      font-size: 1.95rem; line-height: 1.08; letter-spacing: -0.02em;
-      color: var(--white); margin: 0;
+      font-size: clamp(1.1rem, 9.2cqw, 3.5rem); line-height: 1.08;
+      letter-spacing: -0.02em; color: var(--white); margin: 0;
     }
-    .mini-unter { font-size: 0.82rem; color: rgba(255,255,255,0.82); margin: 0; }
+    .mini-unter {
+      font-size: clamp(0.58rem, 3.1cqw, 1.15rem);
+      color: rgba(255,255,255,0.82); margin: 0;
+    }
     .mini-nummer {
-      margin-top: 10px; color: var(--white);
+      margin-top: clamp(5px, 2.3cqw, 14px); color: var(--white);
       font-family: var(--font-condensed); font-weight: 900;
-      font-size: 1.5rem; letter-spacing: -0.01em;
+      font-size: clamp(0.92rem, 7cqw, 2.5rem); letter-spacing: -0.01em;
     }
     .mini-karten {
-      margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      margin-top: clamp(6px, 2.7cqw, 18px);
+      display: grid; grid-template-columns: 1fr 1fr; gap: clamp(5px, 1.8cqw, 12px);
     }
     .mini-karten i {
-      display: flex; align-items: center; padding: 13px 11px;
-      border-radius: 8px; background: rgba(255,255,255,0.14);
-      font-style: normal; font-size: 0.72rem; font-weight: 600;
-      color: rgba(255,255,255,0.92); line-height: 1.15;
+      display: flex; align-items: center;
+      padding: clamp(7px, 3cqw, 17px) clamp(7px, 2.6cqw, 16px);
+      border-radius: clamp(5px, 1.8cqw, 12px); background: rgba(255,255,255,0.14);
+      font-style: normal; font-size: clamp(0.5rem, 2.8cqw, 1rem);
+      font-weight: 600; color: rgba(255,255,255,0.92); line-height: 1.15;
     }
-    /* Ohne diese Zeilen stand der Knopf allein am unteren Rand und
-       dazwischen war nichts – eine 9:17,5-Flaeche fuellen fuenf Bloecke
-       nicht. */
     .mini-zusagen {
-      list-style: none; margin: auto 0 4px; padding: 0;
-      display: flex; flex-direction: column; gap: 11px;
+      list-style: none; margin: clamp(7px, 3.2cqw, 22px) 0 0; padding: 0;
+      display: flex; flex-direction: column; gap: clamp(6px, 2.5cqw, 14px);
     }
     .mini-zusagen li {
-      position: relative; padding-left: 19px;
-      font-size: 0.8rem; color: rgba(255,255,255,0.86); line-height: 1.3;
+      position: relative; padding-left: clamp(13px, 4.4cqw, 26px);
+      font-size: clamp(0.54rem, 3cqw, 1.02rem);
+      color: rgba(255,255,255,0.86); line-height: 1.3;
     }
     .mini-zusagen li::before {
       content: '✓'; position: absolute; left: 0; top: -1px;
       color: #8fbaff; font-weight: 800;
     }
+    .mini-knoepfe {
+      margin-top: clamp(9px, 3.8cqw, 26px);
+      display: flex; flex-wrap: wrap; gap: clamp(6px, 2.3cqw, 14px);
+    }
     .mini-knopf {
-      margin-top: 14px; text-align: center;
+      flex: 1 1 100%; text-align: center; text-decoration: none;
       background: var(--white); color: var(--blue-dark);
-      font-size: 0.92rem; font-weight: 800;
-      padding: 14px 10px; border-radius: 100px;
+      font-size: clamp(0.6rem, 3.4cqw, 1.05rem); font-weight: 800;
+      padding: clamp(9px, 3.3cqw, 18px) clamp(10px, 3.8cqw, 32px);
+      border-radius: 100px;
+    }
+    .mini-knopf-linie {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.55);
+    }
+    @container (min-width: 560px) {
+      .mini-knoepfe { justify-content: flex-start; }
+      .mini-knopf { flex: 0 1 auto; }
     }
 
-
-    /* Der Schirm waechst nur gleichmaessig, kann ein breites Fenster also
-       nie ausfuellen. Diese Flaeche traegt denselben Verlauf und schliesst
-       links und rechts an – zusammen liest es sich als ein Bild, nicht als
-       vergroessertes Handy im Rahmen. */
-    .seite-flaeche {
-      position: absolute; inset: 0; z-index: 4;
-      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
-      opacity: calc(max(0, var(--zoom) - 0.46) / 0.16);   /* Flaeche aussen bis 0,62 */
-    }
     .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center;
                     z-index: 6; opacity: calc(1 - min(1, var(--zoom) * 3)); }
     .unfall-texte p {
@@ -986,17 +990,15 @@
       transition: opacity 0.30s 0.16s, transform 0.30s 0.16s;
     }
 
+    /* Der Abschluss ist jetzt der Schirm selbst – er wird ja zur Seite.
+       Dieser Block bleibt trotzdem: Vorleseprogramme bekommen darueber
+       Nummer und Anfrage, denn das Handy ist aria-hidden, und wer Bewegung
+       abbestellt hat, sieht ihn als Schlussbild. */
     .unfall-schluss {
-      position: absolute; left: 6%; right: 6%; top: 50%; z-index: 6;
-      transform: translateY(calc(-50% + (1 - var(--zoom)) * 18px));
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip-path: inset(50%); white-space: nowrap;
       display: flex; flex-direction: column; align-items: center; gap: 10px;
-      text-align: center;
-      /* Erst wenn der Miniinhalt ganz weg ist – ueberlappende Blenden hatten
-         hier schon einmal ein Doppelbild ergeben. */
-      opacity: calc(max(0, var(--zoom) - 0.84) / 0.12);   /* Schluss ab 0,84 */
-      pointer-events: none;
     }
-    .unfall-szene[data-schritt="5"] .unfall-schluss { pointer-events: auto; }
     .unfall-schluss strong {
       font-family: var(--font-condensed); font-size: clamp(1.7rem, 4.2vw, 3rem);
       font-weight: 900; color: var(--white); letter-spacing: -0.02em; line-height: 1.1;
@@ -1013,7 +1015,7 @@
     @media (max-width: 700px) {
       .unfall { height: 400vh; }
       .wagen { width: clamp(150px, 46vw, 230px); }
-      .handy { width: min(86vw, 62vh); --hand-x: -26.4vw; --hand-y: 15.25vh; }
+      .handy { --w0: min(86vw, calc(52vh + 28px)); --hand-x: -26.4vw; --hand-y: 18.8vh; }
       /* Am Handy fuellen die beiden Wagen die ganze Breite – links neben
          dem Wagen ist kein Platz, die Figur liefe aus dem Bild. Sie tritt
          deshalb nach vorn vor den Wagen statt zur Seite: naeher am
@@ -1027,7 +1029,6 @@
           scale(calc(0.78 + var(--aussteigen) * 0.22));
       }
       .unfall-texte { top: 9%; }
-      .unfall-schluss { top: 52%; }
       .unfall-knoepfe .btn-primary, .unfall-knoepfe .btn-outline { flex: 1 1 100%; text-align: center; }
     }
 
@@ -1042,8 +1043,11 @@
         --handy: 1; --zoom: 0;
         padding: 80px 0 100px;
       }
-      .unfall-hinweis, .figur, .seite-flaeche { display: none; }
-      .unfall-schluss { position: static; opacity: 1; pointer-events: auto; margin-top: 40px; }
+      .unfall-hinweis, .figur { display: none; }
+      .unfall-schluss {
+        position: static; width: auto; height: auto; overflow: visible;
+        clip-path: none; white-space: normal; margin-top: 40px; text-align: center;
+      }
       .unfall-texte { position: static; }
       .unfall-texte p { position: static; opacity: 1; transform: none; margin-bottom: 6px; }
     }

@@ -235,41 +235,52 @@ nachgemessen:
   Hand dreht mit demselben Betrag zurück, damit es aufrecht bleibt — die
   beiden Winkel müssen gespiegelt bleiben.
 
-Der Übergang zur Seite: der Schirm wächst nur gleichmäßig und kann ein
-breites Fenster nie ausfüllen. Deshalb liegt dahinter eine Fläche mit
-demselben Verlauf, und der Schirm trägt die **Mittelfarbe** dieses
-Verlaufs statt eines eigenen — zwei Verläufe verschiedener Größe treffen
-sich am Schirmrand immer sichtbar. Gemessen am größten Farbsprung eines
-waagerechten Schnitts: 394 bei `--zoom` 0,30 → 3 bei 0,70.
+### Der Schirm wird die Seite
 
-### Warum das Handy in Endgröße gebaut wird
+Der Schirm **wächst nicht nur, er ändert dabei sein Seitenverhältnis**.
+Deshalb werden Breite und Höhe gerechnet und nicht per `scale()` gezogen:
+ein Maßstab kann aus 9:17,5 nie 16:9 machen, und genau das muss passieren,
+damit der Schirm das Fenster wirklich ausfüllt.
 
-Rückmeldung: „man sieht nichts auf dem Handy und es sieht unscharf aus."
-Zwei getrennte Ursachen.
+```
+--f = min(1, --zoom / 0,82)          Füllgrad
+Breite = w0 + (100 % − w0) · f       w0 = clamp(270px, 40vh + 28px, 470px)
+Höhe   = h0 + (100 % − h0) · f       h0 = (w0 − 28px) · 17,5/9 + 28px
+```
 
-**Unscharf.** Das Handy war 196 px breit gebaut und wurde per `scale()` auf
-das Vierfache gezogen — dazu `will-change: transform`, was die Ebene beim
-Compositor festschreibt. Der Browser rastert sie dann einmal und zieht die
-Bitmap auf. Jetzt ist es umgekehrt: gebaut in Endgröße (`46vh + 28px`),
-`will-change` weg, und der Maßstab ist mit `min(1, …)` bei 1,0 gedeckelt —
-**hochskaliert wird nie mehr**. Ehrlich dazu: in Chromium (headless) ließ
-sich die Unschärfe nicht nachstellen, dort wird bei jeder Stiländerung neu
-gerastert. Die Ursache, die den Effekt auf echter Hardware erzeugt, ist
-damit trotzdem weg.
+Für den Flug aus der Hand in die Bildmitte bleibt es bei `scale()` — dort
+ändert sich der Kasten nicht, und das ist billiger. Erst im Zoom übernehmen
+Breite und Höhe. **Hochskaliert wird nie**: bei `--handy` 1 steht der
+Maßstab auf 1 und bleibt dort.
 
-**Man sieht nichts.** Auf dem Schirm standen graue Platzhalterbalken. Sobald
-das Handy groß wurde, gab es also nichts zu lesen. Jetzt steht der echte
-Anriss darauf: Kopfleiste mit Monogramm, „Ihr Unfall. Ihr Recht.",
-Unterzeile, Nummer, vier Leistungen, drei Zusagen, Anrufknopf. Die
-Schriftgrößen sind für die Endgröße gesetzt und werden mit dem Rest
-heruntergerechnet — nicht umgekehrt.
+Die Schrift wächst über **Container-Anfragen** mit (`container-type:
+inline-size` auf dem Schirm, Größen in `cqw` mit `clamp()`). Sie wird
+dadurch in jeder Größe frisch gesetzt statt als Bild aufgezogen — das ist
+der zweite Grund, warum nichts mehr unscharf werden kann.
 
-Die Breite folgt aus der Schirmhöhe: sie ist `(Breite − 28) · 17,5/9`, und
-`46vh + 28px` ergibt daraus 89 % der Fensterhöhe. Das Handy sitzt 30 px
-unter der Bildmitte, weil die Seite oben ihre Navigationsleiste trägt und
-der Kopf des Schirms sonst darunter verschwindet. Nachgemessen bei
-1440×900 und 1280×700: der Schirm wird 89 % der Fensterhöhe hoch, bei
-390×844 sind es 71 % — der Rest ist die Fläche dahinter.
+Nachgemessen: der Schirm erreicht bei 1440×900, 1280×700, 390×844 und
+320×650 jeweils **100 % der Bildfläche** und sitzt exakt auf (0,0). Die
+Textspalte ist auf 680 px begrenzt und mittig — bei 1440 px sind das
+380 px Rand auf jeder Seite; über die volle Breite wären die Zeilen
+unlesbar lang.
+
+Kosten: Layout je Bild statt nur `transform`. Gemessen über 180 Schritte
+durch den Scrollweg — Bildabstand im Median **16,7 ms** (also 60 Bilder je
+Sekunde), gleich wie die vorherige Fassung, die nur Transformationen
+bewegte. `.handy` steht absolut und trägt `contain: layout paint`, das
+Layout bleibt also in diesem Kasten.
+
+Was dadurch **entfallen ist**: die Fläche hinter dem Schirm, die
+Mittelfarbe gegen die sichtbare Kante, das Auflösen des Handys und die
+Überblendung zum Schlussbild. Der Schirm deckt am Ende alles selbst ab, es
+gibt keine zwei Lagen mehr, die zusammenpassen müssten. Nur die eigene
+Kopfleiste des Schirms blendet zum Schluss weg — sonst schauten vier Pixel
+unter der echten Navigationsleiste hervor und es wären sichtbar zwei.
+
+Der Schlussblock `.unfall-schluss` ist nicht mehr sichtbar, bleibt aber im
+Dokument: das Handy ist `aria-hidden` (seine Knöpfe tragen `tabindex="-1"`),
+also bekommen Vorleseprogramme Nummer und Anfrage über diesen Block — und
+wer Bewegung abbestellt hat, sieht ihn als Schlussbild.
 
 Die Wagenwege sind auf die **Fahrzeugmitte** bezogen, nicht auf die linke
 Kante: `left: 50 %` setzt die linke Kante in die Bildmitte, und genau
