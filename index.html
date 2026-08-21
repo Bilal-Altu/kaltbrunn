@@ -107,14 +107,17 @@
     }
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .nav-stamp {
-      width: 86px; height: 35px;
+      width: 38px; height: 32px;
       border: 0; border-radius: 0;
       display: grid; place-items: center;
       color: var(--white); flex-shrink: 0; position: relative;
       transition: opacity 0.3s;
     }
     .nav-stamp::after { content: none; }
-    .nav-stamp .auto-mark { width: 100%; height: 100%; }
+    .nav-stamp .marke-k { width: 100%; height: 100%; }
+    /* Das Monogramm ist reine Geometrie und traegt bis unter 20 px –
+       anders als die Zeichnung, die dort zu Matsch wurde. */
+    .nav-stamp { --k-balken: #ffffff; --k-winkel: #4d8bf5; }
     .nav-logo:hover .nav-stamp { opacity: 0.82; }
     .nav-logo:hover .nav-stamp { border-color: rgba(255,255,255,0.9); }
     .nav-title { color: var(--white); font-size: 1rem; font-weight: 700; letter-spacing: 0.2px; }
@@ -899,10 +902,37 @@
     .impressum-block p { font-size: 0.92rem; color: var(--gray-text); line-height: 1.8; }
 
     /* ── FOOTER ── */
-    .footer-claim {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      margin-bottom: 18px; padding-bottom: 18px;
+    /* Das vollstaendige Zeichen nach Nurettins Vorlage: Monogramm und Wagen
+       nebeneinander, darunter der Schriftzug zwischen zwei Linien. */
+    .marke-voll {
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      margin-bottom: 22px; padding-bottom: 22px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
+      --k-balken: #ffffff; --k-winkel: #4d8bf5;
+    }
+    .marke-zeile { display: flex; align-items: center; gap: 20px; }
+    .marke-zeile .marke-k { width: 62px; height: 52px; flex-shrink: 0; }
+    .marke-zeile .auto-mark { width: 148px; height: auto; }
+    .marke-wort {
+      font-family: var(--font-condensed);
+      font-size: 1.45rem; font-weight: 800; letter-spacing: 0.2em;
+      color: var(--white); text-transform: uppercase; margin-left: 0.2em;
+    }
+    .marke-ort {
+      display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-condensed);
+      font-size: 1.05rem; font-weight: 800; letter-spacing: 0.28em;
+      color: #8fbaff; text-transform: uppercase; margin-left: 0.28em;
+    }
+    .marke-ort i { display: block; width: 52px; height: 2px; background: #8fbaff; }
+    .marke-claim { color: rgba(255,255,255,0.7); font-size: 0.82rem; margin-top: 4px; }
+    @media (max-width: 560px) {
+      .marke-zeile { gap: 14px; }
+      .marke-zeile .marke-k { width: 48px; height: 40px; }
+      .marke-zeile .auto-mark { width: 116px; }
+      .marke-wort { font-size: 1.1rem; letter-spacing: 0.16em; }
+      .marke-ort { font-size: 0.88rem; letter-spacing: 0.22em; }
+      .marke-ort i { width: 34px; }
     }
     .footer-claim strong { font-family: var(--font-condensed); font-size: 1.15rem; color: var(--white); letter-spacing: 0.3px; }
     .footer-claim span {
@@ -1078,7 +1108,7 @@
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">
-    <div class="nav-stamp"><svg class="auto-mark" aria-hidden="true" focusable="false" viewBox="0 -16 262 110" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.00 74.00 C12.33 69.33 9.33 64.67 9.00 60.00 C8.67 55.33 11.00 50.67 12.00 46.00 C20.67 44.00 29.33 44.67 38.00 40.00 C46.67 35.33 55.33 25.33 64.00 18.00 C77.33 15.67 92.33 11.67 104.00 11.00 C115.67 10.33 124.00 13.00 134.00 14.00 C142.00 20.67 152.00 29.50 158.00 34.00 C164.00 38.50 166.00 38.67 170.00 41.00 C177.33 41.33 185.67 43.00 192.00 42.00 C198.33 41.00 202.67 37.33 208.00 35.00 C210.00 42.67 213.67 51.50 214.00 58.00 C214.33 64.50 211.33 68.67 210.00 74.00 C206.67 77.33 210.00 81.67 200.00 84.00 C190.00 86.33 171.67 87.33 150.00 88.00 C128.33 88.67 90.00 88.67 70.00 88.00 C50.00 87.33 39.33 86.33 30.00 84.00 C20.67 81.67 19.33 77.33 14.00 74.00 Z" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/> <path d="M170.00 41.00 C171.33 47.33 173.00 52.50 174.00 60.00 C175.00 67.50 175.33 77.33 176.00 86.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M72.00 30.00 C80.00 27.33 87.33 23.00 96.00 22.00 C104.67 21.00 114.67 23.33 124.00 24.00 C131.33 30.67 138.67 37.33 146.00 44.00 C130.67 45.00 111.33 47.00 100.00 47.00 C88.67 47.00 85.33 45.00 78.00 44.00 C76.00 39.33 74.00 34.67 72.00 30.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M107 23 L112 46" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.4"/> <path d="M16.00 50.00 C23.33 49.50 42.67 47.50 60.00 47.00 C77.33 46.50 102.00 47.17 120.00 47.00 C138.00 46.83 160.00 46.17 168.00 46.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2"/> <path d="M182.00 52.00 C186.00 51.00 190.00 50.00 194.00 49.00 C194.00 54.67 194.00 60.33 194.00 66.00 C190.00 66.67 186.00 67.33 182.00 68.00 C182.00 62.67 182.00 57.33 182.00 52.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M197.00 48.00 C200.67 47.33 204.33 46.67 208.00 46.00 C208.00 51.67 208.00 57.33 208.00 63.00 C204.33 63.67 200.67 64.33 197.00 65.00 C197.00 59.33 197.00 53.67 197.00 48.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M172.00 44.00 C174.67 43.67 178.50 42.00 180.00 43.00 C181.50 44.00 182.17 48.50 181.00 50.00 C179.83 51.50 175.67 51.33 173.00 52.00 C172.67 49.33 172.33 46.67 172.00 44.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M199.00 39.00 C202.33 38.33 205.67 37.67 209.00 37.00 C209.33 39.33 211.50 42.50 210.00 44.00 C208.50 45.50 203.33 45.33 200.00 46.00 C199.67 43.67 199.33 41.33 199.00 39.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M180 74 L208 71" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2"/> <circle cx="58" cy="68" r="21" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="58" cy="68" r="16.4" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M61.7 68.8 L73.2 71.2"/><path d="M60.5 70.8 L68.4 79.5"/><path d="M58.4 71.8 L59.6 83.5"/><path d="M56.1 71.3 L50.2 81.5"/><path d="M54.5 69.5 L43.8 74.3"/><path d="M54.3 67.2 L42.8 64.8"/><path d="M55.5 65.2 L47.6 56.5"/><path d="M57.6 64.2 L56.4 52.5"/><path d="M59.9 64.7 L65.8 54.5"/><path d="M61.5 66.5 L72.2 61.7"/></g> <circle cx="58" cy="68" r="3.6" fill="#ffffff"/> <circle cx="150" cy="72" r="23" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="150" cy="72" r="17.9" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M154.0 72.9 L166.6 75.5"/><path d="M152.8 75.1 L161.4 84.6"/><path d="M150.4 76.1 L151.8 88.9"/><path d="M147.9 75.6 L141.5 86.7"/><path d="M146.2 73.7 L134.5 78.9"/><path d="M146.0 71.1 L133.4 68.5"/><path d="M147.2 68.9 L138.6 59.4"/><path d="M149.6 67.9 L148.2 55.1"/><path d="M152.1 68.4 L158.5 57.3"/><path d="M153.8 70.3 L165.5 65.1"/></g> <circle cx="150" cy="72" r="3.9" fill="#ffffff"/> <g stroke="#ff8a1f" stroke-width="4.4" stroke-linecap="round"><path d="M228 30 L248 12"/><path d="M220 14 L230 -6"/><path d="M234 50 L256 44"/><path d="M207 6 L210 -12"/></g> </svg></div>
+    <div class="nav-stamp"><svg class="marke-k" viewBox="0 0 120 100" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L26.0 0 L26.0 100.0 L0 100.0 Z" fill="var(--k-balken,#002a73)"/><path d="M120.0 0 L32.0 50.0 L120.0 100.0 L120.0 70.0 L84.8 50.0 L120.0 30.0 Z" fill="var(--k-winkel,#2563eb)"/></svg></div>
     <div class="nav-title"><span>Ingenieurbüro</span> Kaltbrunn
       <span class="nav-claim">Unabhängig und neutral · Bergstraße</span>
     </div>
@@ -1498,7 +1528,12 @@
 
 <!-- FOOTER -->
 <footer>
-  <p class="footer-claim"><strong>Ingenieurbüro Kaltbrunn</strong><span>Kfz-Gutachten mit Sachverstand</span></p>
+  <div class="marke-voll">
+    <div class="marke-zeile"><svg class="marke-k" viewBox="0 0 120 100" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L26.0 0 L26.0 100.0 L0 100.0 Z" fill="var(--k-balken,#002a73)"/><path d="M120.0 0 L32.0 50.0 L120.0 100.0 L120.0 70.0 L84.8 50.0 L120.0 30.0 Z" fill="var(--k-winkel,#2563eb)"/></svg><svg class="auto-mark" aria-hidden="true" focusable="false" viewBox="0 -16 262 110" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.00 74.00 C12.33 69.33 9.33 64.67 9.00 60.00 C8.67 55.33 11.00 50.67 12.00 46.00 C20.67 44.00 29.33 44.67 38.00 40.00 C46.67 35.33 55.33 25.33 64.00 18.00 C77.33 15.67 92.33 11.67 104.00 11.00 C115.67 10.33 124.00 13.00 134.00 14.00 C142.00 20.67 152.00 29.50 158.00 34.00 C164.00 38.50 166.00 38.67 170.00 41.00 C177.33 41.33 185.67 43.00 192.00 42.00 C198.33 41.00 202.67 37.33 208.00 35.00 C210.00 42.67 213.67 51.50 214.00 58.00 C214.33 64.50 211.33 68.67 210.00 74.00 C206.67 77.33 210.00 81.67 200.00 84.00 C190.00 86.33 171.67 87.33 150.00 88.00 C128.33 88.67 90.00 88.67 70.00 88.00 C50.00 87.33 39.33 86.33 30.00 84.00 C20.67 81.67 19.33 77.33 14.00 74.00 Z" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/> <path d="M170.00 41.00 C171.33 47.33 173.00 52.50 174.00 60.00 C175.00 67.50 175.33 77.33 176.00 86.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M72.00 30.00 C80.00 27.33 87.33 23.00 96.00 22.00 C104.67 21.00 114.67 23.33 124.00 24.00 C131.33 30.67 138.67 37.33 146.00 44.00 C130.67 45.00 111.33 47.00 100.00 47.00 C88.67 47.00 85.33 45.00 78.00 44.00 C76.00 39.33 74.00 34.67 72.00 30.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.6"/> <path d="M107 23 L112 46" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.4"/> <path d="M16.00 50.00 C23.33 49.50 42.67 47.50 60.00 47.00 C77.33 46.50 102.00 47.17 120.00 47.00 C138.00 46.83 160.00 46.17 168.00 46.00" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2"/> <path d="M182.00 52.00 C186.00 51.00 190.00 50.00 194.00 49.00 C194.00 54.67 194.00 60.33 194.00 66.00 C190.00 66.67 186.00 67.33 182.00 68.00 C182.00 62.67 182.00 57.33 182.00 52.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M197.00 48.00 C200.67 47.33 204.33 46.67 208.00 46.00 C208.00 51.67 208.00 57.33 208.00 63.00 C204.33 63.67 200.67 64.33 197.00 65.00 C197.00 59.33 197.00 53.67 197.00 48.00 Z" fill="#ffffff" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M172.00 44.00 C174.67 43.67 178.50 42.00 180.00 43.00 C181.50 44.00 182.17 48.50 181.00 50.00 C179.83 51.50 175.67 51.33 173.00 52.00 C172.67 49.33 172.33 46.67 172.00 44.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M199.00 39.00 C202.33 38.33 205.67 37.67 209.00 37.00 C209.33 39.33 211.50 42.50 210.00 44.00 C208.50 45.50 203.33 45.33 200.00 46.00 C199.67 43.67 199.33 41.33 199.00 39.00 Z" fill="#5b8ad0" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <path d="M180 74 L208 71" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2"/> <circle cx="58" cy="68" r="21" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="58" cy="68" r="16.4" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M61.7 68.8 L73.2 71.2"/><path d="M60.5 70.8 L68.4 79.5"/><path d="M58.4 71.8 L59.6 83.5"/><path d="M56.1 71.3 L50.2 81.5"/><path d="M54.5 69.5 L43.8 74.3"/><path d="M54.3 67.2 L42.8 64.8"/><path d="M55.5 65.2 L47.6 56.5"/><path d="M57.6 64.2 L56.4 52.5"/><path d="M59.9 64.7 L65.8 54.5"/><path d="M61.5 66.5 L72.2 61.7"/></g> <circle cx="58" cy="68" r="3.6" fill="#ffffff"/> <circle cx="150" cy="72" r="23" fill="#002a73" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="3"/> <circle cx="150" cy="72" r="17.9" fill="none" stroke="#ffffff" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.8"/> <g stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"><path d="M154.0 72.9 L166.6 75.5"/><path d="M152.8 75.1 L161.4 84.6"/><path d="M150.4 76.1 L151.8 88.9"/><path d="M147.9 75.6 L141.5 86.7"/><path d="M146.2 73.7 L134.5 78.9"/><path d="M146.0 71.1 L133.4 68.5"/><path d="M147.2 68.9 L138.6 59.4"/><path d="M149.6 67.9 L148.2 55.1"/><path d="M152.1 68.4 L158.5 57.3"/><path d="M153.8 70.3 L165.5 65.1"/></g> <circle cx="150" cy="72" r="3.9" fill="#ffffff"/> <g stroke="#ff8a1f" stroke-width="4.4" stroke-linecap="round"><path d="M228 30 L248 12"/><path d="M220 14 L230 -6"/><path d="M234 50 L256 44"/><path d="M207 6 L210 -12"/></g> </svg></div>
+    <div class="marke-wort">Ingenieurbüro</div>
+    <div class="marke-ort"><i></i>Kaltbrunn<i></i></div>
+    <p class="marke-claim">Kfz-Gutachten mit Sachverstand</p>
+  </div>
   <p>© 2026 <strong>Ingenieurbüro Kaltbrunn</strong> · Mannheimer Straße 1, 64646 Heppenheim · <a href="#impressum" style="color:rgba(255,255,255,0.62);text-decoration:none;">Impressum</a> · <a href="#datenschutz" style="color:rgba(255,255,255,0.62);text-decoration:none;">Datenschutz</a></p>
   <p style="margin-top:6px;font-size:0.78rem;">info@ing-nuri.de &nbsp;|&nbsp; +49 176 37998836</p>
 </footer>

@@ -51,6 +51,18 @@ jobs:
           fi
           echo "referenzen.html ist aktuell"
 
+      # Das Monogramm ist gerechnete Geometrie. Von Hand im Pfad zu schieben
+      # bricht die Parallelitaet der Winkelarme sichtbar – deshalb muss der
+      # Pfad in index.html dem entsprechen, was marke/bau_k.py ausgibt.
+      - name: Prüfen, dass das Monogramm zum Bauskript passt
+        run: |
+          svg=$(cd marke && python3 bau_k.py | tail -1)
+          if ! grep -qF "$svg" index.html; then
+            echo "::error file=index.html::Monogramm weicht von marke/bau_k.py ab"
+            exit 1
+          fi
+          echo "Monogramm ist aktuell"
+
       - name: Seite einsammeln
         run: |
           mkdir -p _site

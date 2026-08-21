@@ -51,8 +51,32 @@ Vor dem Veröffentlichen der Fotos: siehe die Liste im Kopf von
 `fotos/aufbereiten.py` — Kennzeichen, gespiegelte Personen, Firmenaufkleber
 und die Einwilligung der Auftraggeber.
 
-Marke: das eingedrückte Auto mit den Aufprallstrahlen, im Navigationskopf
-klein und im Anriss groß — frei stehend, ohne Stempelring.
+## Marke
+
+Nurettin hat einen Entwurf geschickt, der ihm gefällt: ein **K** aus Balken
+und Winkel, daneben der verunfallte Wagen, darunter INGENIEURBÜRO /
+KALTBRUNN. Übernommen ist davon der Teil, der sich exakt nachbauen lässt —
+das Monogramm ist reine Geometrie, der Schriftzug ist Schrift. Der gerenderte
+Wagen aus seinem Entwurf ist ein Bild und bleibt es; an seiner Stelle steht
+weiter die gezeichnete Limousine mit den Aufprallstrahlen.
+
+Das Monogramm entsteht in `marke/bau_k.py`. Die innere Spitze des Winkels
+ist **gerechnet, nicht geschätzt**: beide Schenkel sollen gleich dick sein,
+daraus folgt über die Steigung `innen_x = 84.8`. Wer die Proportionen ändert,
+ändert die Konstanten oben im Skript und lässt es neu laufen — von Hand im
+Pfad zu schieben bricht die Parallelität sichtbar.
+
+Wo die Marke steht:
+
+| Ort | Form | Farben |
+|---|---|---|
+| Navigationskopf | nur das Monogramm, 38 × 32 px | Balken weiß, Winkel `#4d8bf5` |
+| Fußzeile | ganzes Zeichen: Monogramm + Wagen + Schriftzug | dieselben, auf Marineblau |
+| Anriss | der Wagen groß, ohne Monogramm | wie gehabt |
+
+Warum im Kopf nur das K: die Zeichnung wurde unter 20 px zu Matsch, das
+Monogramm trägt bis 18 px. Nachgeprüft in `marke/` bei 120/64/40/28/18 px
+auf Weiß und auf Marineblau.
 
 ## Tonfall
 
