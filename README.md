@@ -171,7 +171,7 @@ eigener Domain muss die Datei weg.**
 
 ## Unfall-Sequenz
 
-Zwischen Vertrauensleiste und Leistungen liegt eine Scroll-Erzählung: zwei
+Zwischen Anriss und Leistungen liegt eine Scroll-Erzählung: zwei
 Wagen stoßen zusammen, ein Strichmännchen steigt aus, zieht das Handy aus
 der Tasche, ruft diese Seite auf — und der Schirm wächst, bis er die Seite
 **ist**.
@@ -180,6 +180,13 @@ Sie steht **bewusst nicht als Vorspann vor der Seite**. Wer gerade einen
 Unfall hatte, will die Nummer sofort — ein Vorspann hätte genau die
 Anrufe gekostet, um die es geht. Anriss und Telefonnummer sind ab der
 ersten Sekunde da.
+
+Die Vertrauensleiste, die vorher zwischen Anriss und Sequenz lag
+(„Unabhängig & neutral", „Hält vor Gericht stand", „15 Jahre
+Automobilindustrie", „Termine oft schon am nächsten Tag"), ist auf
+Bilals Wunsch entfernt. Inhaltlich fehlt nichts: die drei Zusagen in der
+Anriss-Tafel decken dasselbe ab, und „15 Jahre" steht als Zahl direkt
+darunter.
 
 Gesteuert wird über acht Fortschrittswerte plus eine Gangwelle, die das
 Skript beim Scrollen als CSS-Variablen auf `.unfall-szene` setzt. Bewegt

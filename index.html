@@ -73,7 +73,7 @@
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body { font-family: var(--font-sans); color: var(--text); background: var(--white); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-    section[id], #trust { scroll-margin-top: 76px; }
+    section[id] { scroll-margin-top: 76px; }
     a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
       outline: 2px solid var(--blue-mid); outline-offset: 2px; border-radius: 3px;
     }
@@ -395,29 +395,6 @@
       display: grid; place-items: center;
       font-size: 0.62rem; color: var(--white);
     }
-
-    /* ── TRUST BAR ── */
-    #trust {
-      background: var(--blue);
-      padding: 20px 5%;
-      display: flex; align-items: center; justify-content: center;
-      gap: 48px; flex-wrap: wrap;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .trust-item {
-      display: flex; align-items: center; gap: 10px;
-      color: rgba(255,255,255,0.85); font-weight: 500; font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-    .trust-item:hover { color: var(--white); }
-    .trust-check {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(255,106,31,0.32); border: 1px solid rgba(255,140,80,0.55);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; color: var(--white); flex-shrink: 0;
-      transition: background 0.2s;
-    }
-    .trust-item:hover .trust-check { background: rgba(255,106,31,0.55); }
 
     /* ── SHARED ── */
     section { padding: 88px 5%; }
@@ -1261,14 +1238,6 @@
       .hero-stat-num { font-size: 1.55rem; }
       .hero-stat-label { font-size: 0.66rem; }
 
-      /* Trust bar */
-      #trust {
-        display: grid; grid-template-columns: 1fr;
-        gap: 11px; padding: 20px 6%;
-      }
-      .trust-item { font-size: 0.78rem; gap: 8px; }
-      .trust-check { width: 19px; height: 19px; font-size: 0.62rem; }
-
       /* Leistungen */
       .leistungen-grid { grid-template-columns: 1fr; gap: 14px; }
       .leistung-card { padding: 26px 22px; }
@@ -1404,14 +1373,6 @@
   </aside>
   </div>
 </section>
-
-<!-- TRUST BAR -->
-<div id="trust">
-  <div class="trust-item reveal delay-1"><div class="trust-check">✓</div> Unabhängig &amp; neutral</div>
-  <div class="trust-item reveal delay-2"><div class="trust-check">✓</div> Hält vor Gericht stand</div>
-  <div class="trust-item reveal delay-3"><div class="trust-check">✓</div> 15 Jahre Automobilindustrie</div>
-  <div class="trust-item reveal delay-4"><div class="trust-check">✓</div> Termine oft schon am nächsten Tag</div>
-</div>
 
 <!-- UNFALL-SEQUENZ -->
 <section id="unfall" class="unfall" aria-labelledby="unfall-titel">
