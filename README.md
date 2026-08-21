@@ -53,30 +53,65 @@ und die Einwilligung der Auftraggeber.
 
 ## Marke
 
-Nurettin hat einen Entwurf geschickt, der ihm gefällt: ein **K** aus Balken
-und Winkel, daneben der verunfallte Wagen, darunter INGENIEURBÜRO /
-KALTBRUNN. Übernommen ist davon der Teil, der sich exakt nachbauen lässt —
-das Monogramm ist reine Geometrie, der Schriftzug ist Schrift. Der gerenderte
-Wagen aus seinem Entwurf ist ein Bild und bleibt es; an seiner Stelle steht
-weiter die gezeichnete Limousine mit den Aufprallstrahlen.
+Vorlage ist Nurettins eigener Logo-Entwurf, der als Datei unter
+`marke/vorlage/logo_nurettin.webp` liegt: ein **K** aus Balken und Winkel,
+daneben der verunfallte Wagen, darunter INGENIEURBÜRO / KALTBRUNN.
+Übernommen ist alles davon.
 
-Das Monogramm entsteht in `marke/bau_k.py`. Die innere Spitze des Winkels
-ist **gerechnet, nicht geschätzt**: beide Schenkel sollen gleich dick sein,
-daraus folgt über die Steigung `innen_x = 84.8`. Wer die Proportionen ändert,
-ändert die Konstanten oben im Skript und lässt es neu laufen — von Hand im
-Pfad zu schieben bricht die Parallelität sichtbar.
+**Das K** entsteht in `marke/bau_k.py`. Die Maße sind nicht geschätzt,
+sondern werden bei jedem Lauf aus der Vorlage abgelesen — an drei Zeilen:
+dem oberen Ende des oberen Arms (waagerechte Armdicke), der Höhe der
+Winkelspitze (äußere und innere Spitze) und einer Spalte im Balken
+(Gesamthöhe). Der erste Anlauf hatte sie geraten und lag daneben: die Arme
+waren **80 % zu dick**, das Zeichen 13 % zu breit. Aus Außenspitze,
+Armdicke und Gesamtbreite folgt der Rest, beide Kanten eines Arms sind
+damit zwangsläufig parallel; das Skript bricht ab, wenn die gerechnete
+innere Spitze mehr als zwei Einheiten von der gemessenen abweicht.
+
+**Der Wagen** entsteht in `marke/bau_wagen.py` — nachvektorisiert, nicht
+nachgezeichnet. Vier Anläufe, ihn von Hand zu setzen, sind gescheitert; die
+Vorlage ist eine gerenderte Strichzeichnung und keine Konstruktion. Drei
+Ebenen von unten nach oben: `lack` (die gefüllte Silhouette), `mittel` (die
+hellen Schattierungen), `linie` (Konturen und dunkle Flächen). Die
+Silhouette entsteht nicht aus einer eigenen Maske, sondern indem vom
+Bildrand her geflutet wird — was die Flut nicht erreicht, ist Wagen. Ohne
+diese Ebene wäre die Karosserie durchsichtig und der Wagen stünde auf
+dunklem Grund als Negativbild da.
+
+Die Bitmapbreite (`BREITE = 430`) bestimmt die Zahl der Stützpunkte und
+damit die Dateigröße. Gemessen ist 430 px der Punkt, ab dem mehr Auflösung
+in den Größen, in denen der Wagen auf der Seite steht, nichts Sichtbares
+mehr hinzufügt: 62 KB roh, rund 23 KB gzip.
+
+Größenverhältnisse in der Fußzeile sind ebenfalls an der Vorlage gemessen:
+der Wagen ist **1,082 mal so hoch** wie das K, beide stehen mittig
+zueinander, der Spalt beträgt 0,068 K-Höhen, und die Reihe ist ungefähr so
+breit wie der Schriftzug darunter — daraus folgt die K-Höhe von 89 px.
 
 Wo die Marke steht:
 
 | Ort | Form | Farben |
 |---|---|---|
-| Navigationskopf | nur das Monogramm, 38 × 32 px | Balken weiß, Winkel `#4d8bf5` |
-| Fußzeile | ganzes Zeichen: Monogramm + Wagen + Schriftzug | dieselben, auf Marineblau |
-| Anriss | der Wagen groß, ohne Monogramm | wie gehabt |
+| Navigationskopf | nur das Monogramm, 34 × 32 px | Balken weiß, Winkel `#4d8bf5` |
+| Fußzeile | ganzes Zeichen: K + Wagen + Schriftzug | dazu Lack weiß, Linie `#0a2260` |
+| Unfall-Sequenz | die gezeichneten Wagen, **nicht** der aus dem Logo | wie gehabt |
 
-Warum im Kopf nur das K: die Zeichnung wurde unter 20 px zu Matsch, das
-Monogramm trägt bis 18 px. Nachgeprüft in `marke/` bei 120/64/40/28/18 px
-auf Weiß und auf Marineblau.
+Warum im Kopf nur das K: der Wagen wird unter 20 px zu Matsch, das
+Monogramm trägt bis 18 px. Nachgeprüft bei 120/64/40/28/18 px auf Weiß und
+auf Marineblau.
+
+Warum die Sequenz den gezeichneten Wagen behält: der aus dem Logo ist
+frontal-schräg gezeichnet und **vorne bereits eingedrückt**. Zwei davon
+zeigen beide zur Kamera statt aufeinander, und ein Wagen, der schon vor dem
+Aufprall verbeult ist, erzählt die Sequenz falsch herum.
+
+Auf Marineblau bleibt beim Wagen der Lack weiß. Als reine Kontur (Lack
+durchsichtig) kippt er ins Negativbild und ist nicht mehr derselbe Wagen —
+ausprobiert und verworfen.
+
+`marke/k.svg` und `marke/wagen.svg` sind die eingecheckten Bauergebnisse;
+der Workflow prüft, dass `index.html` sie wörtlich enthält. Von Hand im
+Pfad zu schieben bricht beim K die Parallelität sichtbar.
 
 ## Tonfall
 

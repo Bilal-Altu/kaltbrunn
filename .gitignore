@@ -4,3 +4,5 @@ Thumbs.db
 _site/
 serve.ps1
 .claude/
+__pycache__/
+*.pyc
