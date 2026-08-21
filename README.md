@@ -94,16 +94,29 @@ Wo die Marke steht:
 |---|---|---|
 | Navigationskopf | nur das Monogramm, 34 × 32 px | Balken weiß, Winkel `#4d8bf5` |
 | Fußzeile | ganzes Zeichen: K + Wagen + Schriftzug | dazu Lack weiß, Linie `#0a2260` |
-| Unfall-Sequenz | die gezeichneten Wagen, **nicht** der aus dem Logo, dazu das Strichmännchen | wie gehabt |
+| Unfall-Sequenz | die Seitenansicht aus `marke/bau_skizze.py`, **nicht** der Wagen aus dem Logo | eigene `--sk-*`-Töne |
 
 Warum im Kopf nur das K: der Wagen wird unter 20 px zu Matsch, das
 Monogramm trägt bis 18 px. Nachgeprüft bei 120/64/40/28/18 px auf Weiß und
 auf Marineblau.
 
-Warum die Sequenz den gezeichneten Wagen behält: der aus dem Logo ist
+Warum die Sequenz einen eigenen Wagen hat: der aus dem Logo ist
 frontal-schräg gezeichnet und **vorne bereits eingedrückt**. Zwei davon
 zeigen beide zur Kamera statt aufeinander, und ein Wagen, der schon vor dem
 Aufprall verbeult ist, erzählt die Sequenz falsch herum.
+
+Der Sequenzwagen ist deshalb eine eigene **Seitenansicht**
+(`marke/bau_skizze.py`). Warum Seitenansicht: eine Dreiviertelansicht von
+Hand zu setzen ist hier viermal gescheitert, weil jede Linie zur Fluchtung
+passen muss — die Seitenansicht ist orthogonal, da gibt es keine
+Perspektive, die man verfehlen kann. Für zwei Wagen, die frontal
+aufeinander zufahren, ist sie ohnehin die richtige Ansicht.
+
+Die Maße sind keine Erfindung, sondern eine gängige Limousine (Länge 4700,
+Höhe 1450, Radstand 2850, Rad 650, Überhang vorn 900, hinten 950 — in
+Millimetern), umgerechnet auf 240 Einheiten Länge. Deshalb stehen Räder,
+Überhänge und Dachhöhe zueinander wie bei einem echten Wagen und nicht wie
+bei einem Spielzeug.
 
 Auf Marineblau bleibt beim Wagen der Lack weiß. Als reine Kontur (Lack
 durchsichtig) kippt er ins Negativbild und ist nicht mehr derselbe Wagen —
@@ -188,8 +201,25 @@ Glied einen eigenen Drehpunkt hat, ohne von `transform-box` abzuhängen.
 Der rechte Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren
 Gewichte sich in jedem Moment zu eins addieren.
 
-Zwei Dinge, die beim Bauen daneben lagen und wo sie geblieben wären, hätte
-ich nicht nachgemessen:
+Drei Fehler steckten in der ersten Fassung und sind raus:
+
+- **Die Aufprallstrahlen steckten im Wagen.** In der alten Marke waren sie
+  Teil der Zeichnung — dadurch fuhren beide Wagen schon vor dem Knall mit
+  Strahlen herum. Sie liegen jetzt allein in `.knall` und verschwinden mit
+  `(1 − nach)`, statt mit 0,55 stehen zu bleiben, wenn die Wagen längst
+  wieder auseinander sind.
+- **Die Wagen fuhren ineinander.** `-96 %` setzt die Front vier Prozent
+  einer Wagenlänge *hinter* die Bildmitte, beim Gegner ebenso — macht acht
+  Prozent Durchdringung. Jetzt `-100 %` (Front genau in der Mitte), plus
+  zwei Prozent während des Knalls als Knautschung. Nachgemessen über den
+  ganzen Anfahrtsweg: höchstens 1,7 % bei 1440 und 2,3 % bei 390 px, und
+  zwar genau im Moment des Aufpralls.
+- **Die Sätze überblendeten sich sichtbar.** Zwei verschieden lange Zeilen
+  standen übereinander. Der abgehende Satz geht jetzt in 0,16 s raus, der
+  nächste kommt mit 0,16 s Verzögerung — sie überlappen nicht mehr.
+
+Zwei weitere Dinge lagen daneben und wären es geblieben, hätte ich nicht
+nachgemessen:
 
 - **Am Handy füllen die beiden Wagen die ganze Breite.** Links neben dem
   Wagen ist dort kein Platz; die Figur lief aus dem Bild (linke Kante bei
