@@ -287,6 +287,17 @@ Kante: `left: 50 %` setzt die linke Kante in die Bildmitte, und genau
 dieser Denkfehler hatte den Gegner am Handy aus dem Bild geschoben.
 `-96 %` heißt jetzt „rechte Kante an der Bildmitte".
 
+Die vier Sätze stehen auf einem **festen Boden**, nicht auf einem
+Prozentwert: die Seite trägt oben eine 68 px hohe Navigationsleiste, und
+`top: 9 %` unterschreitet die auf kurzen Fenstern (bei 320×650 waren es
+59 px). Auf einem iPhone war die erste Zeile halb verdeckt. Jetzt
+`clamp(104px, 12%, 190px)` — nachgemessen bleiben bei jeder geprüften
+Größe mindestens 36 px Luft unter der Leiste, auch bei den Höhen, die
+Safari mit eingeblendeter Adressleiste übrig lässt. Die Reserve ist
+absichtlich größer als nötig: iOS verschiebt beim Ein- und Ausblenden der
+Leiste kurz den Anzeigebereich, und ein `sticky`-Element rutscht mit —
+das lässt sich hier nicht nachstellen, kostet aber Pixel.
+
 Der Scrollweg ist mit dem Aussteigen von 320vh auf **460vh** gewachsen
 (am Handy 400vh). Wer `prefers-reduced-motion` gesetzt hat, bekommt kein
 Sticky und keinen Scrollweg, sondern das Schlussbild mit allen vier Sätzen

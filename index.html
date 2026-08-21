@@ -969,8 +969,21 @@
       .mini-knopf { flex: 0 1 auto; }
     }
 
-    .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center;
-                    z-index: 6; opacity: calc(1 - min(1, var(--zoom) * 3)); }
+    /* Die Seite traegt oben eine feste Navigationsleiste von 68 px. Ein
+       reiner Prozentwert unterschreitet die auf kurzen Fenstern: bei
+       320x650 waren es 59 px, auf einem iPhone war die erste Zeile halb
+       verdeckt.
+
+       Die Reserve ist absichtlich groesser als noetig. iOS Safari
+       verschiebt beim Ein- und Ausblenden der Adressleiste kurz den
+       Anzeigebereich, und ein sticky-Element rutscht dabei mit – das
+       laesst sich hier nicht nachstellen, kostet aber ein paar Pixel, die
+       dann fehlen wuerden. */
+    .unfall-texte {
+      position: absolute; left: 6%; right: 6%;
+      top: clamp(104px, 12%, 190px); text-align: center;
+      z-index: 6; opacity: calc(1 - min(1, var(--zoom) * 3));
+    }
     .unfall-texte p {
       position: absolute; left: 0; right: 0;
       font-family: var(--font-condensed);
@@ -1028,7 +1041,6 @@
                     calc(-100% + (1 - var(--aussteigen)) * 34%))
           scale(calc(0.78 + var(--aussteigen) * 0.22));
       }
-      .unfall-texte { top: 9%; }
       .unfall-knoepfe .btn-primary, .unfall-knoepfe .btn-outline { flex: 1 1 100%; text-align: center; }
     }
 
