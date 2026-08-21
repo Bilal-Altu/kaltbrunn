@@ -370,8 +370,43 @@ untereinander; Figur und Seitenfläche sind dort ausgeblendet.
 
 ## Texte
 
-Die Inhalte stammen aus Nurettins eigenem Entwurf (E-Mail vom 18.08.),
-seine Platzhalter für Telefon und E-Mail sind mit den echten Daten gefüllt.
+Die Inhalte stammen aus Nurettins eigenem Entwurf, zuletzt Punkt für Punkt
+gegen seine Mail abgeglichen; seine Platzhalter (`01XX-XXXXXXX`, `[Ihre
+Telefonnummer]`, `[Ihre E-Mail-Adresse]`) sind mit den echten Daten
+gefüllt.
+
+Was dieser Abgleich geändert hat:
+
+| Stelle | vorher | jetzt |
+|---|---|---|
+| Leistungen | 7 Karten | die **4** aus der Mail |
+| Formular | Vorname + Nachname, E-Mail, Telefon, Kennzeichen, Art des Gutachtens, Nachricht | **Name, Telefonnummer, E-Mail-Adresse, Kennzeichen / Fahrzeug, Ihre Nachricht** |
+| Anriss | Verlauf | zusätzlich ein **Hintergrundbild** |
+
+**Die drei gestrichenen Leistungen** (Nutzfahrzeuge & Fuhrpark,
+Karosservermessung, Wohnmobil & Wohnwagen) standen nicht in der Mail. Das
+betrifft besonders *Nutzfahrzeuge*, die Nurettin zuvor per WhatsApp
+ausdrücklich verlangt hatte („Hier gerne noch Nutzfahrzeuge aufnehmen") —
+die Mail ist laut Bilal der neuere Stand, deshalb ist sie maßgeblich. Der
+Fahrzeugstreifen darunter nennt Nutzfahrzeuge weiterhin, er zählt
+Fahrzeugarten auf und keine Leistungen. Zurückholen ist eine Zeile.
+
+**Die Auswahlliste „Art des Gutachtens"** ist mit dem Formular entfallen,
+sie stand nicht in der Mail. Die Einwilligung zur Datenverarbeitung steht
+weiter darunter — die ist keine Inhaltsfrage, sondern Pflicht.
+
+**Das Hintergrundbild** im Anriss ist die Reflexionsprüfung auf dunklem
+Lack (`fotos/anriss_hintergrund.py`), beschnitten auf die obere Hälfte:
+darunter liegen der eingebrannte Zeitstempel, das Herstelleremblem und
+eine im Lack gespiegelte Person. Ein leichter Weichzeichner vor dem
+Speichern drittelt die Datei, weil das Streifenmuster hochfrequent ist —
+**43 KB** statt 210 für die große, **19 KB** für die kleine Fassung, die
+das Handy zieht. Darüber liegt derselbe Verlauf wie zuvor, nur nicht mehr
+deckend (0,84/0,78/0,80).
+
+Zwei Textrollen brauchten dadurch mehr Grund: die Blase in der Tafel
+bekam einen eigenen dunklen Hintergrund, der WhatsApp-Knopf dunkles statt
+hellem Glas (gemessen 4,09 → 7,31).
 
 Zwei Formulierungen daraus stehen bewusst so da und sollten vor dem
 Livegang noch einmal von ihm bestätigt werden:
