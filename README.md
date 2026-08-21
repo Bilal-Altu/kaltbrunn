@@ -244,8 +244,31 @@ Seitenverhältnis der Zeichnung, dann passt sie ohne Beschnitt.
 
 Das Strichmännchen ist aus Kästen gebaut und nicht aus SVG, damit jedes
 Glied einen eigenen Drehpunkt hat, ohne von `transform-box` abzuhängen.
-Der rechte Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren
+Der linke Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren
 Gewichte sich in jedem Moment zu eins addieren.
+
+### Wie die Figur gebaut ist
+Sie hat Gelenke: Kopf, Hals, Schulterbalken, Rumpf, Hüftbalken, je zwei
+Arm- und Beinteile, dazu Hände und Füße. Der untere Teil eines Glieds
+hängt im oberen und dreht um sein eigenes oberes Ende — daraus werden
+Ellbogen und Knie. Die Knie knicken nur nach hinten (`max()`/`min()`
+gegen die Oberschenkeldrehung), die Füße drehen alle Drehungen über
+ihnen zurück und bleiben waagerecht. Als sechs Kästen ohne Gelenke sah
+die Figur aus wie ein Scherenschnitt.
+
+Drei Sachen mussten dabei nachgezogen werden, sonst blieb es lieblos:
+
+- **Arme und Beine hängen an den *Enden* von Schulter- und Hüftbalken.**
+  Saßen sie mittig, deckte sich ein senkrecht stehender Arm genau mit
+  dem Rumpf und war schlicht nicht zu sehen.
+- **Schultern deutlich breiter als der Kopf (28 % zu 19 %), Hüfte
+  schmaler (15 %).** Waren alle drei gleich breit, standen Arme und
+  Rumpf als drei gleich lange Striche nebeneinander — das las sich als
+  Gitter, nicht als Mensch.
+- **Die abgewandte Seite ist dünner und blasser** (Arm 2,7 statt 3 %,
+  Deckkraft 0,74). Die Figur geht nach links und hebt links das Handy,
+  steht also leicht zum Betrachter gedreht; damit bekommt das flache
+  Strichpaar Tiefe. Kostet nichts außer zwei Regeln.
 
 Drei Fehler steckten in der ersten Fassung und sind raus:
 
@@ -275,11 +298,24 @@ nachgemessen:
 - **Der Startpunkt des großen Handys** ist an der erhobenen Hand gemessen,
   nicht geschätzt (`--hand-x`, `--hand-y`), sonst springt es beim
   Übernehmen. Wer den Armwinkel ändert, muss neu messen — beim Wechsel von
-  −58° auf −108° lag der Startpunkt sofort wieder daneben.
+  −58° auf −108° lag der Startpunkt sofort wieder daneben, und beim Wechsel
+  vom rechten auf den linken Arm ebenso (74 px daneben bei 1440, 42 px bei
+  390). Das Messskript setzt die Mitte des Handys in der Hand auf die Mitte
+  des großen Handys; zuletzt gemessen −31,6 vw / 15,72 vh am Schreibtisch
+  und −37,1 vw / 20,32 vh am Handy, Restversatz 0/0 px.
 - **Der erhobene Arm muss über die Waagerechte.** −58° schwenkt ihn nur
   zur Seite; „Handy hoch" liest sich erst ab etwa −100°. Das Handy in der
   Hand dreht mit demselben Betrag zurück, damit es aufrecht bleibt — die
   beiden Winkel müssen gespiegelt bleiben.
+- **Das Handy hält der linke Arm, nicht der rechte.** Die Figur steht bei
+  `z-index: 1` hinter den Wagen. Ein gehobener rechter Arm ragt in den
+  Umriss des nahen Wagens — Hand und Handy verschwanden dahinter, sobald
+  der Arm hochging. Nach links ist der Weg frei.
+- **Der Weg nach draußen ist 18,5 vw lang, nicht 13.** Mit den breiteren
+  Schultern lag die rechte Hand am Ende des Ausstiegs wieder im Wagen; die
+  Figur sah einarmig aus. Nachgemessen von 701 bis 2560 px: zwischen
+  rechter Hand und Wagenkante bleiben überall 3 bis 288 px Luft, und die
+  linke Kante der Figur kommt nirgends unter 53 px an den Fensterrand.
 
 Der Übergang zur Seite: der Schirm wächst nur gleichmäßig und kann ein
 breites Fenster nie ausfüllen. Deshalb liegt dahinter eine Fläche mit

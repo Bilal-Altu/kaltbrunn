@@ -810,7 +810,7 @@
       position: absolute; left: 34%; top: 80%; z-index: 1;
       width: clamp(112px, 13vw, 178px); height: clamp(112px, 13vw, 178px);
       transform:
-        translate(calc(-50% - var(--aussteigen) * clamp(90px, 13vw, 210px)),
+        translate(calc(-50% - var(--aussteigen) * clamp(120px, 18.5vw, 300px)),
                   calc(-100% + (1 - var(--aussteigen)) * 34%))
         scale(calc(0.78 + var(--aussteigen) * 0.22));
       opacity: calc(min(1, var(--aussteigen) * 4) * (1 - var(--zoom)));
@@ -820,36 +820,105 @@
       position: absolute; display: block;
       background: rgba(255,255,255,0.92); border-radius: 100px;
     }
-    .figur-kopf { left: 41%; top: 0; width: 18%; height: 18%; border-radius: 50%; }
-    .figur-rumpf { left: 48.3%; top: 17%; width: 3.4%; height: 38%; }
-    .figur-arm { left: 48.5%; top: 22%; width: 3%; height: 26%; transform-origin: 50% 0; }
-    .figur-bein { left: 48.4%; top: 54%; width: 3.2%; height: 46%; transform-origin: 50% 0; }
+
+    /* Kopf, Hals, Schultern, Rumpf, Huefte. Die beiden Querbalken kosten
+       zwei Kaesten und machen aus dem Strich eine Gestalt. */
+    .figur-kopf { left: 40.5%; top: 0; width: 19%; height: 19%; border-radius: 50%; }
+    .figur-hals { left: 48.4%; top: 18%; width: 3.2%; height: 4%; }
+    /* Schultern deutlich breiter als der Kopf, Huefte deutlich schmaler:
+       daraus wird eine Silhouette. Waren beide gleich breit wie der Kopf,
+       standen Arme und Rumpf als drei gleich lange Striche nebeneinander –
+       die Figur sah aus wie ein Gitter, nicht wie ein Mensch. */
+    .figur-schulter { left: 36%; top: 21%; width: 28%; height: 3%; }
+    .figur-rumpf { left: 48.2%; top: 21%; width: 3.6%; height: 33%; }
+    .figur-huefte { left: 42.5%; top: 52.4%; width: 15%; height: 2.8%; }
+
+    /* Gliedmassen sind zweiteilig: Oberarm/Unterarm, Oberschenkel/
+       Unterschenkel. Der untere Teil haengt im oberen und dreht um sein
+       eigenes oberes Ende – daraus werden Ellbogen und Knie. Ohne die sah
+       die Figur aus wie ein Scherenschnitt. */
+    /* Arme und Beine haengen an den Enden von Schulter und Huefte, nicht in
+       der Mitte. Sassen sie mittig, deckte sich ein senkrecht stehender Arm
+       genau mit dem Rumpf und war schlicht nicht zu sehen. */
+    .figur-arm  { top: 22.5%; width: 3%;   height: 16%; transform-origin: 50% 0; }
+    .figur-arm-l { left: 36%; }
+    .figur-bein { top: 54%; width: 3.3%; transform-origin: 50% 0; height: 23%; }
+    .figur-bein-l { left: 42.3%; }
+    /* Die Figur geht nach links und hebt links das Handy – sie steht also
+       leicht zum Betrachter gedreht. Arm und Bein der abgewandten Seite
+       liegen dahinter: etwas duenner und etwas blasser. Das kostet nichts
+       und macht aus zwei flachen Strichpaaren eine Tiefe. */
+    .figur-arm-r  { left: 61.2%; width: 2.7%; opacity: 0.74; }
+    .figur-bein-r { left: 54.6%; width: 3%;   opacity: 0.74; }
+    .figur-arm .figur-unter,
+    .figur-bein .figur-unter {
+      left: 0; top: 100%; width: 100%; height: 96%; transform-origin: 50% 0;
+    }
+    /* Haende und Fuesse: zwei Ovale, die die Glieder abschliessen. */
+    .figur-hand { left: -46%; top: 92%; width: 192%; height: 26%; }
+    .figur-fuss { left: -34%; top: 94%; width: 210%; height: 17%; }
 
     /* Der linke Arm und beide Beine schwingen mit dem Gang. Der rechte Arm
        hat drei Lagen, deren Gewichte sich zu eins addieren: gehen, in die
-       Tasche, Handy hoch. */
-    .figur-arm-l { transform: rotate(calc(26deg + var(--gang) * 18deg)); }
-    .figur-arm-r {
-      transform: rotate(calc(
-        (1 - var(--tasche)) * (-24deg - var(--gang) * 18deg)
-        + var(--tasche) * (1 - var(--hoch)) * 16deg
-        + var(--hoch) * -108deg));   /* ueber die Waagerechte, sonst kein 'hoch' */
-    }
-    .figur-bein-l { transform: rotate(calc(15deg + var(--gang) * 24deg)); }
-    .figur-bein-r { transform: rotate(calc(-15deg - var(--gang) * 24deg)); }
+       Tasche, Handy hoch – Ober- und Unterarm getrennt, damit die Hand am
+       Ende vor der Brust steht statt am gestreckten Arm in der Luft. */
+    .figur {
+      /* Kleinere Grundwinkel als vorher: die Gelenke sitzen jetzt aussen,
+         da braucht es weniger Spreizung, damit die Figur nicht breitbeinig
+         dasteht.
 
-    /* Das Handy in der Hand haengt am Arm und dreht sich zurueck, damit es
-       aufrecht bleibt. Es verschwindet, sobald das grosse uebernimmt. */
-    /* .figur i setzt border-radius: 100px und schlaegt eine Klasse allein in
-       der Spezifitaet – ohne das i hier waere das Handy ein Oval. */
-    /* 360 % Armbreite auf 40 % Armhoehe ergab ein Quadrat – das war kein
-       Handy. Jetzt hoch statt breit, mit Schirm. */
+         Das Handy haelt der LINKE Arm, also der vom Wagen abgewandte. Am
+         rechten ging es nicht: die Figur steht bei z-index 1 hinter dem
+         Wagen, und ein gehobener rechter Arm ragt in dessen Umriss – Hand
+         und Handy verschwanden dahinter, sobald der Arm hochging. Nach
+         links ist der Weg frei.
+
+         Der linke Arm hat drei Lagen, deren Gewichte sich zu eins addieren:
+         gehen, in die Tasche, Handy hoch. Ober- und Unterarm getrennt,
+         damit die Hand am Ende vor dem Gesicht steht und nicht am
+         gestreckten Arm in der Luft. */
+      --arm-l-ober:  calc((1 - var(--tasche)) * (8deg + var(--gang) * 20deg)
+                          + var(--tasche) * (1 - var(--hoch)) * -4deg
+                          + var(--hoch) * 12deg);
+      --arm-l-unter: calc((1 - var(--tasche)) * (10deg - var(--gang) * 10deg)
+                          + var(--tasche) * (1 - var(--hoch)) * 6deg
+                          + var(--hoch) * 118deg);
+      --arm-r-ober:  calc(-8deg - var(--gang) * 20deg);
+      --arm-r-unter: calc(10deg + var(--gang) * 8deg);
+      --bein-l: calc(5deg + var(--gang) * 22deg);
+      --bein-r: calc(-5deg - var(--gang) * 22deg);
+    }
+    .figur-arm-l  { transform: rotate(var(--arm-l-ober)); }
+    .figur-arm-l  .figur-unter { transform: rotate(var(--arm-l-unter)); }
+    .figur-arm-r  { transform: rotate(var(--arm-r-ober)); }
+    .figur-arm-r  .figur-unter { transform: rotate(var(--arm-r-unter)); }
+    .figur-bein-l { transform: rotate(var(--bein-l)); }
+    .figur-bein-r { transform: rotate(var(--bein-r)); }
+    /* Knie knicken nur nach hinten: der Unterschenkel dreht gegen den
+       Oberschenkel zurueck, nie darueber hinaus. */
+    .figur-bein-l .figur-unter { transform: rotate(calc(max(0deg, calc(-1 * var(--bein-l))) + 5deg)); }
+    .figur-bein-r .figur-unter { transform: rotate(calc(min(0deg, calc(-1 * var(--bein-r))) - 5deg)); }
+    /* Fuesse bleiben waagerecht, egal wie das Bein steht. */
+    .figur-bein-l .figur-fuss { transform: rotate(calc(-1 * (var(--bein-l) + max(0deg, calc(-1 * var(--bein-l))) + 5deg))); }
+    .figur-bein-r .figur-fuss { transform: rotate(calc(-1 * (var(--bein-r) + min(0deg, calc(-1 * var(--bein-r))) - 5deg))); }
+
+    /* Das Handy haengt am Unterarm und dreht die Drehungen von Ober- und
+       Unterarm zurueck, damit es aufrecht bleibt. Es verschwindet, sobald
+       das grosse uebernimmt.
+
+       .figur i setzt border-radius: 100px und schlaegt eine Klasse allein
+       in der Spezifitaet – ohne das i hier waere das Handy ein Oval. */
+    /* Das Handy sitzt IN der Hand und ist auf sie zentriert. Haengte es –
+       wie zuerst – am Unterarm mit festem Versatz, wanderte dieser Versatz
+       beim Heben mit der Armdrehung weg: ab dem Anheben war das Handy nicht
+       mehr an der Hand, sondern irgendwo daneben. Zentriert kann das nicht
+       passieren, egal wie der Arm steht. Die Drehung nimmt Ober- und
+       Unterarm zurueck, damit es aufrecht bleibt. */
     .figur i.figur-handy {
-      position: absolute; left: -81%; bottom: -10%;
-      width: 262%; height: 56%;
+      left: 50%; top: 50%; width: 152%; height: 420%;
       background: rgba(255,255,255,0.95); border-radius: 2px;
-      transform: rotate(calc(
-        var(--tasche) * (1 - var(--hoch)) * -16deg + var(--hoch) * 108deg));
+      transform: translate(-50%, -50%)
+                 rotate(calc(-1 * (var(--arm-l-ober) + var(--arm-l-unter))));
       opacity: calc(min(1, var(--hoch) * 5) * (1 - min(1, var(--handy) * 4)));
     }
     .figur i.figur-handy::before {
@@ -930,7 +999,7 @@
          Hoehe und ziehen den Schirm nach links und rechts auf. */
       --f: clamp(0, calc((var(--zoom) - 0.50) / 0.36), 1);
       /* An der erhobenen Hand gemessen. */
-      --hand-x: -26.5vw; --hand-y: 13.3vh;
+      --hand-x: -31.6vw; --hand-y: 15.72vh;
       width:  calc(var(--w0) + (100% - var(--w0)) * var(--f));
       height: calc(var(--h0) + (100% - var(--h0)) * var(--f));
       transform:
@@ -1121,7 +1190,7 @@
       .unfall { height: 400vh; }
       .wagen { width: clamp(150px, 46vw, 230px); }
       .handy { --w0: min(86vw, calc((100svh - 212px) / 1.94444 + 28px));
-               --hand-x: -26.4vw; --hand-y: 18.8vh; }
+               --hand-x: -37.1vw; --hand-y: 20.32vh; }
       /* Am Handy fuellen die beiden Wagen die ganze Breite – links neben
          dem Wagen ist kein Platz, die Figur liefe aus dem Bild. Sie tritt
          deshalb nach vorn vor den Wagen statt zur Seite: naeher am
@@ -1555,11 +1624,14 @@
 
       <div class="figur" aria-hidden="true">
         <i class="figur-kopf"></i>
+        <i class="figur-hals"></i>
+        <i class="figur-schulter"></i>
         <i class="figur-rumpf"></i>
-        <i class="figur-arm figur-arm-l"></i>
-        <i class="figur-arm figur-arm-r"><i class="figur-handy"></i></i>
-        <i class="figur-bein figur-bein-l"></i>
-        <i class="figur-bein figur-bein-r"></i>
+        <i class="figur-huefte"></i>
+        <i class="figur-arm figur-arm-l"><i class="figur-unter"><i class="figur-hand"><i class="figur-handy"></i></i></i></i>
+        <i class="figur-arm figur-arm-r"><i class="figur-unter"><i class="figur-hand"></i></i></i>
+        <i class="figur-bein figur-bein-l"><i class="figur-unter"><i class="figur-fuss"></i></i></i>
+        <i class="figur-bein figur-bein-r"><i class="figur-unter"><i class="figur-fuss"></i></i></i>
       </div>
 
       <div class="seite-flaeche" aria-hidden="true"></div>
