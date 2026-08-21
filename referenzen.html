@@ -655,10 +655,12 @@
        genau die Anrufe gekostet, um die es geht.
        Gesteuert wird ueber vier Fortschrittswerte, die das Skript als
        CSS-Variablen setzt; hier steht nur, was daraus wird. */
-    .unfall { height: 320vh; position: relative; padding: 0; background: var(--blue-dark); }
+    .unfall { height: 460vh; position: relative; padding: 0; background: var(--blue-dark); }
     .unfall-buehne { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
     .unfall-szene {
-      --anfahrt: 0; --knall: 0; --nach: 0; --handy: 0; --zoom: 0;
+      --anfahrt: 0; --knall: 0; --nach: 0;
+      --aussteigen: 0; --gang: 0; --tasche: 0; --hoch: 0;
+      --handy: 0; --zoom: 0;
       position: absolute; inset: 0; overflow: hidden;
       background:
         radial-gradient(70% 55% at 50% 30%, rgba(255,255,255,0.10), rgba(255,255,255,0) 60%),
@@ -692,7 +694,7 @@
     }
 
     .wagen {
-      position: absolute; top: 64%; left: 50%;
+      position: absolute; top: 64%; left: 50%; z-index: 2;
       width: clamp(180px, 28vw, 350px);
       opacity: calc(1 - var(--zoom));
       will-change: transform;
@@ -711,8 +713,61 @@
     }
     .wagen-b .wagen-dreh { transform: rotate(calc(var(--nach) * 4deg)); }
 
+
+    /* Strichmaennchen: steigt aus, greift in die Tasche, hebt das Handy.
+       Aus Kaesten gebaut und nicht aus SVG, damit jedes Glied einen
+       eigenen Drehpunkt hat, ohne von transform-box abzuhaengen.
+
+       Es steht bei z-index 1 hinter den Wagen und laeuft nach links aus
+       dem Umriss des nahen Wagens heraus – dadurch kommt es hinter dem
+       Wagen hervor, statt aus dem Nichts zu erscheinen. */
+    .figur {
+      position: absolute; left: 34%; top: 80%; z-index: 1;
+      width: clamp(112px, 13vw, 178px); height: clamp(112px, 13vw, 178px);
+      transform:
+        translate(calc(-50% - var(--aussteigen) * clamp(90px, 13vw, 210px)),
+                  calc(-100% + (1 - var(--aussteigen)) * 34%))
+        scale(calc(0.78 + var(--aussteigen) * 0.22));
+      opacity: calc(min(1, var(--aussteigen) * 4) * (1 - var(--zoom)));
+      will-change: transform;
+    }
+    .figur i {
+      position: absolute; display: block;
+      background: rgba(255,255,255,0.92); border-radius: 100px;
+    }
+    .figur-kopf { left: 41%; top: 0; width: 18%; height: 18%; border-radius: 50%; }
+    .figur-rumpf { left: 48.3%; top: 17%; width: 3.4%; height: 38%; }
+    .figur-arm { left: 48.5%; top: 22%; width: 3%; height: 26%; transform-origin: 50% 0; }
+    .figur-bein { left: 48.4%; top: 54%; width: 3.2%; height: 46%; transform-origin: 50% 0; }
+
+    /* Der linke Arm und beide Beine schwingen mit dem Gang. Der rechte Arm
+       hat drei Lagen, deren Gewichte sich zu eins addieren: gehen, in die
+       Tasche, Handy hoch. */
+    .figur-arm-l { transform: rotate(calc(26deg + var(--gang) * 18deg)); }
+    .figur-arm-r {
+      transform: rotate(calc(
+        (1 - var(--tasche)) * (-24deg - var(--gang) * 18deg)
+        + var(--tasche) * (1 - var(--hoch)) * 16deg
+        + var(--hoch) * -58deg));
+    }
+    .figur-bein-l { transform: rotate(calc(15deg + var(--gang) * 24deg)); }
+    .figur-bein-r { transform: rotate(calc(-15deg - var(--gang) * 24deg)); }
+
+    /* Das Handy in der Hand haengt am Arm und dreht sich zurueck, damit es
+       aufrecht bleibt. Es verschwindet, sobald das grosse uebernimmt. */
+    /* .figur i setzt border-radius: 100px und schlaegt eine Klasse allein in
+       der Spezifitaet – ohne das i hier waere das Handy ein Oval. */
+    .figur i.figur-handy {
+      position: absolute; left: -130%; bottom: -4%;
+      width: 360%; height: 40%;
+      background: rgba(255,255,255,0.95); border-radius: 2px;
+      transform: rotate(calc(
+        var(--tasche) * (1 - var(--hoch)) * -16deg + var(--hoch) * 58deg));
+      opacity: calc(min(1, var(--hoch) * 5) * (1 - min(1, var(--handy) * 4)));
+    }
+
     .knall {
-      position: absolute; left: 50%; top: 60%;
+      position: absolute; left: 50%; top: 60%; z-index: 3;
       width: 0; height: 0; pointer-events: none;
       transform: translate(-50%, -50%) scale(calc(0.2 + var(--knall) * 1.1));
       opacity: calc(var(--knall) * (1 - var(--nach) * 0.55) * (1 - var(--zoom)));
@@ -745,24 +800,58 @@
     .truemmer i:nth-child(5) { transform: translate(calc(var(--nach) * -150px), calc(var(--nach) * 16px))  rotate(12deg); }
     .truemmer i:nth-child(6) { transform: translate(calc(var(--nach) * 148px),  calc(var(--nach) * 8px))   rotate(-70deg); }
 
-    /* Handy: faehrt hoch, dann waechst der Schirm ueber das Bild */
+    /* Handy: uebernimmt vom Handy in der Hand, fliegt in die Bildmitte und
+       waechst dort ueber den Schirm. Startpunkt in vw/vh statt in Prozent,
+       weil sich Prozente in translate auf das Element selbst beziehen und
+       nicht auf die Buehne – genau daran ist die erste Fassung der Wagen
+       schon einmal gescheitert. */
     .handy {
-      position: absolute; left: 50%; top: 50%;
+      position: absolute; left: 50%; top: 50%; z-index: 5;
       width: clamp(140px, 16vw, 196px);
+      --hand-x: -26.7vw; --hand-y: 16.9vh;   /* an der Hand gemessen */
       transform:
-        translate(-50%, calc(-50% + (1 - var(--handy)) * 80vh))
-        scale(calc(1 + var(--zoom) * 1.7));
-      opacity: calc((0.15 + var(--handy) * 0.85) * (1 - max(0, var(--zoom) - 0.45) / 0.55));
+        translate(calc(-50% + (1 - var(--handy)) * var(--hand-x)),
+                  calc(-50% + (1 - var(--handy)) * var(--hand-y)))
+        scale(calc((0.2 + var(--handy) * 0.8) * (1 + var(--zoom) * 4.2)));
+      /* Am Ende loest sich das Handy in der Flaeche auf. Es stehen zu
+         lassen hinterliesse eine sichtbare Kante am Schirmrand – der
+         Verlauf im Schirm ist auf Schirmgroesse gerechnet, der dahinter
+         auf Fenstergroesse, und am Rand treffen sie nicht zusammen. */
+      opacity: calc(min(1, var(--handy) * 4)
+                    * (1 - max(0, var(--zoom) - 0.42) / 0.26));
       will-change: transform;
     }
-    .handy-rahmen {
-      border-radius: 26px; padding: 9px;
+    /* Der Rahmen traegt seinen Gehaeuseton auf einer eigenen Lage. Deckkraft
+       direkt auf .handy-rahmen haette den Schirm mit weggeblendet – der
+       gehoert aber sichtbar bleibend zur Seite, die daraus wird. */
+    .handy-rahmen { position: relative; border-radius: 26px; padding: 9px; }
+    .handy-rahmen::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
       background: linear-gradient(160deg, #dfe8f6, #9db4d6);
       box-shadow: 0 30px 70px rgba(0,8,30,0.55);
+      opacity: calc(1 - max(0, var(--zoom) - 0.26) / 0.26);
     }
     .handy-schirm {
-      border-radius: 18px; overflow: hidden; background: var(--white);
+      position: relative;
+      border-radius: calc(18px * (1 - var(--zoom)));
+      overflow: hidden; background: var(--white);
       aspect-ratio: 9 / 17.5; display: flex; flex-direction: column;
+    }
+    /* Aus dem Schirm wird die Seite: diese Lage liegt hinter dem Miniinhalt
+       und traegt denselben Verlauf wie die Flaeche ausserhalb. Wenn der
+       Miniinhalt weg ist, ist Schirm gleich Seite und die Kante zwischen
+       beiden verschwindet. */
+    .mini-flaeche {
+      position: absolute; inset: 0;
+      /* Mittelfarbe zwischen --blue-dark und --blue, nicht deren Verlauf:
+         ein zweiter Verlauf auf Schirmgroesse traefe den dahinter am Rand
+         nie und liesse eine Kante stehen. */
+      background: #003489;
+      opacity: calc(max(0, var(--zoom) - 0.26) / 0.22);
+    }
+    .mini-nav, .mini-inhalt {
+      position: relative;
+      opacity: calc(1 - max(0, var(--zoom) - 0.28) / 0.20);
     }
     .mini-nav {
       background: var(--blue-dark); color: var(--white);
@@ -798,7 +887,18 @@
       padding: 6px 4px; border-radius: 100px;
     }
 
-    .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center; }
+
+    /* Der Schirm waechst nur gleichmaessig, kann ein breites Fenster also
+       nie ausfuellen. Diese Flaeche traegt denselben Verlauf und schliesst
+       links und rechts an – zusammen liest es sich als ein Bild, nicht als
+       vergroessertes Handy im Rahmen. */
+    .seite-flaeche {
+      position: absolute; inset: 0; z-index: 4;
+      background: linear-gradient(160deg, var(--blue-dark), var(--blue));
+      opacity: calc(max(0, var(--zoom) - 0.34) / 0.24);
+    }
+    .unfall-texte { position: absolute; left: 6%; right: 6%; top: 12%; text-align: center;
+                    z-index: 6; opacity: calc(1 - min(1, var(--zoom) * 3)); }
     .unfall-texte p {
       position: absolute; left: 0; right: 0;
       font-family: var(--font-condensed);
@@ -813,18 +913,21 @@
     .unfall-szene[data-schritt="4"] p[data-schritt="4"] { opacity: 1; transform: none; }
 
     .unfall-schluss {
-      position: absolute; left: 6%; right: 6%; top: 50%; transform: translateY(-50%);
+      position: absolute; left: 6%; right: 6%; top: 50%; z-index: 6;
+      transform: translateY(calc(-50% + (1 - var(--zoom)) * 18px));
       display: flex; flex-direction: column; align-items: center; gap: 10px;
       text-align: center;
-      opacity: calc(max(0, var(--zoom) - 0.45) / 0.55);
+      /* Erst wenn der Miniinhalt ganz weg ist – ueberlappende Blenden hatten
+         hier schon einmal ein Doppelbild ergeben. */
+      opacity: calc(max(0, var(--zoom) - 0.70) / 0.24);
       pointer-events: none;
     }
     .unfall-szene[data-schritt="5"] .unfall-schluss { pointer-events: auto; }
     .unfall-schluss strong {
-      font-family: var(--font-condensed); font-size: clamp(1.3rem, 3vw, 2rem);
-      font-weight: 900; color: var(--white); letter-spacing: -0.02em;
+      font-family: var(--font-condensed); font-size: clamp(1.7rem, 4.2vw, 3rem);
+      font-weight: 900; color: var(--white); letter-spacing: -0.02em; line-height: 1.1;
     }
-    .unfall-schluss span { color: rgba(255,255,255,0.9); font-size: 0.95rem; max-width: 520px; }
+    .unfall-schluss span { color: rgba(255,255,255,0.9); font-size: clamp(0.95rem, 1.5vw, 1.1rem); max-width: 560px; }
     .unfall-knoepfe { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
 
     .unfall-hinweis {
@@ -834,9 +937,21 @@
     }
 
     @media (max-width: 700px) {
-      .unfall { height: 300vh; }
+      .unfall { height: 400vh; }
       .wagen { width: clamp(150px, 46vw, 230px); }
-      .handy { width: clamp(148px, 42vw, 190px); }
+      .handy { width: clamp(148px, 42vw, 190px); --hand-x: -26.8vw; --hand-y: 21vh; }
+      /* Am Handy fuellen die beiden Wagen die ganze Breite – links neben
+         dem Wagen ist kein Platz, die Figur liefe aus dem Bild. Sie tritt
+         deshalb nach vorn vor den Wagen statt zur Seite: naeher am
+         Betrachter, also weiter unten und vor den Wagen gestaffelt. */
+      .figur {
+        left: 24%; top: 79%; z-index: 3;
+        width: clamp(96px, 26vw, 124px); height: clamp(96px, 26vw, 124px);
+        transform:
+          translate(calc(-50% - var(--aussteigen) * 22px),
+                    calc(-100% + (1 - var(--aussteigen)) * 34%))
+          scale(calc(0.78 + var(--aussteigen) * 0.22));
+      }
       .unfall-texte { top: 9%; }
       .unfall-schluss { top: 52%; }
       .unfall-knoepfe .btn-primary, .unfall-knoepfe .btn-outline { flex: 1 1 100%; text-align: center; }
@@ -848,10 +963,12 @@
       .unfall-buehne { position: static; height: auto; }
       .unfall-szene {
         position: relative; inset: auto; min-height: 60vh;
-        --anfahrt: 1; --knall: 0; --nach: 1; --handy: 1; --zoom: 0;
+        --anfahrt: 1; --knall: 0; --nach: 1;
+        --aussteigen: 1; --gang: 0; --tasche: 1; --hoch: 1;
+        --handy: 1; --zoom: 0;
         padding: 80px 0 100px;
       }
-      .unfall-hinweis { display: none; }
+      .unfall-hinweis, .figur, .seite-flaeche { display: none; }
       .unfall-schluss { position: static; opacity: 1; pointer-events: auto; margin-top: 40px; }
       .unfall-texte { position: static; }
       .unfall-texte p { position: static; opacity: 1; transform: none; margin-bottom: 6px; }
@@ -2174,13 +2291,25 @@ c-1 40 24 110 36 99 2 -3 -1 -16 -8 -29z m-128 -19 c-5 -13 -10 -19 -10 -12
       if (weg <= 0) return;
       const p = klemm(-r.top / weg);
 
-      szene.style.setProperty('--anfahrt', stueck(p, 0, 0.30).toFixed(3));
-      szene.style.setProperty('--knall',   stueck(p, 0.28, 0.38).toFixed(3));
-      szene.style.setProperty('--nach',    stueck(p, 0.36, 0.52).toFixed(3));
-      szene.style.setProperty('--handy',   stueck(p, 0.52, 0.78).toFixed(3));
-      szene.style.setProperty('--zoom',    stueck(p, 0.78, 1).toFixed(3));
+      const aussteigen = stueck(p, 0.34, 0.50);
 
-      const schritt = p < 0.28 ? '1' : p < 0.52 ? '2' : p < 0.78 ? '3' : p < 0.93 ? '4' : '5';
+      szene.style.setProperty('--anfahrt',    stueck(p, 0, 0.20).toFixed(3));
+      szene.style.setProperty('--knall',      stueck(p, 0.19, 0.26).toFixed(3));
+      szene.style.setProperty('--nach',       stueck(p, 0.24, 0.36).toFixed(3));
+      szene.style.setProperty('--aussteigen', aussteigen.toFixed(3));
+      szene.style.setProperty('--tasche',     stueck(p, 0.50, 0.58).toFixed(3));
+      szene.style.setProperty('--hoch',       stueck(p, 0.58, 0.66).toFixed(3));
+      szene.style.setProperty('--handy',      stueck(p, 0.66, 0.80).toFixed(3));
+      szene.style.setProperty('--zoom',       stueck(p, 0.80, 1).toFixed(3));
+
+      // Gangwelle: zwei volle Schritte waehrend des Aussteigens, die zum
+      // Stillstand hin auslaeuft. In CSS gibt es dafuer nichts Verlaessliches,
+      // hier ist es eine Zeile.
+      szene.style.setProperty('--gang',
+        (Math.sin(aussteigen * Math.PI * 4) * (1 - aussteigen)).toFixed(3));
+
+      const schritt = p < 0.19 ? '1' : p < 0.40 ? '2' : p < 0.62 ? '3'
+                    : p < 0.80 ? '4' : '5';
       if (szene.dataset.schritt !== schritt) szene.dataset.schritt = schritt;
     }
 

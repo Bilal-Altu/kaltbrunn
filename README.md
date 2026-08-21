@@ -94,7 +94,7 @@ Wo die Marke steht:
 |---|---|---|
 | Navigationskopf | nur das Monogramm, 34 × 32 px | Balken weiß, Winkel `#4d8bf5` |
 | Fußzeile | ganzes Zeichen: K + Wagen + Schriftzug | dazu Lack weiß, Linie `#0a2260` |
-| Unfall-Sequenz | die gezeichneten Wagen, **nicht** der aus dem Logo | wie gehabt |
+| Unfall-Sequenz | die gezeichneten Wagen, **nicht** der aus dem Logo, dazu das Strichmännchen | wie gehabt |
 
 Warum im Kopf nur das K: der Wagen wird unter 20 px zu Matsch, das
 Monogramm trägt bis 18 px. Nachgeprüft bei 120/64/40/28/18 px auf Weiß und
@@ -159,32 +159,62 @@ eigener Domain muss die Datei weg.**
 ## Unfall-Sequenz
 
 Zwischen Vertrauensleiste und Leistungen liegt eine Scroll-Erzählung: zwei
-Wagen stoßen zusammen, ein Handy fährt hoch, auf dem Schirm lädt diese
-Seite, am Ende steht der Aufruf.
+Wagen stoßen zusammen, ein Strichmännchen steigt aus, zieht das Handy aus
+der Tasche, ruft diese Seite auf — und der Schirm wächst, bis er die Seite
+**ist**.
 
 Sie steht **bewusst nicht als Vorspann vor der Seite**. Wer gerade einen
 Unfall hatte, will die Nummer sofort — ein Vorspann hätte genau die
 Anrufe gekostet, um die es geht. Anriss und Telefonnummer sind ab der
 ersten Sekunde da.
 
-Gesteuert wird über fünf Fortschrittswerte, die das Skript beim Scrollen
-als CSS-Variablen auf `.unfall-szene` setzt (`--anfahrt`, `--knall`,
-`--nach`, `--handy`, `--zoom`). Bewegt werden ausschließlich `transform`
-und `opacity`. Die Phasengrenzen stehen im Skript in einer Zeile:
+Gesteuert wird über acht Fortschrittswerte plus eine Gangwelle, die das
+Skript beim Scrollen als CSS-Variablen auf `.unfall-szene` setzt. Bewegt
+werden ausschließlich `transform` und `opacity`.
 
 ```
---anfahrt  0 – 30 %      --handy  52 – 78 %
---knall   28 – 38 %      --zoom   78 – 100 %
---nach    36 – 52 %
+--anfahrt      0 – 20 %     --tasche  50 – 58 %     Hand in die Tasche
+--knall       19 – 26 %     --hoch    58 – 66 %     Handy hoch
+--nach        24 – 36 %     --handy   66 – 80 %     fliegt in die Mitte
+--aussteigen  34 – 50 %     --zoom    80 – 100 %    wird zur Seite
 ```
+
+`--gang` ist `sin(aussteigen · 4π) · (1 − aussteigen)`: zwei volle
+Schritte, die zum Stillstand hin auslaufen. In CSS gibt es dafür nichts
+Verlässliches, im Skript ist es eine Zeile.
+
+Das Strichmännchen ist aus Kästen gebaut und nicht aus SVG, damit jedes
+Glied einen eigenen Drehpunkt hat, ohne von `transform-box` abzuhängen.
+Der rechte Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren
+Gewichte sich in jedem Moment zu eins addieren.
+
+Zwei Dinge, die beim Bauen daneben lagen und wo sie geblieben wären, hätte
+ich nicht nachgemessen:
+
+- **Am Handy füllen die beiden Wagen die ganze Breite.** Links neben dem
+  Wagen ist dort kein Platz; die Figur lief aus dem Bild (linke Kante bei
+  −29 px). Am Handy tritt sie deshalb nach vorn **vor** den Wagen statt
+  zur Seite. Nachgemessen bei 320, 360, 390, 768 und 1440 px über den
+  ganzen Scrollweg: die Figur bleibt überall im Bild.
+- **Der Startpunkt des großen Handys** ist an der Hand gemessen, nicht
+  geschätzt (`--hand-x`, `--hand-y`), sonst springt es beim Übernehmen.
+
+Der Übergang zur Seite: der Schirm wächst nur gleichmäßig und kann ein
+breites Fenster nie ausfüllen. Deshalb liegt dahinter eine Fläche mit
+demselben Verlauf, und der Schirm trägt die **Mittelfarbe** dieses
+Verlaufs statt eines eigenen — zwei Verläufe verschiedener Größe treffen
+sich am Schirmrand immer sichtbar. Gemessen am größten Farbsprung eines
+waagerechten Schnitts: 394 bei `--zoom` 0,30 → 3 bei 0,70.
 
 Die Wagenwege sind auf die **Fahrzeugmitte** bezogen, nicht auf die linke
 Kante: `left: 50 %` setzt die linke Kante in die Bildmitte, und genau
 dieser Denkfehler hatte den Gegner am Handy aus dem Bild geschoben.
 `-96 %` heißt jetzt „rechte Kante an der Bildmitte".
 
-Wer `prefers-reduced-motion` gesetzt hat, bekommt kein Sticky und keinen
-Scrollweg, sondern das Schlussbild mit allen vier Sätzen untereinander.
+Der Scrollweg ist mit dem Aussteigen von 320vh auf **460vh** gewachsen
+(am Handy 400vh). Wer `prefers-reduced-motion` gesetzt hat, bekommt kein
+Sticky und keinen Scrollweg, sondern das Schlussbild mit allen vier Sätzen
+untereinander; Figur und Seitenfläche sind dort ausgeblendet.
 
 ## Texte
 
