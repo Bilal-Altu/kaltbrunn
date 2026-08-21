@@ -242,6 +242,35 @@ Verlaufs statt eines eigenen — zwei Verläufe verschiedener Größe treffen
 sich am Schirmrand immer sichtbar. Gemessen am größten Farbsprung eines
 waagerechten Schnitts: 394 bei `--zoom` 0,30 → 3 bei 0,70.
 
+### Warum das Handy in Endgröße gebaut wird
+
+Rückmeldung: „man sieht nichts auf dem Handy und es sieht unscharf aus."
+Zwei getrennte Ursachen.
+
+**Unscharf.** Das Handy war 196 px breit gebaut und wurde per `scale()` auf
+das Vierfache gezogen — dazu `will-change: transform`, was die Ebene beim
+Compositor festschreibt. Der Browser rastert sie dann einmal und zieht die
+Bitmap auf. Jetzt ist es umgekehrt: gebaut in Endgröße (`46vh + 28px`),
+`will-change` weg, und der Maßstab ist mit `min(1, …)` bei 1,0 gedeckelt —
+**hochskaliert wird nie mehr**. Ehrlich dazu: in Chromium (headless) ließ
+sich die Unschärfe nicht nachstellen, dort wird bei jeder Stiländerung neu
+gerastert. Die Ursache, die den Effekt auf echter Hardware erzeugt, ist
+damit trotzdem weg.
+
+**Man sieht nichts.** Auf dem Schirm standen graue Platzhalterbalken. Sobald
+das Handy groß wurde, gab es also nichts zu lesen. Jetzt steht der echte
+Anriss darauf: Kopfleiste mit Monogramm, „Ihr Unfall. Ihr Recht.",
+Unterzeile, Nummer, vier Leistungen, drei Zusagen, Anrufknopf. Die
+Schriftgrößen sind für die Endgröße gesetzt und werden mit dem Rest
+heruntergerechnet — nicht umgekehrt.
+
+Die Breite folgt aus der Schirmhöhe: sie ist `(Breite − 28) · 17,5/9`, und
+`46vh + 28px` ergibt daraus 89 % der Fensterhöhe. Das Handy sitzt 30 px
+unter der Bildmitte, weil die Seite oben ihre Navigationsleiste trägt und
+der Kopf des Schirms sonst darunter verschwindet. Nachgemessen bei
+1440×900 und 1280×700: der Schirm wird 89 % der Fensterhöhe hoch, bei
+390×844 sind es 71 % — der Rest ist die Fläche dahinter.
+
 Die Wagenwege sind auf die **Fahrzeugmitte** bezogen, nicht auf die linke
 Kante: `left: 50 %` setzt die linke Kante in die Bildmitte, und genau
 dieser Denkfehler hatte den Gegner am Handy aus dem Bild geschoben.
