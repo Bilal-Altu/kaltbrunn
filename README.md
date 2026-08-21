@@ -387,9 +387,14 @@ Was dieser Abgleich geändert hat:
 Karosservermessung, Wohnmobil & Wohnwagen) standen nicht in der Mail. Das
 betrifft besonders *Nutzfahrzeuge*, die Nurettin zuvor per WhatsApp
 ausdrücklich verlangt hatte („Hier gerne noch Nutzfahrzeuge aufnehmen") —
-die Mail ist laut Bilal der neuere Stand, deshalb ist sie maßgeblich. Der
-Fahrzeugstreifen darunter nennt Nutzfahrzeuge weiterhin, er zählt
-Fahrzeugarten auf und keine Leistungen. Zurückholen ist eine Zeile.
+die Mail ist laut Bilal der neuere Stand, deshalb ist sie maßgeblich.
+Zurückholen ist eine Zeile.
+
+Der Streifen „Ich begutachte: PKW / Wohnwagen & Wohnmobil / Motorrad /
+LKW, Bus & Transporter" ist auf Bilals Hinweis als redundant ebenfalls
+entfallen — er wiederholte, was die Leistungskarten und der Abschnitt
+„Über mich" ohnehin sagen. Den Abstand zum Verweis auf die Referenzen
+hält jetzt der Verweis selbst (40 statt 26 px).
 
 **Die Auswahlliste „Art des Gutachtens"** ist mit dem Formular entfallen,
 sie stand nicht in der Mail. Die Einwilligung zur Datenverarbeitung steht

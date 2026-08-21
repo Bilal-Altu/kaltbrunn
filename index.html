@@ -539,21 +539,11 @@
     .leistung-card h3 { font-size: 1rem; font-weight: 700; color: var(--blue-dark); margin-bottom: 10px; }
     .leistung-card p { font-size: 0.88rem; color: var(--gray-text); line-height: 1.65; }
 
-    .fahrzeug-strip {
-      margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--gray-mid);
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    }
-    .fahrzeug-strip-label { font-size: 0.85rem; font-weight: 700; color: var(--gray-text); margin-right: 4px; }
-    .fahrzeug-chip {
-      background: var(--white); border: 1px solid var(--gray-mid); color: var(--blue-dark);
-      font-size: 0.82rem; font-weight: 500; padding: 6px 16px; border-radius: 100px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .fahrzeug-chip:hover { border-color: var(--flamme); background: #fff3ec; }
-
     .ref-teaser {
       display: flex; align-items: center; justify-content: space-between; gap: 20px;
-      margin-top: 26px; padding: 22px 26px;
+      /* 40 statt 26: den Abstand zum Raster hielt vorher der
+         Fahrzeugstreifen, der dazwischen stand. */
+      margin-top: 40px; padding: 22px 26px;
       background: var(--white); border: 1px solid var(--gray-mid); border-radius: 18px;
       text-decoration: none; color: inherit;
       transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
@@ -1371,8 +1361,6 @@
       /* Leistungen */
       .leistungen-grid { grid-template-columns: 1fr; gap: 14px; }
       .leistung-card { padding: 26px 22px; }
-      .fahrzeug-strip { gap: 8px; margin-top: 32px; padding-top: 26px; }
-      .fahrzeug-strip-label { flex-basis: 100%; margin-right: 0; }
 
       /* Über */
       .ueber-inner { gap: 32px; }
@@ -1653,13 +1641,6 @@
     </div>
   </div>
 
-  <div class="fahrzeug-strip reveal delay-3">
-    <span class="fahrzeug-strip-label">Ich begutachte:</span>
-    <span class="fahrzeug-chip">PKW</span>
-    <span class="fahrzeug-chip">Wohnwagen &amp; Wohnmobil</span>
-    <span class="fahrzeug-chip">Motorrad</span>
-    <span class="fahrzeug-chip">LKW, Bus &amp; Transporter</span>
-  </div>
   <a class="ref-teaser reveal" href="referenzen.html">
     <span class="ref-teaser-text">
       <strong>So dokumentiere ich</strong>
