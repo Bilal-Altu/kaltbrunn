@@ -748,7 +748,7 @@
       transform: rotate(calc(
         (1 - var(--tasche)) * (-24deg - var(--gang) * 18deg)
         + var(--tasche) * (1 - var(--hoch)) * 16deg
-        + var(--hoch) * -58deg));
+        + var(--hoch) * -108deg));   /* ueber die Waagerechte, sonst kein 'hoch' */
     }
     .figur-bein-l { transform: rotate(calc(15deg + var(--gang) * 24deg)); }
     .figur-bein-r { transform: rotate(calc(-15deg - var(--gang) * 24deg)); }
@@ -762,7 +762,7 @@
       width: 360%; height: 40%;
       background: rgba(255,255,255,0.95); border-radius: 2px;
       transform: rotate(calc(
-        var(--tasche) * (1 - var(--hoch)) * -16deg + var(--hoch) * 58deg));
+        var(--tasche) * (1 - var(--hoch)) * -16deg + var(--hoch) * 108deg));
       opacity: calc(min(1, var(--hoch) * 5) * (1 - min(1, var(--handy) * 4)));
     }
 
@@ -808,7 +808,7 @@
     .handy {
       position: absolute; left: 50%; top: 50%; z-index: 5;
       width: clamp(140px, 16vw, 196px);
-      --hand-x: -26.7vw; --hand-y: 16.9vh;   /* an der Hand gemessen */
+      --hand-x: -26.4vw; --hand-y: 13.3vh;   /* an der erhobenen Hand gemessen */
       transform:
         translate(calc(-50% + (1 - var(--handy)) * var(--hand-x)),
                   calc(-50% + (1 - var(--handy)) * var(--hand-y)))
@@ -939,7 +939,7 @@
     @media (max-width: 700px) {
       .unfall { height: 400vh; }
       .wagen { width: clamp(150px, 46vw, 230px); }
-      .handy { width: clamp(148px, 42vw, 190px); --hand-x: -26.8vw; --hand-y: 21vh; }
+      .handy { width: clamp(148px, 42vw, 190px); --hand-x: -26.2vw; --hand-y: 18.8vh; }
       /* Am Handy fuellen die beiden Wagen die ganze Breite – links neben
          dem Wagen ist kein Platz, die Figur liefe aus dem Bild. Sie tritt
          deshalb nach vorn vor den Wagen statt zur Seite: naeher am

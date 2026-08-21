@@ -196,8 +196,14 @@ ich nicht nachgemessen:
   −29 px). Am Handy tritt sie deshalb nach vorn **vor** den Wagen statt
   zur Seite. Nachgemessen bei 320, 360, 390, 768 und 1440 px über den
   ganzen Scrollweg: die Figur bleibt überall im Bild.
-- **Der Startpunkt des großen Handys** ist an der Hand gemessen, nicht
-  geschätzt (`--hand-x`, `--hand-y`), sonst springt es beim Übernehmen.
+- **Der Startpunkt des großen Handys** ist an der erhobenen Hand gemessen,
+  nicht geschätzt (`--hand-x`, `--hand-y`), sonst springt es beim
+  Übernehmen. Wer den Armwinkel ändert, muss neu messen — beim Wechsel von
+  −58° auf −108° lag der Startpunkt sofort wieder daneben.
+- **Der erhobene Arm muss über die Waagerechte.** −58° schwenkt ihn nur
+  zur Seite; „Handy hoch" liest sich erst ab etwa −100°. Das Handy in der
+  Hand dreht mit demselben Betrag zurück, damit es aufrecht bleibt — die
+  beiden Winkel müssen gespiegelt bleiben.
 
 Der Übergang zur Seite: der Schirm wächst nur gleichmäßig und kann ein
 breites Fenster nie ausfüllen. Deshalb liegt dahinter eine Fläche mit
