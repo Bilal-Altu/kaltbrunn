@@ -566,8 +566,10 @@ Zwei Textrollen brauchten dadurch mehr Grund: die Blase in der Tafel
 bekam einen eigenen dunklen Hintergrund, der WhatsApp-Knopf dunkles statt
 hellem Glas (gemessen 4,09 → 7,31).
 
-Zwei Formulierungen daraus stehen bewusst so da und sollten vor dem
-Livegang noch einmal von ihm bestätigt werden:
+Zwei Formulierungen daraus stehen bewusst so da. **Bilal hat am 22.08.
+bestätigt, dass alle Angaben auf der Seite stimmen** — damit sind sie
+abgehakt; der Hinweis bleibt nur stehen, damit niemand später denselben
+Verdacht noch einmal prüft:
 
 - **„Meisterhafter Blick"** als Überschrift bei „Über mich". Gemeint ist
   der geschulte Blick, nicht ein Meistertitel — er ist B. Eng., kein
@@ -591,13 +593,27 @@ Sprung ins Leere zeigt, und bricht sonst ab.
 
 ## Vor dem Livegang
 
-- [ ] **Impressum**: USt-IdNr. (§ 27a UStG) und Berufshaftpflichtversicherung ergänzen
-- [ ] **Domain und E-Mail** stehen noch auf `ing-nuri.de` (canonical, og:url,
-      JSON-LD, Formular, Footer) — bei neuer Domain überall nachziehen
-- [ ] **Öffnungszeiten**: im JSON-LD stehen Mo–Fr 8–18 Uhr. Entweder bestätigen
-      oder streichen
-- [ ] **„24h Rückmeldung“** mit der hauptberuflichen Tätigkeit abgleichen — ein
-      Versprechen, das nicht hält, kostet mehr Vertrauen als es bringt
+- [ ] **Impressum**: USt-IdNr. (§ 27a UStG) und **Berufshaftpflichtversicherung**
+      ergänzen. Beides steht bisher nirgends auf der Seite — die Haftpflicht ist
+      bei einem Sachverständigen nach § 2 DL-InfoV Pflichtangabe und damit die
+      einzige echte rechtliche Lücke. Die USt-IdNr. entfällt, wenn er
+      Kleinunternehmer ist; auch das gehört bestätigt.
+- [ ] **Domain wechseln**, sobald die neue feststeht. `ing-nuri.de` gehört ihm
+      (von Bilal bestätigt), die Seite zieht aber auf eine andere Adresse um.
+      Dafür gibt es ein Skript, damit keine der 16 Stellen liegen bleibt:
+
+      python3 setze_domain.py neue-domain.de
+      python3 setze_domain.py neue-domain.de kontakt@neue-domain.de   # mit neuer Mail
+      python3 bau_referenzen.py
+
+      Ohne zweites Argument bleibt der lokale Teil der Adresse erhalten
+      (`info@alt.de` → `info@neu.de`). Das Skript bricht ab, wenn es weniger als
+      16 Stellen findet — lieber gar nicht als halb umgestellt.
+- [ ] **www und ohne www vereinheitlichen.** `ing-nuri.de` und `www.ing-nuri.de`
+      antworten beide mit 200 und leiten nicht aufeinander um; `canonical` zeigt
+      auf die `www`-Fassung. Bei der neuen Domain gleich eine 301 von der einen
+      auf die andere einrichten, sonst sieht Google zwei Seiten mit demselben
+      Inhalt.
 - [ ] **`robots.txt` entfernen**, sobald die Seite unter eigener Domain läuft
 
 ## Geprüft
