@@ -51,14 +51,14 @@ jobs:
           fi
           echo "referenzen.html ist aktuell"
 
-      # Monogramm und Wagen entstehen in marke/ (bau_k.py misst das K an
+      # Monogramm, Wagen, Stadt und Figur entstehen in marke/ (bau_k.py misst
       # Nurettins Vorlage, bau_wagen.py spurt den Wagen daraus). Beides
       # braucht Pillow, NumPy und potrace – statt die hier zu installieren,
       # wird gegen die eingecheckten Bauergebnisse geprueft. Das faengt den
       # Fall, um den es geht: jemand schiebt in index.html von Hand am Pfad.
       - name: Prüfen, dass Monogramm und Wagen zu marke/ passen
         run: |
-          for teil in k wagen stadt; do
+          for teil in k wagen stadt mensch; do
             if ! grep -qF "$(cat marke/$teil.svg)" index.html; then
               echo "::error file=index.html::$teil weicht von marke/$teil.svg ab"
               exit 1

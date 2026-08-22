@@ -95,6 +95,7 @@ Wo die Marke steht:
 | Navigationskopf | nur das Monogramm, 34 × 32 px | Balken weiß, Winkel `#4d8bf5` |
 | Fußzeile | ganzes Zeichen: K + Wagen + Schriftzug | dazu Lack weiß, Linie `#0a2260` |
 | Unfall-Sequenz | die Seitenansicht aus `marke/bau_skizze.py`, **nicht** der Wagen aus dem Logo | eigene `--sk-*`-Töne |
+| Unfall-Sequenz | die Figur aus `marke/bau_mensch.py`, im selben Strich wie die Wagen | eigene `--mn-*`-Töne |
 
 Warum im Kopf nur das K: der Wagen wird unter 20 px zu Matsch, das
 Monogramm trägt bis 18 px. Nachgeprüft bei 120/64/40/28/18 px auf Weiß und
@@ -242,33 +243,55 @@ statt flachgedrückt. Ohne das stünden bei 390 px nur 54 px hohe Klötze da
 (Maßstab 0,24 statt 0,44). Erst ab 701 px folgt die Höhe dem
 Seitenverhältnis der Zeichnung, dann passt sie ohne Beschnitt.
 
-Das Strichmännchen ist aus Kästen gebaut und nicht aus SVG, damit jedes
-Glied einen eigenen Drehpunkt hat, ohne von `transform-box` abzuhängen.
-Der linke Arm hat drei Lagen — gehen, in die Tasche, Handy hoch — deren
-Gewichte sich in jedem Moment zu eins addieren.
+### Die Figur
+Sie kommt aus `marke/bau_mensch.py` und ist eine gezeichnete Comic-Figur
+im selben Strich wie die Wagen: gefüllte Fläche, weißer Umriss, runde
+Ecken. Die Teile überdecken sich absichtlich — das Hemd liegt über den
+Oberarmen, der Kopf über dem Hals —, dadurch entstehen aus einfachen
+Formen saubere Außenkonturen ohne eine einzige Hilfslinie.
 
-### Wie die Figur gebaut ist
-Sie hat Gelenke: Kopf, Hals, Schulterbalken, Rumpf, Hüftbalken, je zwei
-Arm- und Beinteile, dazu Hände und Füße. Der untere Teil eines Glieds
-hängt im oberen und dreht um sein eigenes oberes Ende — daraus werden
-Ellbogen und Knie. Die Knie knicken nur nach hinten (`max()`/`min()`
-gegen die Oberschenkeldrehung), die Füße drehen alle Drehungen über
-ihnen zurück und bleiben waagerecht. Als sechs Kästen ohne Gelenke sah
-die Figur aus wie ein Scherenschnitt.
+Davor standen dort zwei Fassungen, die beide verworfen sind:
 
-Drei Sachen mussten dabei nachgezogen werden, sonst blieb es lieblos:
+- **Ein Strichmännchen aus sechs CSS-Kästen.** Sah aus wie ein
+  Scherenschnitt.
+- **Dasselbe mit Gelenken** — Schulter- und Hüftbalken, zweiteilige Arme
+  und Beine, Hände, Füße, Knie die nur nach hinten knicken. Technisch
+  richtig, beweglich, und trotzdem sah man ihm die Mechanik an. Bilals
+  Urteil dazu steht in der Historie (`ff2eb1e`), damit es niemand noch
+  einmal baut.
 
-- **Arme und Beine hängen an den *Enden* von Schulter- und Hüftbalken.**
-  Saßen sie mittig, deckte sich ein senkrecht stehender Arm genau mit
-  dem Rumpf und war schlicht nicht zu sehen.
-- **Schultern deutlich breiter als der Kopf (28 % zu 19 %), Hüfte
-  schmaler (15 %).** Waren alle drei gleich breit, standen Arme und
-  Rumpf als drei gleich lange Striche nebeneinander — das las sich als
-  Gitter, nicht als Mensch.
-- **Die abgewandte Seite ist dünner und blasser** (Arm 2,7 statt 3 %,
-  Deckkraft 0,74). Die Figur geht nach links und hebt links das Handy,
-  steht also leicht zum Betrachter gedreht; damit bekommt das flache
-  Strichpaar Tiefe. Kostet nichts außer zwei Regeln.
+Die Lehre daraus: eine Figur, die sich bewegen können muss, wird aus
+Teilen gebaut, die man einzeln drehen kann — und genau das sieht man ihr
+an. Die gezeichnete Figur kann weniger und sieht besser aus.
+
+**Der linke Arm liegt in zwei gezeichneten Stellungen vor**, hängend und
+mit erhobenem Handy, und die Seite blendet zwischen ihnen um. Ein starres
+Glied zu drehen ginge nicht: den Arm gebeugt vors Gesicht bekommt man nur
+mit zwei Gelenken — ein gerader Arm, um die Schulter gedreht, landet mit
+der Hand bei x = −11 und damit außerhalb des Bildes. Zwei richtig
+gezeichnete Haltungen sind ehrlicher als eine falsche bewegliche.
+
+Die Überblendung läuft über ein schmales Band in der Mitte von `--hoch`
+(`clamp(0, (hoch − 0.35) / 0.3, 1)`), nicht über den ganzen Hub. Über den
+ganzen Hub sah man beide Arme lange halb durchscheinen — genau das
+Geisterbild, das die Sequenz vorher unsauber gemacht hat. So dauert der
+Wechsel drei Prozent des Scrollwegs und liest sich als Bewegung.
+
+Das Handy taucht vorher in der hängenden Hand auf (`--tasche`) — das ist
+der Griff in die Tasche. Gehen ist eine Wippe: `--gang` hebt und senkt die
+Figur um 2,2 % und kippt sie um 1,1°. Ein zweiter Beinsatz wäre teurer
+gewesen und hätte bei 90 px Höhe niemand gesehen.
+
+**Maße, die nachgemessen sind und nicht geschätzt:**
+
+- Die Figur ist **1,28-mal so hoch wie ein Wagen** (Wagen 1,45 m, Mensch
+  1,75 m wären 1,21 — die 1,28 sind Absicht, sonst verschwindet sie neben
+  zwei Limousinen).
+- Sie steht bei `top: 73 %`, nicht 80. Bei 80 standen die Füße **77 px
+  unter der Radlinie** — die Figur war weit vor dem Wagen, ohne dafür
+  größer zu sein. Jetzt sind es 14 px: dieselbe Fahrbahn, eine Spur davor.
+- Der Ausstiegsweg ist **18,5 vw**. Nachgemessen von 701 bis 2560 px
+  bleibt die Figur überall im Bild, linke Kante nirgends unter 34 px.
 
 Drei Fehler steckten in der ersten Fassung und sind raus:
 
@@ -297,25 +320,17 @@ nachgemessen:
   ganzen Scrollweg: die Figur bleibt überall im Bild.
 - **Der Startpunkt des großen Handys** ist an der erhobenen Hand gemessen,
   nicht geschätzt (`--hand-x`, `--hand-y`), sonst springt es beim
-  Übernehmen. Wer den Armwinkel ändert, muss neu messen — beim Wechsel von
-  −58° auf −108° lag der Startpunkt sofort wieder daneben, und beim Wechsel
-  vom rechten auf den linken Arm ebenso (74 px daneben bei 1440, 42 px bei
-  390). Das Messskript setzt die Mitte des Handys in der Hand auf die Mitte
-  des großen Handys; zuletzt gemessen −31,6 vw / 15,72 vh am Schreibtisch
-  und −37,1 vw / 20,32 vh am Handy, Restversatz 0/0 px.
-- **Der erhobene Arm muss über die Waagerechte.** −58° schwenkt ihn nur
-  zur Seite; „Handy hoch" liest sich erst ab etwa −100°. Das Handy in der
-  Hand dreht mit demselben Betrag zurück, damit es aufrecht bleibt — die
-  beiden Winkel müssen gespiegelt bleiben.
+  Übernehmen. **Wer an der Figur etwas ändert, muss neu messen** — jeder
+  Umbau hat den Punkt bisher verschoben: der Wechsel des Armwinkels von
+  −58° auf −108°, der Wechsel vom rechten auf den linken Arm (74 px
+  daneben), der Wechsel auf die gezeichnete Figur (67/77 px daneben). Das
+  Messskript setzt die Mitte des Handys in der Hand auf die Mitte des
+  großen Handys; zuletzt −36,2 vw / 7,11 vh am Schreibtisch und
+  −35,6 vw / 11,26 vh am Handy, Restversatz 0/0 px.
 - **Das Handy hält der linke Arm, nicht der rechte.** Die Figur steht bei
   `z-index: 1` hinter den Wagen. Ein gehobener rechter Arm ragt in den
   Umriss des nahen Wagens — Hand und Handy verschwanden dahinter, sobald
   der Arm hochging. Nach links ist der Weg frei.
-- **Der Weg nach draußen ist 18,5 vw lang, nicht 13.** Mit den breiteren
-  Schultern lag die rechte Hand am Ende des Ausstiegs wieder im Wagen; die
-  Figur sah einarmig aus. Nachgemessen von 701 bis 2560 px: zwischen
-  rechter Hand und Wagenkante bleiben überall 3 bis 288 px Luft, und die
-  linke Kante der Figur kommt nirgends unter 53 px an den Fensterrand.
 
 Der Übergang zur Seite: der Schirm wächst nur gleichmäßig und kann ein
 breites Fenster nie ausfüllen. Deshalb liegt dahinter eine Fläche mit
