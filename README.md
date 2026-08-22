@@ -496,12 +496,19 @@ Was der Abgleich sonst geändert hat:
 | Formular | Vorname + Nachname, E-Mail, Telefon, Kennzeichen, Art des Gutachtens, Nachricht | **Name, Telefonnummer, E-Mail-Adresse, Kennzeichen / Fahrzeug, Ihre Nachricht** |
 | Anriss | Verlauf | zusätzlich ein **Hintergrundbild** |
 
-**Die drei gestrichenen Leistungen** (Nutzfahrzeuge & Fuhrpark,
-Karosservermessung, Wohnmobil & Wohnwagen) standen nicht in der Mail. Das
-betrifft besonders *Nutzfahrzeuge*, die Nurettin zuvor per WhatsApp
-ausdrücklich verlangt hatte („Hier gerne noch Nutzfahrzeuge aufnehmen") —
-die Mail ist laut Bilal der neuere Stand, deshalb ist sie maßgeblich.
-Zurückholen ist eine Zeile.
+**Drei Leistungen wurden gestrichen** (Nutzfahrzeuge & Fuhrpark,
+Karosserievermessung, Wohnmobil & Wohnwagen), weil sie nicht in der Mail
+standen. **Nutzfahrzeuge sind auf Bilals Anweisung wieder drin** — als
+fünfte Karte, als Chip im Handy-Schirm und im JSON-LD. Nurettin hatte sie
+zuvor per WhatsApp ausdrücklich verlangt („Hier gerne noch Nutzfahrzeuge
+aufnehmen"); die Mail hat den Punkt offenbar vergessen, nicht gestrichen.
+
+Karosserievermessung und Wohnmobil & Wohnwagen bleiben draußen — danach
+hat niemand gefragt.
+
+Das Raster kommt mit fünf Karten besser zurecht als mit vier: die erste
+Karte spannt über zwei Spalten, danach füllen zwei plus drei Karten beide
+Reihen restlos. Bei vier Karten blieb in der zweiten Reihe eine Lücke.
 
 Der Streifen „Ich begutachte: PKW / Wohnwagen & Wohnmobil / Motorrad /
 LKW, Bus & Transporter" ist auf Bilals Hinweis als redundant ebenfalls
@@ -595,6 +602,7 @@ damit die Entscheidungen nicht nur im Diff stehen:
 | „Das erste Gespräch kostet nichts raus im Hero" | Punkt gestrichen. Die Zusage steht weiter im Kontakt („Kostenlose Erstanfrage") — sie stand so in Nurettins Mail. |
 | „unterstrichene Nummer weg bei Animation" | siehe unten. |
 | „keine Beweissicherung" | Karte „Fundierte Beweissicherung", der Chip im Handy-Schirm und die Zusage „Beweissicherung vor Ort" sind weg. |
+| *(nicht angeordnet)* | Beim Austauschen des Beweissicherungs-Chips habe ich den danebenstehenden Chip „Nutzfahrzeuge" gleich mit ersetzt, damit die vier Chips zu den vier Leistungskarten passen. Das war meine Entscheidung, nicht Bilals Vorgabe — auf seine Nachfrage ist Nutzfahrzeuge überall zurück. **Lehre: Chips und Karten aneinander anzugleichen ist eine inhaltliche Änderung, keine Aufräumarbeit.** |
 | „Sprachen raus" | Zeile bei „Über mich" **und** `knowsLanguage` in den strukturierten Daten. Falls nur die sichtbare Zeile gemeint war: die vier Sprachen sind ein Suchvorteil, das JSON-LD holt sie mit einer Zeile zurück. |
 | „Warum ich: 02 und 03 raus" | Bleiben 01 (neu formuliert: „Ich arbeite unabhängig von Versicherungen in Ihrem Auftrag.") und Direkter Draht, neu als 02. Das Raster ist `auto-fit`, zwei Karten werden dadurch von selbst breiter. |
 | „Freie Gutachterwahl. Für sie entstehen keine Kosten" | Als Schlusszeile der Sequenz gelesen — dort stand vorher „Freie Gutachterwahl. Bei unverschuldetem Unfall zahlt die Gegenseite." Dieselbe Formulierung jetzt auch im Handy-Schirm. |
