@@ -127,6 +127,42 @@ ausprobiert und verworfen.
 der Workflow prüft, dass `index.html` sie wörtlich enthält. Von Hand im
 Pfad zu schieben bricht beim K die Parallelität sichtbar.
 
+## Schrift
+
+**Rubik**, von Bilal vorgegeben. Variabler Schnitt 300–900, auf die
+lateinische Teilmenge beschränkt und als Data-URI eingebettet — die Seite
+lädt nichts von Google. Open Font License. **34 KB gegenüber 87 KB** bei
+Archivo, `index.html` ist dadurch netto kleiner geworden.
+
+**Was der Wechsel gekostet hat:** Archivo hatte eine *Breitenachse*
+(`font-stretch: 84 %` für Schlagzeilen), Rubik hat keine. Die Angabe wäre
+wirkungslos und irreführend und ist raus. Damit lief die Schlagzeile
+breiter und „zum unabhängigen Gutachter:" brach auf eine vierte Zeile um.
+Nachgezogen, an den Umbrüchen gemessen statt geschätzt:
+
+| | vorher (Archivo) | jetzt (Rubik) |
+|---|---|---|
+| Spalten im Anriss | 1,06 / 0,94 | **1,10 / 0,90** |
+| `.hero-content` | max. 620 px | max. **650 px** |
+| h1 Schreibtisch | `clamp(1.9rem, 3.5vw, 2.7rem)` | `clamp(1.8rem, 2.9vw, 2.5rem)` |
+| h1 Handy | `clamp(1.5rem, 6.4vw, 1.95rem)` | `clamp(1.25rem, 5.5vw, 1.95rem)` |
+| Laufweite Schlagzeilen | −0,015 em (bei 84 % Breite) | **−0,021 em** |
+
+Ergebnis nachgemessen bei 1920/1440/1280/1024/430/390/360 px: überall
+**drei Zeilen**, wie mit Archivo. Bei 768 und 320 px sind es vier — das
+war mit Archivo genauso, dort ist die Spalte schlicht zu schmal.
+
+**Eine Kontrastfolge hatte der Wechsel auch:** die dritte Zeile
+(„Präzision für Ihr Recht.") ist am Handy von 25 auf 21,4 px geschrumpft
+und fällt damit unter die WCAG-Grenze für großen Text — ab da gilt 4,5
+statt 3,0. Bei `rgba(255,255,255,0.5)` waren es 3,42. Jetzt **0,68**, das
+sind 4,91 am Handy und 5,17 am Schreibtisch.
+
+**Zwei Zeichen kann Rubik nicht:** `→` (U+2192) und `✓` (U+2713). Die
+kommen aus der Systemschrift — bei Archivo war das genauso, beide fehlten
+dort ebenfalls. Wer sie zeichensicher haben will, muss sie durch Inline-SVG
+ersetzen.
+
 ## Tonfall
 
 Die Seite spricht in der **Ich-Form**. Ein Ingenieurbüro mit einer Person
@@ -139,7 +175,7 @@ Marke kommt und dem Blau die Amtskühle nimmt.
 ## Bearbeiten
 
 `index.html` wird direkt bearbeitet — kein Build, kein Werkzeug. Die langen
-Base64-Blöcke sind die eingebettete Schrift (Archivo, variabel) und das
+Base64-Blöcke sind die eingebettete Schrift (Rubik, variabel) und das
 Porträt; dazwischen steht ganz normales HTML, CSS und JavaScript.
 
 Lokal genügt ein Doppelklick auf die Datei — mangels relativer Pfade verhält sie
