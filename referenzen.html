@@ -673,6 +673,11 @@
     /* ── IHR GUTES RECHT ── */
     #ihr-recht { background: var(--white); }
     .recht-inner { max-width: 1240px; margin: 0 auto; }
+    .recht-vorspann {
+      font-family: var(--font-condensed); font-weight: 700;
+      font-size: 1.02rem; color: var(--blue-dark);
+      margin: 30px 0 16px;
+    }
     .recht-karten {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
@@ -1168,7 +1173,12 @@
     }
 
     /* ── KONTAKT ── */
-    #kontakt { background: var(--gray-light); }
+    /* Kontakt traegt Blassblau, nicht Grau. Seit die Leistungen nach
+       hinten gerueckt sind, stossen sonst zwei graue Abschnitte
+       aneinander und lesen sich als ein einziger langer Block. Die
+       weissen Eingabefelder heben sich auf Blassblau ausserdem besser
+       ab als auf Weiss. */
+    #kontakt { background: var(--blue-pale); }
     .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
     /* Sein Name über den Kontaktdaten – so steht es in seinem Entwurf. */
     .kontakt-wer {
@@ -1549,11 +1559,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html#leistungen">Leistungen</a></li>
     <li><a href="index.html#ueber">Über mich</a></li>
-    <li><a href="referenzen.html" aria-current="page">Referenzen</a></li>
     <li><a href="index.html#warum">Warum ich</a></li>
-    <li><a href="#ihr-recht">Ihr Recht</a></li>
+    <li><a href="index.html#ihr-recht">Ihr Recht</a></li>
+    <li><a href="index.html#leistungen">Leistungen</a></li>
+    <li><a href="referenzen.html" aria-current="page">Referenzen</a></li>
     <li><a href="index.html#kontakt">Kontakt</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
@@ -1564,11 +1574,11 @@
 <!-- MOBILES MENÜ -->
 <div class="menu-backdrop" id="menu-backdrop"></div>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="index.html#leistungen">Leistungen</a>
   <a href="index.html#ueber">Über mich</a>
-  <a href="referenzen.html" aria-current="page">Referenzen</a>
   <a href="index.html#warum">Warum ich</a>
-  <a href="#ihr-recht">Ihr Recht</a>
+  <a href="index.html#ihr-recht">Ihr Recht</a>
+  <a href="index.html#leistungen">Leistungen</a>
+  <a href="referenzen.html" aria-current="page">Referenzen</a>
   <a href="index.html#kontakt">Kontakt</a>
   <a href="index.html#kontakt" class="mobile-menu-cta">Gutachten anfragen →</a>
 </div>

@@ -673,6 +673,11 @@
     /* ── IHR GUTES RECHT ── */
     #ihr-recht { background: var(--white); }
     .recht-inner { max-width: 1240px; margin: 0 auto; }
+    .recht-vorspann {
+      font-family: var(--font-condensed); font-weight: 700;
+      font-size: 1.02rem; color: var(--blue-dark);
+      margin: 30px 0 16px;
+    }
     .recht-karten {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
@@ -1168,7 +1173,12 @@
     }
 
     /* ── KONTAKT ── */
-    #kontakt { background: var(--gray-light); }
+    /* Kontakt traegt Blassblau, nicht Grau. Seit die Leistungen nach
+       hinten gerueckt sind, stossen sonst zwei graue Abschnitte
+       aneinander und lesen sich als ein einziger langer Block. Die
+       weissen Eingabefelder heben sich auf Blassblau ausserdem besser
+       ab als auf Weiss. */
+    #kontakt { background: var(--blue-pale); }
     .kontakt-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
     /* Sein Name über den Kontaktdaten – so steht es in seinem Entwurf. */
     .kontakt-wer {
@@ -1422,11 +1432,11 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#leistungen">Leistungen</a></li>
     <li><a href="#ueber">Über mich</a></li>
-    <li><a href="referenzen.html">Referenzen</a></li>
     <li><a href="#warum">Warum ich</a></li>
     <li><a href="#ihr-recht">Ihr Recht</a></li>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="referenzen.html">Referenzen</a></li>
     <li><a href="#kontakt">Kontakt</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
@@ -1437,11 +1447,11 @@
 <!-- MOBILES MENÜ -->
 <div class="menu-backdrop" id="menu-backdrop"></div>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#leistungen">Leistungen</a>
   <a href="#ueber">Über mich</a>
-  <a href="referenzen.html">Referenzen</a>
   <a href="#warum">Warum ich</a>
   <a href="#ihr-recht">Ihr Recht</a>
+  <a href="#leistungen">Leistungen</a>
+  <a href="referenzen.html">Referenzen</a>
   <a href="#kontakt">Kontakt</a>
   <a href="#kontakt" class="mobile-menu-cta">Gutachten anfragen →</a>
 </div>
@@ -1617,41 +1627,6 @@
 </section>
 
 <!-- LEISTUNGEN -->
-<section id="leistungen">
-  <div class="reveal"><div class="section-label">Meine Leistungen</div></div>
-  <h2 class="section-title reveal delay-1">Meine Leistungen in Ihrer Region</h2>
-  <p class="section-intro reveal delay-2">Von meinem Standort in Heppenheim aus bin ich schnell bei Ihnen im gesamten Kreis Bergstraße sowie in der Rhein-Neckar-Region (u.&nbsp;a. Bensheim, Weinheim, Mannheim und Heidelberg).</p>
-    <div class="leistungen-grid">
-    <div class="leistung-card featured reveal delay-1">
-      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 15.5h17M5 15.5V19h2.2M19 15.5V19h-2.2"/><path d="M5.4 15.5l1.9-5.1a3 3 0 0 1 2.8-2h3.8a3 3 0 0 1 2.8 2l1.9 5.1"/><circle cx="8.2" cy="18.6" r="1.5"/><circle cx="15.8" cy="18.6" r="1.5"/></svg></span>
-      <h3>Schadengutachten</h3>
-      <p>Haftpflicht- und Kaskoschäden. Ich halte den Schaden vollständig und neutral fest, damit Sie bekommen, was Ihnen zusteht. War der Unfall unverschuldet, zahlt das Gutachten in aller Regel die gegnerische Versicherung – für Sie bleibt es kostenlos.</p>
-    </div>
-    <div class="leistung-card reveal delay-2">
-      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 7.4A6.6 6.6 0 0 0 7.6 12 6.6 6.6 0 0 0 17 16.6"/><path d="M4.6 10.4h8.2M4.6 13.6h8.2"/></svg></span>
-      <h3>Wertgutachten</h3>
-      <p>Für Kauf, Verkauf oder Versicherung. Ein belastbarer Wert, den Sie einem Käufer, einem Verkäufer oder Ihrer Versicherung vorlegen können.</p>
-    </div>
-    <div class="leistung-card reveal delay-3">
-      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 16.5l3.6-4.4 2.6 2.2 3.3-5"/><circle cx="16.4" cy="8.4" r="3.6"/><path d="M19.1 11.1L21.5 13.6"/><path d="M3 20h18"/></svg></span>
-      <h3>Technische Analysen</h3>
-      <p>Bei komplexen Fehlerbildern. Wenn nicht klar ist, was die Ursache war, gehe ich der Sache technisch auf den Grund und leite die Bewertung nachvollziehbar her.</p>
-    </div>
-    <div class="leistung-card reveal delay-4">
-      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M6 7h12"/><path d="M6 7l-2.6 5.6h5.2L6 7z"/><path d="M18 7l-2.6 5.6h5.2L18 7z"/><path d="M8.6 20h6.8"/></svg></span>
-      <h3>Prüfung und Gegengutachten</h3>
-      <p>Bei strittigen Fällen. Liegt bereits ein Gutachten vor, das Ihnen nicht schlüssig erscheint, prüfe ich es und halte dagegen, wo es nötig ist.</p>
-    </div>
-  </div>
-
-  <a class="ref-teaser reveal" href="referenzen.html">
-    <span class="ref-teaser-text">
-      <strong>So dokumentiere ich</strong>
-      Aufnahmen aus abgeschlossenen Gutachten ansehen
-    </span>
-    <span class="ref-teaser-pfeil" aria-hidden="true">→</span>
-  </a>
-</section>
 
 <!-- ÜBER NURI -->
 <section id="ueber">
@@ -1665,7 +1640,7 @@
       <div class="section-label">Über mich</div>
       <h2 class="section-title">Meisterhafter Blick.<br>Akademische Präzision.</h2>
       <p>Vom Blaumann im Nutzfahrzeug-Betrieb über das Maschinenbaustudium bis hin zum Qualitätsingenieur bei einem Premium-Auto­mobilhersteller: Mein Weg zeichnet sich durch pure Begeisterung für Fahrzeugtechnik aus.</p>
-      <p>Als Ihr unabhängiger Kfz-Sachverständiger bringe ich diese gebündelte Expertise direkt zu Ihnen. Ob nach einem Unfall, für eine Wertermittlung oder bei technischen Unklarheiten – ich sichere Ihre Ansprüche mit absoluter Präzision. Wenn Sie anrufen, gehe ich selbst ran.</p>
+      <p>Als Ihr unabhängiger Kfz-Sachverständiger bringe ich diese gebündelte Expertise direkt zu Ihnen. Ob nach einem Unfall, für eine Wertermittlung oder bei technischen Unklarheiten – ich sichere Ihre Ansprüche mit absoluter Präzision.</p>
       <ul class="ueber-fakten">
         <li><b>Ausbildung</b>Nutzfahrzeug-Mechatroniker, danach B.&nbsp;Eng. Maschinenbau</li>
         <li><b>Qualifikationen</b>VDA&nbsp;6.3 Prozessauditor · DGQ-Qualitätsmanager · Elektrofachkraft für HV-Komponenten</li>
@@ -1701,6 +1676,7 @@
     <p class="section-intro reveal delay-2">Ein Unfall bringt ohnehin schon genug Ärger mit sich. Umso wichtiger ist ein Partner,
        dem Sie blind vertrauen können. Da ich vollkommen weisungsfrei und unabhängig von
        Versicherungsgesellschaften agiere, steht allein Ihr Recht im Fokus.</p>
+    <p class="recht-vorspann reveal delay-2">Das sollten Sie wissen:</p>
     <div class="recht-karten">
       <div class="recht-karte reveal delay-1">
         <span class="recht-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><path d="M12 7.6v4.6l3 1.8"/></svg></span>
@@ -1726,6 +1702,41 @@
       <strong>+49 176 37998836</strong>
     </a>
   </div>
+</section>
+<section id="leistungen">
+  <div class="reveal"><div class="section-label">Meine Leistungen</div></div>
+  <h2 class="section-title reveal delay-1">Meine Leistungen in Ihrer Region</h2>
+  <p class="section-intro reveal delay-2">Von meinem Standort in Heppenheim aus bin ich schnell bei Ihnen im gesamten Kreis Bergstraße sowie in der Rhein-Neckar-Region (u.&nbsp;a. Bensheim, Weinheim, Mannheim und Heidelberg).</p>
+    <div class="leistungen-grid">
+    <div class="leistung-card featured reveal delay-1">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 15.5h17M5 15.5V19h2.2M19 15.5V19h-2.2"/><path d="M5.4 15.5l1.9-5.1a3 3 0 0 1 2.8-2h3.8a3 3 0 0 1 2.8 2l1.9 5.1"/><circle cx="8.2" cy="18.6" r="1.5"/><circle cx="15.8" cy="18.6" r="1.5"/></svg></span>
+      <h3>Schadengutachten</h3>
+      <p>Haftpflicht- und Kaskoschäden. Ich halte den Schaden vollständig und neutral fest, damit Sie bekommen, was Ihnen zusteht. War der Unfall unverschuldet, zahlt das Gutachten in aller Regel die gegnerische Versicherung – für Sie bleibt es kostenlos.</p>
+    </div>
+    <div class="leistung-card reveal delay-2">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 7.4A6.6 6.6 0 0 0 7.6 12 6.6 6.6 0 0 0 17 16.6"/><path d="M4.6 10.4h8.2M4.6 13.6h8.2"/></svg></span>
+      <h3>Wertgutachten</h3>
+      <p>Für Kauf, Verkauf oder Versicherung. Ein belastbarer Wert, den Sie einem Käufer, einem Verkäufer oder Ihrer Versicherung vorlegen können.</p>
+    </div>
+    <div class="leistung-card reveal delay-3">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 16.5l3.6-4.4 2.6 2.2 3.3-5"/><circle cx="16.4" cy="8.4" r="3.6"/><path d="M19.1 11.1L21.5 13.6"/><path d="M3 20h18"/></svg></span>
+      <h3>Technische Analysen</h3>
+      <p>Bei komplexen Fehlerbildern. Wenn nicht klar ist, was die Ursache war, gehe ich der Sache technisch auf den Grund und leite die Bewertung nachvollziehbar her.</p>
+    </div>
+    <div class="leistung-card reveal delay-4">
+      <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M6 7h12"/><path d="M6 7l-2.6 5.6h5.2L6 7z"/><path d="M18 7l-2.6 5.6h5.2L18 7z"/><path d="M8.6 20h6.8"/></svg></span>
+      <h3>Prüfung und Gegengutachten</h3>
+      <p>Bei strittigen Fällen. Liegt bereits ein Gutachten vor, das Ihnen nicht schlüssig erscheint, prüfe ich es und halte dagegen, wo es nötig ist.</p>
+    </div>
+  </div>
+
+  <a class="ref-teaser reveal" href="referenzen.html">
+    <span class="ref-teaser-text">
+      <strong>So dokumentiere ich</strong>
+      Aufnahmen aus abgeschlossenen Gutachten ansehen
+    </span>
+    <span class="ref-teaser-pfeil" aria-hidden="true">→</span>
+  </a>
 </section>
 
 <!-- KONTAKT -->

@@ -426,11 +426,37 @@ gegen seine Mail abgeglichen; seine Platzhalter (`01XX-XXXXXXX`, `[Ihre
 Telefonnummer]`, `[Ihre E-Mail-Adresse]`) sind mit den echten Daten
 gefüllt.
 
-Was dieser Abgleich geändert hat:
+### Die Reihenfolge der Abschnitte
+Nurettins Entwurf gibt sie vor, und sie ist verbindlich:
+
+| | Abschnitt | auf der Seite |
+|---|---|---|
+| — | Banner / Hero | `#hero` |
+| — | *(die Unfall-Sequenz — Bilals Zusatz, kein Punkt aus der Mail)* | `#unfall` |
+| 1 | Die Expertise — „Meisterhafter Blick. Akademische Präzision." | `#ueber` |
+| 2 | Ihre Vorteile — „Warum mein Gutachten den Unterschied macht" | `#warum` |
+| 3 | Rechtlicher Schutz — „Ihr gutes Recht bei einem Unfallschaden" | `#ihr-recht` |
+| 4 | Leistungen & Region — „Meine Leistungen in Ihrer Region" | `#leistungen` |
+| 5 | Kontakt — „Schnelle Hilfe im Schadensfall" | `#kontakt` |
+| — | *(Impressum und Datenschutz — Pflicht, kein Punkt aus der Mail)* | `#rechtliches` |
+
+**Die Leistungen standen lange an dritter Stelle**, direkt nach der
+Sequenz, und damit vor Expertise, Vorteilen und Recht. Beim Abgleich mit
+dem Entwurf ist das aufgefallen: sie gehören dorthin, wo Nurettin sie
+hingeschrieben hat — nach der Begründung, nicht davor. Erst wer weiß, wer
+da begutachtet und warum das zählt, liest die Liste richtig.
+
+Die Navigation folgt derselben Reihenfolge. **Kontakt bekam dabei einen
+eigenen Ton** (Blassblau statt Grau): seit die Leistungen nach hinten
+gerückt sind, stießen sonst zwei graue Abschnitte aneinander und lasen
+sich als ein einziger langer Block.
+
+Was der Abgleich sonst geändert hat:
 
 | Stelle | vorher | jetzt |
 |---|---|---|
 | Leistungen | 7 Karten | die **4** aus der Mail |
+| „Das sollten Sie wissen:" | fehlte | steht vor den drei Recht-Karten |
 | Formular | Vorname + Nachname, E-Mail, Telefon, Kennzeichen, Art des Gutachtens, Nachricht | **Name, Telefonnummer, E-Mail-Adresse, Kennzeichen / Fahrzeug, Ihre Nachricht** |
 | Anriss | Verlauf | zusätzlich ein **Hintergrundbild** |
 
@@ -446,6 +472,13 @@ LKW, Bus & Transporter" ist auf Bilals Hinweis als redundant ebenfalls
 entfallen — er wiederholte, was die Leistungskarten und der Abschnitt
 „Über mich" ohnehin sagen. Den Abstand zum Verweis auf die Referenzen
 hält jetzt der Verweis selbst (40 statt 26 px).
+
+**Ein Satz zu viel** stand im Abschnitt „Die Expertise": „Wenn Sie anrufen,
+gehe ich selbst ran." Das ist derselbe Inhalt wie der Vorteil „Direkter
+Draht" einen Abschnitt weiter — er ist gestrichen. Ebenso stand im
+Anriss-Panel „Ingenieur · Kfz-Sachverständiger" direkt über der Pille
+„Kfz-Sachverständiger in Heppenheim"; die Zeile nennt jetzt die
+Qualifikation statt noch einmal die Rolle.
 
 **Die Auswahlliste „Art des Gutachtens"** ist mit dem Formular entfallen,
 sie stand nicht in der Mail. Die Einwilligung zur Datenverarbeitung steht
@@ -511,6 +544,14 @@ Livegang noch einmal von ihm bestätigt werden:
   („Vom Blaumann … bis zum Qualitätsingenieur"), und die Unterzeile
   nennt ihn „freier Kfz-Sachverständiger" — der Widerspruch ist damit
   entschärft, aber nicht ganz weg.
+
+**Die Referenzseite baut ihre Verweise jetzt selbst.** Vorher stand in
+`bau_referenzen.py` eine Liste von Hand, welche Sprungziele auf die
+Startseite umzuleiten sind — `ihr-recht` kam später dazu, stand nie darin,
+und der Verweis lief seitdem ins Leere. Jetzt wird abgeleitet: jeder
+Sprung, dessen Ziel es auf der Referenzseite nicht gibt, geht auf die
+Startseite. Vor dem Schreiben prüft das Skript zusätzlich, dass kein
+Sprung ins Leere zeigt, und bricht sonst ab.
 
 ## Vor dem Livegang
 

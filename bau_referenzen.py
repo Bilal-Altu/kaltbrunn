@@ -106,16 +106,21 @@ def main():
     s = s.replace(m.group(0), '<main id="main">\n' + galerie_markup() + '\n</main>')
 
     # ── Verweise: auf dieser Seite gibt es die Sprungziele nicht ──────────
-    for ziel in ('leistungen', 'ueber', 'warum', 'kontakt', 'impressum', 'datenschutz'):
-        s = s.replace('href="#%s"' % ziel, 'href="index.html#%s"' % ziel)
+    # Das Logo zeigt auf die Startseite, nicht auf deren Anriss.
     s = s.replace('href="#hero" class="nav-logo"', 'href="index.html" class="nav-logo"')
-    s = s.replace('<a href="index.html#kontakt" class="mobile-menu-cta">',
-                  '<a href="index.html#kontakt" class="mobile-menu-cta">')
     # der eigene Eintrag zeigt nicht auf sich selbst
     s = s.replace('<li><a href="referenzen.html">Referenzen</a></li>',
                   '<li><a href="referenzen.html" aria-current="page">Referenzen</a></li>')
     s = s.replace('  <a href="referenzen.html">Referenzen</a>\n',
                   '  <a href="referenzen.html" aria-current="page">Referenzen</a>\n')
+    # Alles Uebrige wird abgeleitet, nicht aufgezaehlt: jeder Sprung, dessen
+    # Ziel es auf DIESER Seite nicht gibt, geht auf die Startseite. Vorher
+    # stand hier eine Liste von Hand – "ihr-recht" kam spaeter dazu, stand
+    # nie darin, und der Verweis lief seitdem ins Leere.
+    vorhanden = set(re.findall(r'id="([^"]+)"', s))
+    for ziel in sorted(set(re.findall(r'href="#([^"]+)"', s))):
+        if ziel not in vorhanden:
+            s = s.replace('href="#%s"' % ziel, 'href="index.html#%s"' % ziel)
 
     # ── JSON-LD: nur noch eine schlanke Seitenauszeichnung ────────────────
     m = re.search(r'<script type="application/ld\+json">.*?</script>', s, re.S)
@@ -128,6 +133,13 @@ def main():
     if m:
         s = s.replace(m.group(0), '')
     s = s.replace('</body>', LIGHTBOX_JS + '</body>', 1)
+
+    # Letzte Kontrolle vor dem Schreiben: kein Sprung darf ins Leere gehen.
+    # Genau das ist hier zweimal passiert, ohne dass es jemand gemerkt hat.
+    ids = set(re.findall(r'id="([^"]+)"', s))
+    tot = sorted(z for z in set(re.findall(r'href="#([^"]+)"', s)) if z not in ids)
+    if tot:
+        fehler('tote Sprungziele in der Referenzseite: ' + ', '.join(tot))
 
     io.open(ZIEL, 'w', encoding='utf-8').write(s)
     print('referenzen.html geschrieben, %d KB, %d Fälle'
