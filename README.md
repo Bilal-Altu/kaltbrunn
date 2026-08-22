@@ -566,22 +566,59 @@ Zwei Textrollen brauchten dadurch mehr Grund: die Blase in der Tafel
 bekam einen eigenen dunklen Hintergrund, der WhatsApp-Knopf dunkles statt
 hellem Glas (gemessen 4,09 → 7,31).
 
-Zwei Formulierungen daraus stehen bewusst so da. **Bilal hat am 22.08.
-bestätigt, dass alle Angaben auf der Seite stimmen** — damit sind sie
-abgehakt; der Hinweis bleibt nur stehen, damit niemand später denselben
-Verdacht noch einmal prüft:
+Eine Formulierung steht bewusst so da. **Bilal hat am 22.08. bestätigt,
+dass alle Angaben auf der Seite stimmen** — damit ist sie abgehakt; der
+Hinweis bleibt nur stehen, damit niemand später denselben Verdacht noch
+einmal prüft:
 
 - **„Meisterhafter Blick"** als Überschrift bei „Über mich". Gemeint ist
   der geschulte Blick, nicht ein Meistertitel — er ist B. Eng., kein
   Handwerksmeister. Missverständlich ist es trotzdem.
-- **„Vom Premium-Hersteller zum unabhängigen Gutachter"** ist die
-  Anriss-Überschrift, auf Bilals ausdrückliche Entscheidung. Der Hinweis
-  bleibt hier stehen, damit ihn niemand später sucht: Das „vom … zum"
-  liest sich wie ein abgeschlossener Wechsel, die Tätigkeit beim
-  Hersteller läuft aber weiter. Im Abschnitt darunter steht es richtig
-  („Vom Blaumann … bis zum Qualitätsingenieur"), und die Unterzeile
-  nennt ihn „freier Kfz-Sachverständiger" — der Widerspruch ist damit
-  entschärft, aber nicht ganz weg.
+
+Der zweite Hinweis hat sich erledigt: Die Anriss-Überschrift lautete
+„Vom Premium-Hersteller zum unabhängigen Gutachter" — das „vom … zum" las
+sich wie ein abgeschlossener Wechsel, während die Tätigkeit beim
+Hersteller weiterläuft. Sie steht jetzt auf **Nurettins zweiter Fassung**
+aus derselben Mail („Ihr Unfall. Ihr Recht. Mein unabhängiges Gutachten
+schützt Ihr Geld"), damit ist der Widerspruch weg.
+
+### Runde vom 22.08.
+
+Bilal hat eine Liste durchgegeben; hier steht, was daraus geworden ist,
+damit die Entscheidungen nicht nur im Diff stehen:
+
+| Vorgabe | Umsetzung |
+|---|---|
+| „Anderer Hero Satz" | Nurettins zweite Fassung, siehe oben. Der Handy-Schirm der Sequenz zeigt denselben Satz — er *ist* die Seite, das gehört so. |
+| „Rhein Main Rhein Neckar gebiete" | Anriss, Leistungen, `description`, `og:description` und JSON-LD (`areaServed` plus Rhein-Main-Gebiet, Darmstadt, Frankfurt). |
+| „Erstkontakt innerhalb 24 Stunden" | Anriss-Punkt und beide Zahlenreihen („24h Erstkontakt" statt „Rückmeldung"). |
+| „Das erste Gespräch kostet nichts raus im Hero" | Punkt gestrichen. Die Zusage steht weiter im Kontakt („Kostenlose Erstanfrage") — sie stand so in Nurettins Mail. |
+| „unterstrichene Nummer weg bei Animation" | siehe unten. |
+| „keine Beweissicherung" | Karte „Fundierte Beweissicherung", der Chip im Handy-Schirm und die Zusage „Beweissicherung vor Ort" sind weg. |
+| „Sprachen raus" | Zeile bei „Über mich" **und** `knowsLanguage` in den strukturierten Daten. Falls nur die sichtbare Zeile gemeint war: die vier Sprachen sind ein Suchvorteil, das JSON-LD holt sie mit einer Zeile zurück. |
+| „Warum ich: 02 und 03 raus" | Bleiben 01 (neu formuliert: „Ich arbeite unabhängig von Versicherungen in Ihrem Auftrag.") und Direkter Draht, neu als 02. Das Raster ist `auto-fit`, zwei Karten werden dadurch von selbst breiter. |
+| „Freie Gutachterwahl. Für sie entstehen keine Kosten" | Als Schlusszeile der Sequenz gelesen — dort stand vorher „Freie Gutachterwahl. Bei unverschuldetem Unfall zahlt die Gegenseite." Dieselbe Formulierung jetzt auch im Handy-Schirm. |
+
+**Die Bildunterschriften auf der Referenzseite** hat er ebenfalls
+korrigiert — die stehen in `bau_referenzen.py` unter `FAELLE`, nicht in
+`referenzen.html`:
+
+- **Mercedes E-Klasse:** „Aufgenommen am Unfallort in der Engstelle"
+  stimmte nicht und ist gestrichen.
+- **BMW:** heißt jetzt „Detailaufnahme mit **Dellensegel**" — das ist der
+  Fachbegriff für das gespiegelte Streifenmuster, das im Bild zu sehen
+  ist. Steht auch im Fließtext.
+- **Audi A6:** „hellen" raus, und der Text sagt jetzt, worauf es ankommt:
+  Streifspuren und Dellen sind nur das von außen Sichtbare, das Auto wird
+  auch im zerlegten Zustand angesehen.
+
+**Die unterstrichene Rufnummer** kam nicht aus der Seite: iOS erkennt
+Ziffernfolgen selbst als Rufnummer und macht daraus einen Link. Im
+Handy-Schirm der Sequenz ist die Nummer aber nur Bild. Dagegen steht
+jetzt `<meta name="format-detection" content="telephone=no"/>` im Kopf —
+das schaltet ausschließlich die *automatische* Erkennung ab, die echten
+`tel:`-Verweise bleiben Verweise. Dazu eine CSS-Regel für den Fall, dass
+ein Browser das Meta ignoriert.
 
 **Die Referenzseite baut ihre Verweise jetzt selbst.** Vorher stand in
 `bau_referenzen.py` eine Liste von Hand, welche Sprungziele auf die

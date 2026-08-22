@@ -16,6 +16,7 @@
   <meta property="og:url" content="https://www.ing-nuri.de/referenzen.html"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 112'%3E%3Cdefs%3E%3ClinearGradient id='l' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%238fadd4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='56' cy='56' r='55' fill='%23002a73'/%3E%3Cpath d='M26 69 L20.8 65.1 L27 63.7 L21.8 60.1 L28.6 58.9 L25.6 55.3 L38 56.1 L46.5 55.7 L54 47.9 L71.5 47.9 L79.5 55.7 L93 56.9 L97.4 59.9 L98 69 Z' fill='url(%23l)'/%3E%3Ccircle cx='40' cy='68.5' r='7.6' fill='%230b2f66'/%3E%3Ccircle cx='40' cy='68.5' r='4' fill='%23cfe0f5'/%3E%3Ccircle cx='83' cy='68.5' r='7.6' fill='%230b2f66'/%3E%3Ccircle cx='83' cy='68.5' r='4' fill='%23cfe0f5'/%3E%3Cg stroke='%23ff8a1f' stroke-width='4.4' stroke-linecap='round'%3E%3Cpath d='M19 52 L7 41.5'/%3E%3Cpath d='M25 45.5 L20.5 35'/%3E%3Cpath d='M15 59 L3 57'/%3E%3C/g%3E%3C/svg%3E"/>
+  <meta name="format-detection" content="telephone=no"/>
   <title>Referenzen – Ingenieurbüro Kaltbrunn | Kfz-Gutachten Heppenheim</title>
   <style>
     /* Rubik, von Bilal vorgegeben. Variabler Schnitt 300–900, auf die
@@ -74,6 +75,15 @@
     }
     .hero-content h1 { letter-spacing: -0.032em; word-spacing: 0.05em; }
     h2.section-title { letter-spacing: -0.026em; }
+
+    /* Rufnummern, die als Text dastehen und nicht als Verweis: iOS erkennt
+       Ziffernfolgen selbst und macht daraus einen Link – im Handy-Schirm der
+       Sequenz war die Nummer dadurch unterstrichen, obwohl sie dort nur Bild
+       ist. Das Meta im Kopf schaltet diese Erkennung ab; diese Regel faengt
+       den Fall, dass ein Browser das Meta ignoriert. Die echten tel:-Verweise
+       sind davon nicht betroffen, die stehen als <a> in der Seite. */
+    .mini-nummer a, .recht-cta strong a, footer a[href^="tel"],
+    .mini-nummer, .recht-cta strong { text-decoration: none; color: inherit; }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body { font-family: var(--font-sans); color: var(--text); background: var(--white); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
@@ -1671,20 +1681,20 @@
       <figcaption>
         <div class="ref-kopfzeile"><strong>Mercedes-Benz E-Klasse</strong><span>Juli 2025</span></div>
         <div class="ref-schaden">Front rechts</div>
-        <p>Aufgenommen am Unfallort in der Engstelle. Der Maßstab hält die Höhe über der Fahrbahn fest, bevor das Fahrzeug bewegt wird – danach lässt sie sich nicht mehr sauber ermitteln.</p>
+        <p>Der Maßstab hält die Höhe über der Fahrbahn fest, bevor das Fahrzeug bewegt wird – danach lässt sie sich nicht mehr sauber ermitteln.</p>
       </figcaption>
     </figure>
     <figure class="ref-karte reveal delay-1">
-      <button class="ref-bild" type="button" data-gross="fotos/05-bmw-lack-detail.webp" data-text="BMW – Delle im Reflexionsstreifen">
-        <img src="fotos/05-bmw-lack-detail-klein.webp" alt="BMW, delle im reflexionsstreifen, aufgenommen Mai 2025" width="800" height="600" loading="lazy" decoding="async"/>
+      <button class="ref-bild" type="button" data-gross="fotos/05-bmw-lack-detail.webp" data-text="BMW – Detailaufnahme mit Dellensegel">
+        <img src="fotos/05-bmw-lack-detail-klein.webp" alt="BMW, detailaufnahme mit dellensegel, aufgenommen Mai 2025" width="800" height="600" loading="lazy" decoding="async"/>
         <span class="ref-lupe" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>
         </span>
       </button>
       <figcaption>
         <div class="ref-kopfzeile"><strong>BMW</strong><span>Mai 2025</span></div>
-        <div class="ref-schaden">Delle im Reflexionsstreifen</div>
-        <p>Eine flache Delle sieht man auf dunklem Lack mit bloßem Auge kaum. Im gespiegelten Streifenmuster verzieht sie sich zum Wirbel und ist damit belegt – dieselbe Technik, mit der in der Fertigung Oberflächen geprüft werden.</p>
+        <div class="ref-schaden">Detailaufnahme mit Dellensegel</div>
+        <p>Eine flache Delle sieht man auf dunklem Lack mit bloßem Auge kaum. Im Dellensegel – dem gespiegelten Streifenmuster – verzieht sie sich zum Wirbel und ist damit belegt. Dieselbe Technik prüft in der Fertigung Oberflächen.</p>
       </figcaption>
     </figure>
     <figure class="ref-karte reveal delay-2">
@@ -1710,7 +1720,7 @@
       <figcaption>
         <div class="ref-kopfzeile"><strong>Audi A6</strong><span>Juni 2024</span></div>
         <div class="ref-schaden">Heckschaden mit starker Deformation</div>
-        <p>Die hellen Streifspuren auf Stoßfänger und Seitenwand sind nur das, was von außen zu sehen ist. Helle Lackierungen zeigen Fremdlackantrag besonders deutlich – ein Hinweis auf das verursachende Fahrzeug.</p>
+        <p>Die Streifspuren und Dellen im Heckbereich sind nur das, was von außen zu sehen ist. Wir sehen uns das Auto auch im zerlegten Zustand an – erst dort zeigt sich der ganze Schaden.</p>
       </figcaption>
     </figure>
   </div>

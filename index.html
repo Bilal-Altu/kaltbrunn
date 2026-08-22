@@ -16,6 +16,7 @@
   <meta property="og:url" content="https://www.ing-nuri.de/"/>
   <meta name="twitter:card" content="summary_large_image"/>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 112'%3E%3Cdefs%3E%3ClinearGradient id='l' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='1' stop-color='%238fadd4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='56' cy='56' r='55' fill='%23002a73'/%3E%3Cpath d='M26 69 L20.8 65.1 L27 63.7 L21.8 60.1 L28.6 58.9 L25.6 55.3 L38 56.1 L46.5 55.7 L54 47.9 L71.5 47.9 L79.5 55.7 L93 56.9 L97.4 59.9 L98 69 Z' fill='url(%23l)'/%3E%3Ccircle cx='40' cy='68.5' r='7.6' fill='%230b2f66'/%3E%3Ccircle cx='40' cy='68.5' r='4' fill='%23cfe0f5'/%3E%3Ccircle cx='83' cy='68.5' r='7.6' fill='%230b2f66'/%3E%3Ccircle cx='83' cy='68.5' r='4' fill='%23cfe0f5'/%3E%3Cg stroke='%23ff8a1f' stroke-width='4.4' stroke-linecap='round'%3E%3Cpath d='M19 52 L7 41.5'/%3E%3Cpath d='M25 45.5 L20.5 35'/%3E%3Cpath d='M15 59 L3 57'/%3E%3C/g%3E%3C/svg%3E"/>
+  <meta name="format-detection" content="telephone=no"/>
   <title>Ingenieurbüro Kaltbrunn – Kfz-Gutachten mit Sachverstand | Heppenheim</title>
   <style>
     /* Rubik, von Bilal vorgegeben. Variabler Schnitt 300–900, auf die
@@ -74,6 +75,15 @@
     }
     .hero-content h1 { letter-spacing: -0.032em; word-spacing: 0.05em; }
     h2.section-title { letter-spacing: -0.026em; }
+
+    /* Rufnummern, die als Text dastehen und nicht als Verweis: iOS erkennt
+       Ziffernfolgen selbst und macht daraus einen Link – im Handy-Schirm der
+       Sequenz war die Nummer dadurch unterstrichen, obwohl sie dort nur Bild
+       ist. Das Meta im Kopf schaltet diese Erkennung ab; diese Regel faengt
+       den Fall, dass ein Browser das Meta ignoriert. Die echten tel:-Verweise
+       sind davon nicht betroffen, die stehen als <a> in der Seite. */
+    .mini-nummer a, .recht-cta strong a, footer a[href^="tel"],
+    .mini-nummer, .recht-cta strong { text-decoration: none; color: inherit; }
 
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body { font-family: var(--font-sans); color: var(--text); background: var(--white); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
@@ -1476,8 +1486,8 @@
   <div class="hero-grid"></div>
   <div class="hero-inner">
   <div class="hero-content">
-    <h1>Vom Premium-Hersteller<br>zum unabhängigen Gutachter:<br><span>Präzision für Ihr Recht.</span></h1>
-    <p>Ihr freier Kfz-Sachverständiger im Kreis Bergstraße und der Rhein-Neckar-Region. Absolut weisungsfrei, fachlich kompromisslos und direkt für Sie erreichbar.</p>
+    <h1>Ihr Unfall. Ihr Recht.<br><span>Mein unabhängiges Gutachten<br>schützt Ihr Geld.</span></h1>
+    <p>Ihr freier Kfz-Sachverständiger im Kreis Bergstraße sowie im Rhein-Main- und Rhein-Neckar-Gebiet. Absolut weisungsfrei, fachlich kompromisslos und direkt für Sie erreichbar.</p>
     <div class="hero-cta">
       <a href="tel:+4917637998836" class="btn-primary">Jetzt anrufen: +49 176 37998836</a>
       <a href="#kontakt" class="btn-outline">Online-Anfrage senden</a>
@@ -1499,7 +1509,7 @@
       <div class="hero-stat-divider"></div>
       <div class="hero-stat">
         <div class="hero-stat-num">24h</div>
-        <div class="hero-stat-label">Rückmeldung</div>
+        <div class="hero-stat-label">Erstkontakt</div>
       </div>
     </div>
   </div>
@@ -1518,8 +1528,7 @@
     <a class="hero-panel-tel" href="tel:+4917637998836"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>+49 176 37998836</a>
     <a class="hero-panel-wa" href="https://wa.me/4917637998836" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 3.2C8.94 3.2 3.2 8.94 3.2 16c0 2.26.59 4.46 1.71 6.4L3.2 28.8l6.58-1.67A12.74 12.74 0 0016 28.73c7.06 0 12.79-5.74 12.79-12.8S23.06 3.2 16 3.2zm0 23.36a10.6 10.6 0 01-5.41-1.48l-.39-.23-3.9.99 1.04-3.8-.25-.4A10.57 10.57 0 015.46 16c0-5.87 4.78-10.64 10.66-10.64A10.6 10.6 0 0126.75 16c0 5.87-4.78 10.56-10.75 10.56zm5.84-7.97c-.32-.16-1.89-.93-2.19-1.04-.29-.11-.5-.16-.72.16-.21.32-.82 1.03-1 1.24-.19.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.89-1.78-2.21-.18-.32-.02-.5.14-.66.15-.14.32-.37.48-.56.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.72-1.73-.98-2.37-.26-.62-.52-.54-.72-.55h-.61c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.65 0 1.56 1.14 3.07 1.3 3.28.16.21 2.24 3.42 5.43 4.79.76.33 1.35.52 1.81.67.76.24 1.45.21 2 .13.61-.09 1.89-.77 2.16-1.52.27-.75.27-1.38.19-1.52-.08-.13-.29-.21-.61-.37z"/></svg>Per WhatsApp schreiben</a>
     <ul class="hero-panel-punkte">
-      <li>Meist bin ich in 24 Stunden bei Ihnen</li>
-      <li>Das erste Gespräch kostet nichts</li>
+      <li>Erstkontakt innerhalb 24 Stunden</li>
       <li>Unverschuldet? Dann zahlt die Gegenseite</li>
     </ul>
   </aside>
@@ -1602,12 +1611,12 @@
                 <div class="mini-nummer">+49 176 37998836</div>
                 <div class="mini-karten">
                   <i>Schaden&shy;gutachten</i><i>Wert&shy;gutachten</i>
-                  <i>Nutz&shy;fahrzeuge</i><i>Beweis&shy;sicherung</i>
+                  <i>Technische&nbsp;Analysen</i><i>Gegen&shy;gutachten</i>
                 </div>
                 <ul class="mini-zusagen">
                   <li>Unabhängig und neutral</li>
-                  <li>Beweissicherung vor Ort</li>
-                  <li>Bei unverschuldetem Unfall zahlt die Gegenseite</li>
+                  <li>Erstkontakt innerhalb 24 Stunden</li>
+                  <li>Für Sie entstehen keine Kosten</li>
                 </ul>
                 <div class="mini-knoepfe">
                   <a class="mini-knopf" href="tel:+4917637998836" tabindex="-1">Jetzt anrufen: +49 176 37998836</a>
@@ -1628,7 +1637,7 @@
 
       <div class="unfall-schluss">
         <strong>Ingenieurbüro Kaltbrunn</strong>
-        <span>Freie Gutachterwahl. Bei unverschuldetem Unfall zahlt die Gegenseite.</span>
+        <span>Freie Gutachterwahl. Für Sie entstehen keine Kosten.</span>
         <div class="unfall-knoepfe">
           <a class="btn-primary" href="tel:+4917637998836">Jetzt anrufen: +49 176 37998836</a>
           <a class="btn-outline" href="#kontakt">Online-Anfrage senden</a>
@@ -1658,12 +1667,11 @@
       <ul class="ueber-fakten">
         <li><b>Ausbildung</b>Nutzfahrzeug-Mechatroniker, danach B.&nbsp;Eng. Maschinenbau</li>
         <li><b>Qualifikationen</b>VDA&nbsp;6.3 Prozessauditor · DGQ-Qualitätsmanager · Elektrofachkraft für HV-Komponenten</li>
-        <li><b>Sprachen</b>Deutsch, Türkisch, Kurdisch, Englisch</li>
       </ul>
       <div class="ueber-stats">
         <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Jahre Branchen­erfahrung</div></div>
         <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Unabhängige Gutachten</div></div>
-        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Rückmeldung</div></div>
+        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Erstkontakt</div></div>
       </div>
     </div>
   </div>
@@ -1675,10 +1683,8 @@
   <h2 class="section-title reveal delay-1">Warum mein Gutachten den Unterschied macht</h2>
   <p class="section-intro reveal delay-2">Weil ein Gutachten nur so gut ist wie die Erfahrung dahinter – und so viel wert wie seine Unabhängigkeit.</p>
   <div class="warum-grid">
-    <div class="warum-item reveal delay-1"><div class="warum-num">01</div><h3>Echte Unabhängigkeit</h3><p>Ich arbeite ausschließlich für Sie als Fahrzeughalter, für Anwälte oder Gerichte – niemals im Auftrag von Versicherungen.</p></div>
-    <div class="warum-item reveal delay-2"><div class="warum-num">02</div><h3>Premium-Qualitätsstandard</h3><p>Durch meine Tätigkeit als Qualitätsingenieur und Auditor kenne ich die strengsten Standards der Automobilindustrie.</p></div>
-    <div class="warum-item reveal delay-3"><div class="warum-num">03</div><h3>Fundierte Beweissicherung</h3><p>Ich ermittle Schadensursachen lückenlos, leite Bewertungen logisch her und dokumentiere alles absolut rechtssicher.</p></div>
-    <div class="warum-item reveal delay-4"><div class="warum-num">04</div><h3>Direkter Draht</h3><p>Bei mir gibt es kein Callcenter. Wenn Sie anrufen, sprechen Sie direkt mit mir – Ihrem Experten.</p></div>
+    <div class="warum-item reveal delay-1"><div class="warum-num">01</div><h3>Echte Unabhängigkeit</h3><p>Ich arbeite unabhängig von Versicherungen in Ihrem Auftrag.</p></div>
+    <div class="warum-item reveal delay-2"><div class="warum-num">02</div><h3>Direkter Draht</h3><p>Bei mir gibt es kein Callcenter. Wenn Sie anrufen, sprechen Sie direkt mit mir – Ihrem Experten.</p></div>
   </div>
 </section>
 
@@ -1720,7 +1726,7 @@
 <section id="leistungen">
   <div class="reveal"><div class="section-label">Meine Leistungen</div></div>
   <h2 class="section-title reveal delay-1">Meine Leistungen in Ihrer Region</h2>
-  <p class="section-intro reveal delay-2">Von meinem Standort in Heppenheim aus bin ich schnell bei Ihnen im gesamten Kreis Bergstraße sowie in der Rhein-Neckar-Region (u.&nbsp;a. Bensheim, Weinheim, Mannheim und Heidelberg).</p>
+  <p class="section-intro reveal delay-2">Von meinem Standort in Heppenheim aus bin ich schnell bei Ihnen im gesamten Kreis Bergstraße sowie im Rhein-Main- und Rhein-Neckar-Gebiet (u.&nbsp;a. Bensheim, Weinheim, Darmstadt, Frankfurt, Mannheim und Heidelberg).</p>
     <div class="leistungen-grid">
     <div class="leistung-card featured reveal delay-1">
       <span class="leistung-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 15.5h17M5 15.5V19h2.2M19 15.5V19h-2.2"/><path d="M5.4 15.5l1.9-5.1a3 3 0 0 1 2.8-2h3.8a3 3 0 0 1 2.8 2l1.9 5.1"/><circle cx="8.2" cy="18.6" r="1.5"/><circle cx="15.8" cy="18.6" r="1.5"/></svg></span>
@@ -2680,13 +2686,19 @@ c-1 40 24 110 36 99 2 -3 -1 -16 -8 -29z m-128 -19 c-5 -13 -10 -19 -10 -12
         {
           "@type": "AdministrativeArea",
           "name": "Rhein-Neckar-Region"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Rhein-Main-Gebiet"
+        },
+        {
+          "@type": "City",
+          "name": "Darmstadt"
+        },
+        {
+          "@type": "City",
+          "name": "Frankfurt am Main"
         }
-      ],
-      "knowsLanguage": [
-        "de",
-        "tr",
-        "ku",
-        "en"
       ],
       "founder": {
         "@type": "Person",
@@ -2749,12 +2761,6 @@ c-1 40 24 110 36 99 2 -3 -1 -16 -8 -29z m-128 -19 c-5 -13 -10 -19 -10 -12
           "@type": "EducationalOccupationalCredential",
           "name": "Elektrofachkraft für HV-Komponenten"
         }
-      ],
-      "knowsLanguage": [
-        "de",
-        "tr",
-        "ku",
-        "en"
       ],
       "worksFor": {
         "@id": "https://www.ing-nuri.de/#business"

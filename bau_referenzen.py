@@ -48,14 +48,14 @@ FAELLE = [
      'belegen.'),
     ('04-mercedes-e-front-links.webp', 'Mercedes-Benz E-Klasse',
      'Front rechts', 'Juli 2025',
-     'Aufgenommen am Unfallort in der Engstelle. Der Maßstab hält die Höhe über '
-     'der Fahrbahn fest, bevor das Fahrzeug bewegt wird – danach lässt sie sich '
-     'nicht mehr sauber ermitteln.'),
+     'Der Maßstab hält die Höhe über der Fahrbahn fest, bevor das Fahrzeug '
+     'bewegt wird – danach lässt sie sich nicht mehr sauber ermitteln.'),
     ('05-bmw-lack-detail.webp', 'BMW',
-     'Delle im Reflexionsstreifen', 'Mai 2025',
+     'Detailaufnahme mit Dellensegel', 'Mai 2025',
      'Eine flache Delle sieht man auf dunklem Lack mit bloßem Auge kaum. Im '
-     'gespiegelten Streifenmuster verzieht sie sich zum Wirbel und ist damit '
-     'belegt – dieselbe Technik, mit der in der Fertigung Oberflächen geprüft werden.'),
+     'Dellensegel – dem gespiegelten Streifenmuster – verzieht sie sich zum '
+     'Wirbel und ist damit belegt. Dieselbe Technik prüft in der Fertigung '
+     'Oberflächen.'),
     ('06-audi-a5-front.webp', 'Audi A5',
      'Front, Aufnahme mit Maßstab', 'Juli 2024',
      'Dokumentation der Fahrzeugfront mit Maßstab. Auch ohne sichtbare '
@@ -63,9 +63,9 @@ FAELLE = [
      'Zeitpunkt der Besichtigung.'),
     ('07-audi-a6-heck-rechts.webp', 'Audi A6',
      'Heckschaden mit starker Deformation', 'Juni 2024',
-     'Die hellen Streifspuren auf Stoßfänger und Seitenwand sind nur das, was von '
-     'außen zu sehen ist. Helle Lackierungen zeigen Fremdlackantrag besonders '
-     'deutlich – ein Hinweis auf das verursachende Fahrzeug.'),
+     'Die Streifspuren und Dellen im Heckbereich sind nur das, was von außen zu '
+     'sehen ist. Wir sehen uns das Auto auch im zerlegten Zustand an – erst '
+     'dort zeigt sich der ganze Schaden.'),
 ]
 
 
