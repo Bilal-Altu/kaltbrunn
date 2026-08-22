@@ -217,7 +217,18 @@
         radial-gradient(95% 65% at 50% 118%, rgba(0,12,40,0.5), rgba(0,12,40,0) 68%),
         radial-gradient(70% 90% at -10% 50%, rgba(0,12,40,0.32), rgba(0,12,40,0) 60%),
         linear-gradient(135deg, rgba(0,42,115,0.84) 0%, rgba(0,61,165,0.78) 55%, rgba(0,74,199,0.80) 100%),
-        url("fotos/anriss-hintergrund-klein.webp") center / cover no-repeat,
+        /* Am Handy laeuft das Foto nach unten in den Grundton aus. Es liegt
+           oben und ist 97,5 vw hoch – das ist genau die Hoehe, die der
+           Ausschnitt (800x780) bei voller Breite einnimmt. Der Verlauf
+           endet auf demselben --blue-dark, das darunter liegt, deshalb
+           sieht man keine Kante. */
+        linear-gradient(to bottom, rgba(0,42,115,0) 46%, var(--blue-dark) 100%)
+          top center / 100% 97.5vw no-repeat,
+        /* Eigener, fast quadratischer Ausschnitt fuers Handy. Der breite
+           Streifen wurde hier mit "cover" 6,7-fach hochskaliert – das war
+           der Grund, warum das Bild am Handy billig aussah. So sind es
+           1,5-fach. */
+        url("fotos/anriss-hintergrund-handy.webp") top center / 100% auto no-repeat,
         var(--blue-dark);
       /* Genau eine Bildschirmhoehe, abzueglich der 68 px Navigationsleiste,
          die #hero als margin-top traegt: Anriss und Sequenz enden bzw.
@@ -244,13 +255,22 @@
     @media (min-width: 701px) {
       #hero {
         padding-bottom: 96px;
+        /* Ab hier ist der Anriss breiter als hoch, das Foto fuellt ihn
+           wieder ganz. Der Auslauf-Verlauf faellt weg (none), bleibt aber
+           als Ebene stehen: Groessen und Positionen werden Ebene fuer
+           Ebene zugeordnet, eine fehlende Ebene wuerde alle folgenden
+           verschieben. */
         background-image:
           radial-gradient(75% 60% at 64% 32%, rgba(255,255,255,0.13), rgba(255,255,255,0) 62%),
           radial-gradient(58% 52% at 8% 98%, rgba(255,186,140,0.16), rgba(255,186,140,0) 68%),
           radial-gradient(95% 65% at 50% 118%, rgba(0,12,40,0.5), rgba(0,12,40,0) 68%),
           radial-gradient(70% 90% at -10% 50%, rgba(0,12,40,0.32), rgba(0,12,40,0) 60%),
           linear-gradient(135deg, rgba(0,42,115,0.84) 0%, rgba(0,61,165,0.78) 55%, rgba(0,74,199,0.80) 100%),
+          none,
           url("fotos/anriss-hintergrund.webp");
+        background-size: auto, auto, auto, auto, auto, auto, cover;
+        background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, center;
+        background-repeat: no-repeat;
       }
       .hero-weiter {
         display: flex; align-items: center; gap: 9px;

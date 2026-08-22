@@ -7,34 +7,48 @@ Fahrzeugdetails". Genommen ist die Reflexionspruefung auf dunklem Lack
 (05): das Streifenmuster liest sich als technische Struktur und nicht als
 Schadenfoto, und es ist dunkel genug, dass der Text darueber traegt.
 
-Beschnitten wird auf die obere Haelfte. Darunter liegen der eingebrannte
-Zeitstempel, das Herstelleremblem und eine im Lack gespiegelte Person –
-alles drei hat auf einem Hintergrundbild nichts verloren.
+Beschnitten wird so, dass drei Dinge draussen bleiben: der eingebrannte
+Zeitstempel (ab x 1113, y 1000), das Herstelleremblem (ab x 1547, y 867)
+und eine im Lack gespiegelte Person (x 560..1227, y 840..1160).
 
-Zwei Groessen, damit das Handy nicht die grosse Datei zieht.
+ENTRAUSCHEN STATT WEICHZEICHNEN. Die erste Fassung hat das Bild mit einem
+Gauss von 1,4 weichgezeichnet, um es klein zu bekommen – und genau das sah
+dann billig aus: die Streifen wurden zu Matsch. Teuer an dem Foto ist
+nicht die Struktur, sondern der Lackflitter und das Sensorrauschen; beide
+sind hochfrequent, unkomprimierbar und unter dem blauen Schleier ohnehin
+unsichtbar. Ein Medianfilter nimmt genau die weg und laesst die Kanten
+stehen. Ohne jede Filterung waeren es 226 KB, mit Gauss 43 KB und matschig,
+mit Median 51 KB und scharf.
+
+ZWEI AUSSCHNITTE, NICHT ZWEI GROESSEN. Der Anriss ist am Handy hoch und
+schmal, das Bild ein breiter Streifen: mit "cover" wurde das kleine Bild
+dort 6,7-fach hochskaliert. Deshalb gibt es fuer das Handy einen eigenen,
+fast quadratischen Ausschnitt, der oben im Anriss liegt und nach unten in
+den Verlauf auslaeuft – der wird nur noch 1,5-fach hochskaliert.
 """
-import io
 import os
 
 from PIL import Image, ImageFilter
 
 HIER = os.path.dirname(os.path.abspath(__file__))
 QUELLE = os.path.join(HIER, '05-bmw-lack-detail.webp')
-UNTEN = 760          # darunter: Zeitstempel, Emblem, Spiegelung
+
+# (Datei, Ausschnitt, Median-Kette, WebP-Guete)
+# Der Handy-Ausschnitt bekommt den kleineren Median: er wird weniger
+# hochskaliert und darf deshalb mehr Feinzeichnung behalten.
+BAUPLAN = (
+    ('anriss-hintergrund.webp',       (0, 0, 1600, 760), (7, 3), 72),
+    ('anriss-hintergrund-handy.webp', (300, 0, 1100, 780), (5, 3), 72),
+)
 
 
 def bauen():
     im = Image.open(QUELLE).convert('RGB')
-    aus = im.crop((0, 0, im.width, UNTEN))
     ergebnis = []
-    for name, breite, guete, weich in (('anriss-hintergrund.webp', 1600, 52, 1.4),
-                                       ('anriss-hintergrund-klein.webp', 900, 50, 0.9)):
-        h = round(aus.height * breite / aus.width)
-        b = aus.resize((breite, h), Image.LANCZOS)
-        # Das Streifenmuster ist hochfrequent und treibt die Datei hoch.
-        # Unter dem blauen Schleier braucht es die Schaerfe nicht – ein
-        # leichter Weichzeichner drittelt die Groesse.
-        b = b.filter(ImageFilter.GaussianBlur(weich))
+    for name, kasten, median, guete in BAUPLAN:
+        b = im.crop(kasten)
+        for gr in median:
+            b = b.filter(ImageFilter.MedianFilter(gr))
         pfad = os.path.join(HIER, name)
         b.save(pfad, 'WEBP', quality=guete, method=6)
         ergebnis.append((name, b.size, os.path.getsize(pfad)))

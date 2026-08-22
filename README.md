@@ -452,13 +452,46 @@ sie stand nicht in der Mail. Die Einwilligung zur Datenverarbeitung steht
 weiter darunter — die ist keine Inhaltsfrage, sondern Pflicht.
 
 **Das Hintergrundbild** im Anriss ist die Reflexionsprüfung auf dunklem
-Lack (`fotos/anriss_hintergrund.py`), beschnitten auf die obere Hälfte:
-darunter liegen der eingebrannte Zeitstempel, das Herstelleremblem und
-eine im Lack gespiegelte Person. Ein leichter Weichzeichner vor dem
-Speichern drittelt die Datei, weil das Streifenmuster hochfrequent ist —
-**43 KB** statt 210 für die große, **19 KB** für die kleine Fassung, die
-das Handy zieht. Darüber liegt derselbe Verlauf wie zuvor, nur nicht mehr
-deckend (0,84/0,78/0,80).
+Lack (`fotos/anriss_hintergrund.py`), beschnitten so, dass drei Dinge
+draußen bleiben: der eingebrannte Zeitstempel, das Herstelleremblem und
+eine im Lack gespiegelte Person. Darüber liegt derselbe Verlauf wie zuvor,
+nur nicht mehr deckend (0,84/0,78/0,80).
+
+**Entrauschen statt weichzeichnen.** Die erste Fassung hat das Bild mit
+einem Gauß von 1,4 weichgezeichnet, um es klein zu bekommen — und genau
+das sah dann billig aus: die Streifen wurden zu Matsch. Teuer an dem Foto
+ist nicht die Struktur, sondern der Lackflitter und das Sensorrauschen.
+Beide sind hochfrequent, unkomprimierbar und unter dem blauen Schleier
+ohnehin unsichtbar. Ein Medianfilter nimmt genau die weg und lässt die
+Kanten stehen:
+
+| Behandlung | Größe | Aussehen |
+|---|---|---|
+| ohne alles | 226 KB | scharf |
+| Gauß 1,4 (erste Fassung) | 43 KB | matschig |
+| Median 7 + 3 | **51 KB** | scharf |
+
+**Zwei Ausschnitte, nicht zwei Größen.** Der Anriss ist am Handy hoch und
+schmal, das Bild ein breiter Streifen — mit `cover` wurde die kleine
+Fassung dort **6,7-fach** hochskaliert. Das war der eigentliche Grund,
+warum es am Handy billig aussah, nicht die Kompression. Jetzt gibt es
+einen eigenen, fast quadratischen Ausschnitt (800 × 780, 41 KB), der oben
+im Anriss liegt und nach unten in den Grundton ausläuft. Nachgemessen:
+
+| | vorher | jetzt |
+|---|---|---|
+| 1920 × 1080 @1x | 1,33× | 1,33× |
+| 1440 × 900 @2x | 2,19× | 2,19× |
+| 430 × 932 @3x | 6,49× | **1,61×** |
+| 390 × 844 @3x | 6,68× | **1,46×** |
+
+Der Auslauf ist ein Verlauf über dem Foto, der auf demselben
+`--blue-dark` endet, das darunter liegt — deshalb sieht man keine Kante.
+Seine Höhe steht als `97,5 vw` da: das ist genau die Höhe, die der
+Ausschnitt bei voller Breite einnimmt. Wer den Ausschnitt ändert, muss
+diese Zahl mitziehen. Am Schreibtisch fällt die Ebene weg (`none`) —
+stehen bleibt sie trotzdem, denn Größen und Positionen werden Ebene für
+Ebene zugeordnet, eine fehlende Ebene würde alle folgenden verschieben.
 
 Zwei Textrollen brauchten dadurch mehr Grund: die Blase in der Tafel
 bekam einen eigenen dunklen Hintergrund, der WhatsApp-Knopf dunkles statt
