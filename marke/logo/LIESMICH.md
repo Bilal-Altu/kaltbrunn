@@ -7,8 +7,14 @@ beim nächsten Lauf des Skripts wäre die Änderung weg.
 |---|---|
 | `logo-dunkel.svg` | ganzes Zeichen für dunklen Grund (wie in der Fußzeile) |
 | `logo-hell.svg` | ganzes Zeichen für hellen Grund |
+| `logo-ohne-wagen-dunkel.svg` | dasselbe ohne den Wagen, dunkler Grund |
+| `logo-ohne-wagen-hell.svg` | dasselbe ohne den Wagen, heller Grund |
 | `logo-zeile.svg` | nur K und Wagen, ohne Schriftzug — für kleine Anwendungen |
 | `logo-k.svg` | nur das Monogramm — trägt bis 18 px herunter, der Wagen nicht |
+
+**Das K ist in allen Fassungen gleich hoch** (89 Einheiten). Wer die Fassung
+mit und ohne Wagen nebeneinander legt, sieht dasselbe Zeichen im selben
+Maßstab — nur einmal mit und einmal ohne Wagen.
 
 **Der Schriftzug steht in Kurven**, nicht als Text. Wer die Datei öffnet,
 braucht die Schrift also nicht installiert zu haben und bekommt trotzdem

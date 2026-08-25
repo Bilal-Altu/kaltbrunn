@@ -151,30 +151,36 @@ def bauen():
     inhalt_breite = max(reihe_breite, wort_b, ort_gesamt, claim_b)
     ergebnis = []
 
-    for ton, f in TOENE.items():
+    def zeichen(f, mit_wagen):
+        """Setzt ein ganzes Zeichen zusammen. Ohne Wagen steht das K allein
+        ueber dem Schriftzug – es behaelt dabei genau dieselbe Hoehe wie in
+        der vollen Fassung, damit beide Dateien nebeneinander im selben
+        Massstab stehen."""
         k = farben(k_roh, {'k_balken': f['k_balken'], 'k_winkel': f['k_winkel']})
         wagen = farben(wagen_roh, {'w_lack': f['w_lack'], 'w_mittel': f['w_mittel'],
                                    'w_linie': f['w_linie']})
+        reihe_b = reihe_breite if mit_wagen else k_breite
+        reihe_h = reihe_hoehe if mit_wagen else K_HOEHE
+        breite_innen = max(reihe_b, wort_b, ort_gesamt, claim_b)
+
         y = RAND
         stuecke = []
-        # Reihe: K und Wagen, mittig zueinander
-        x0 = RAND + (inhalt_breite - reihe_breite) / 2
+        x0 = RAND + (breite_innen - reihe_b) / 2
         stuecke.append('<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
-                       % (x0, y + (reihe_hoehe - K_HOEHE) / 2, K_HOEHE / kvb[3], inneres(k)))
-        stuecke.append('<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
-                       % (x0 + k_breite + SPALT, y + (reihe_hoehe - WAGEN_HOEHE) / 2,
-                          WAGEN_HOEHE / wvb[3], inneres(wagen)))
-        y += reihe_hoehe + ZEILEN_ABSTAND
+                       % (x0, y + (reihe_h - K_HOEHE) / 2, K_HOEHE / kvb[3], inneres(k)))
+        if mit_wagen:
+            stuecke.append('<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
+                           % (x0 + k_breite + SPALT, y + (reihe_h - WAGEN_HOEHE) / 2,
+                              WAGEN_HOEHE / wvb[3], inneres(wagen)))
+        y += reihe_h + ZEILEN_ABSTAND
 
-        # INGENIEURBÜRO
-        y += WORT_GROESSE * 0.74            # Grundlinie
+        y += WORT_GROESSE * 0.74
         stuecke.append('<g fill="%s" transform="translate(%.3f,%.3f)">%s</g>'
-                       % (f['wort'], RAND + (inhalt_breite - wort_b) / 2, y, wort_d))
+                       % (f['wort'], RAND + (breite_innen - wort_b) / 2, y, wort_d))
         y += WORT_GROESSE * 0.26 + ZEILEN_ABSTAND
 
-        # KALTBRUNN zwischen zwei Strichen
         mitte = y + ORT_GROESSE * 0.5
-        xo = RAND + (inhalt_breite - ort_gesamt) / 2
+        xo = RAND + (breite_innen - ort_gesamt) / 2
         stuecke.append('<rect x="%.3f" y="%.3f" width="%.1f" height="2" fill="%s"/>'
                        % (xo, mitte - 1, ORT_STRICH, f['ort']))
         stuecke.append('<g fill="%s" transform="translate(%.3f,%.3f)">%s</g>'
@@ -183,22 +189,28 @@ def bauen():
                        % (xo + ORT_STRICH + ORT_LUECKE * 2 + ort_b, mitte - 1, ORT_STRICH, f['ort']))
         y += ORT_GROESSE + ZEILEN_ABSTAND * 0.7
 
-        # Claim
         y += CLAIM_GROESSE * 0.74
         stuecke.append('<g fill="%s" transform="translate(%.3f,%.3f)">%s</g>'
-                       % (f['claim'], RAND + (inhalt_breite - claim_b) / 2, y, claim_d))
+                       % (f['claim'], RAND + (breite_innen - claim_b) / 2, y, claim_d))
         y += CLAIM_GROESSE * 0.26
 
-        breite = inhalt_breite + RAND * 2
-        hoehe = y + RAND
-        kopf = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
+        b = breite_innen + RAND * 2
+        h = y + RAND
+        return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
                 'width="%.0f" height="%.0f" fill="none" role="img" '
-                'aria-label="Ingenieurbüro Kaltbrunn">' % (breite, hoehe, breite, hoehe))
-        svg = kopf + '<title>Ingenieurbüro Kaltbrunn</title>' + ''.join(stuecke) + '</svg>'
-        ergebnis.append(('logo-%s.svg' % ton, svg))
+                'aria-label="Ingenieurbüro Kaltbrunn">' % (b, h, b, h)
+                + '<title>Ingenieurbüro Kaltbrunn</title>' + ''.join(stuecke) + '</svg>'), k
+
+    for ton, f in TOENE.items():
+        voll, k = zeichen(f, True)
+        ohne, _ = zeichen(f, False)
+        ergebnis.append(('logo-%s.svg' % ton, voll))
+        ergebnis.append(('logo-ohne-wagen-%s.svg' % ton, ohne))
 
         if ton == 'dunkel':
             # Nur die Reihe, ohne Schriftzug – fuer kleine Anwendungen.
+            wagen = farben(wagen_roh, {'w_lack': f['w_lack'], 'w_mittel': f['w_mittel'],
+                                       'w_linie': f['w_linie']})
             b = reihe_breite + RAND
             h = reihe_hoehe + RAND
             zeile = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
