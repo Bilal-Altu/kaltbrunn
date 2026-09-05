@@ -40,6 +40,30 @@ es sich trotzdem.
 | ihre Seite, dunkel, blauer Winkel | `logo-web-dunkel-blau` | `logo-ohne-wagen-web-dunkel-blau` | `logo-zeile-web-dunkel-blau` | `logo-k-web-dunkel-blau` |
 | ihre Seite, hell | `logo-web-hell` | `logo-ohne-wagen-web-hell` | `logo-zeile-web-hell` | `logo-k-web-hell` |
 
+Dazu je Farbfassung eine waagerechte: `logo-quer-dunkel`, `logo-quer-hell`,
+`logo-quer-web-dunkel`, `logo-quer-web-dunkel-blau`, `logo-quer-web-hell`.
+
+### Die waagerechte Fassung
+
+`logo-quer-…` ist die Marke aus der **Kopfzeile ihrer Seite**: K links,
+daneben zweizeilig „Ingenieurbüro" über „Kaltbrunn", ohne Striche, ohne
+Claim, in gemischter Schreibung statt Versalien.
+
+An ihrer Kopfzeile abgemessen und mit 89/38 hochgerechnet, damit das K so
+hoch ist wie in allen anderen Dateien:
+
+| | bei ihnen | in der Datei |
+|---|---|---|
+| K | 41 × 38 px | 94,7 × 89 |
+| Abstand zum Schriftzug | 12 px | 28,1 |
+| „Ingenieurbüro" | 11 px, Gewicht 600, +0,035 em | 25,8 |
+| „Kaltbrunn" | 18 px, Gewicht 700, −0,025 em | 42,2 |
+| Zeilenabstand | 1,04 | 1,04 |
+
+Der einzige Unterschied zu ihrer Kopfzeile ist die Schrift: ihre Seite hat
+keine eingebettete Schrift und nimmt, was das Gerät hergibt. Die Datei
+steht in **Rubik**, der Schrift, die als Hausschrift gewählt wurde.
+
 **Das K ist in allen Fassungen gleich hoch** (89 Einheiten). Wer die Fassung
 mit und ohne Wagen nebeneinander legt, sieht dasselbe Zeichen im selben
 Maßstab.

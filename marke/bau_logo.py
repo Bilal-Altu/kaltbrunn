@@ -52,6 +52,19 @@ ORT_LUECKE = 14.0
 CLAIM_GROESSE = 13.12       # 0,82 rem
 RAND = 28.0
 
+# --- Waagerechte Fassung, an der Kopfzeile der gewaehlten Seite gemessen ---
+# Dort steht das K 41x38 px, dann 12 px Abstand, dann zweizeilig
+# "Ingenieurbüro" (11 px, Gewicht 600, +0,035 em) ueber "Kaltbrunn"
+# (18 px, Gewicht 700, -0,025 em), Zeilenabstand 1,04. Hier alles mit
+# 89/38 hochgerechnet, damit das K so hoch ist wie in den anderen Dateien.
+QUER = 89.0 / 38.0
+QUER_SPALT = 12.0 * QUER
+QUER_OBEN_GROESSE = 11.0 * QUER
+QUER_OBEN_SPERRUNG = 0.035
+QUER_UNTEN_GROESSE = 18.0 * QUER
+QUER_UNTEN_SPERRUNG = -0.025
+QUER_ZEILE = 1.04
+
 # Zwei Farbwelten:
 #
 # "dunkel"/"hell" gehoeren zu unserer Seite (Fusszeile auf Marineblau).
@@ -174,6 +187,8 @@ def bauen():
     familie, pfad = schrift_aus_seite()
     fett = schnitt(pfad, 800)
     normal = schnitt(pfad, 400)
+    halbfett = schnitt(pfad, 600)
+    kraeftig = schnitt(pfad, 700)
 
     k_roh, wagen_roh = teil('k.svg'), teil('wagen.svg')
     kvb, wvb = viewbox(k_roh), viewbox(wagen_roh)
@@ -240,7 +255,40 @@ def bauen():
                 'aria-label="Ingenieurbüro Kaltbrunn">' % (b, h, b, h)
                 + '<title>Ingenieurbüro Kaltbrunn</title>' + ''.join(stuecke) + '</svg>'), k
 
+    def quer(f):
+        """K links, Schriftzug zweizeilig rechts – wie in ihrer Kopfzeile."""
+        k = farben(k_roh, {'k_balken': f['k_balken'], 'k_winkel': f['k_winkel']})
+        oben_d, oben_b = text_zu_pfad(halbfett, 'Ingenieurbüro',
+                                      QUER_OBEN_GROESSE, QUER_OBEN_SPERRUNG)
+        unten_d, unten_b = text_zu_pfad(kraeftig, 'Kaltbrunn',
+                                        QUER_UNTEN_GROESSE, QUER_UNTEN_SPERRUNG)
+        block_h = (QUER_OBEN_GROESSE + QUER_UNTEN_GROESSE) * QUER_ZEILE
+        breite_innen = k_breite + QUER_SPALT + max(oben_b, unten_b)
+        hoehe_innen = max(K_HOEHE, block_h)
+        r = RAND * 0.6
+        stuecke = ['<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
+                   % (r, r + (hoehe_innen - K_HOEHE) / 2, K_HOEHE / kvb[3], inneres(k))]
+        x = r + k_breite + QUER_SPALT
+        y = r + (hoehe_innen - block_h) / 2
+        # Grundlinie in der Zeilenschachtel: wie im Browser aus Ober- und
+        # Unterlaenge der Schrift, nicht geschaetzt.
+        for text_d, groesse in ((oben_d, QUER_OBEN_GROESSE), (unten_d, QUER_UNTEN_GROESSE)):
+            kasten = groesse * QUER_ZEILE
+            auf = halbfett['hhea'].ascender / halbfett['head'].unitsPerEm * groesse
+            ab = -halbfett['hhea'].descender / halbfett['head'].unitsPerEm * groesse
+            grund = y + (kasten - (auf + ab)) / 2 + auf
+            stuecke.append('<g fill="%s" transform="translate(%.3f,%.3f)">%s</g>'
+                           % (f['wort'], x, grund, text_d))
+            y += kasten
+        b = breite_innen + r * 2
+        h = hoehe_innen + r * 2
+        return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
+                'width="%.0f" height="%.0f" fill="none" role="img" '
+                'aria-label="Ingenieurbüro Kaltbrunn">' % (b, h, b, h)
+                + '<title>Ingenieurbüro Kaltbrunn</title>' + ''.join(stuecke) + '</svg>')
+
     for ton, f in TOENE.items():
+        ergebnis.append(('logo-quer-%s.svg' % ton, quer(f)))
         voll, k = zeichen(f, True)
         ohne, _ = zeichen(f, False)
         ergebnis.append(('logo-%s.svg' % ton, voll))
