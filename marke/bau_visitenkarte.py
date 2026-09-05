@@ -34,6 +34,15 @@ DIE DATEI IST RGB. Chromium kann kein CMYK. Fuer den Druck muss die
 Druckerei nach FOGRA51 (PSO Coated v3) wandeln; die Hex-Werte stehen im
 LIESMICH als Referenz.
 
+ZWEI VARIANTEN, damit Nurettin waehlen kann. Der Unterschied ist genau
+einer – die Rueckseite:
+
+  Variante 1: das Zeichen ohne Wagen.
+  Variante 2: das Zeichen mit dem Wagen.
+
+Die Vorderseite ist in beiden gleich. So steht genau eine Frage zur
+Entscheidung und nicht zwei.
+
     python3 bau_visitenkarte.py
 """
 import io
@@ -83,7 +92,7 @@ def zeichen(name, hoehe_mm):
                        % hoehe_mm, 1)
 
 
-def karte():
+def karte(variante=1):
     familie, daten = schrift()
     css = """
       @page { size: %(sb).0fmm %(sh).0fmm; margin: 0; }
@@ -132,17 +141,23 @@ def karte():
     </div></div>""" % (zeichen('logo-quer-web-hell', 9.6), NAME, ROLLE, GRAD,
                        TELEFON, MAIL, WEB, ADRESSE)
 
+    # Variante 2 nimmt dasselbe Zeichen mit Wagen. Es ist breiter als hoch,
+    # steht deshalb kleiner; der Wagen bekommt so immer noch rund 13 mm
+    # eigene Hoehe und bleibt weit ueber der Grenze, ab der er zu Matsch
+    # wird (gemessen: 20 px).
+    marke_hinten = ('logo-ohne-wagen-web-dunkel', 32.0) if variante == 1 \
+        else ('logo-web-dunkel', 27.0)
     hinten = """
     <div class="karte hinten"><div class="satz">
       %s
-    </div></div>""" % zeichen('logo-ohne-wagen-web-dunkel', 32.0)
+    </div></div>""" % zeichen(*marke_hinten)
 
     return ('<!doctype html><html lang="de"><head><meta charset="utf-8">'
             '<title>Visitenkarte Ingenieurbüro Kaltbrunn</title>'
             '<style>%s</style></head><body>%s%s</body></html>' % (css, vorn, hinten))
 
 
-def drucken(html, ziel_name='Visitenkarte-Druck.pdf'):
+def drucken(html, ziel_name='Visitenkarte-Druck.pdf', format_mm=None):
     quelle = os.path.join(LOGO, '.karte.html')
     io.open(quelle, 'w', encoding='utf-8').write(html)
     ziel = os.path.join(LOGO, ziel_name)
@@ -158,7 +173,9 @@ const { chromium } = require('%s');
                margin:{top:'0',right:'0',bottom:'0',left:'0'}});
   await b.close();
 })();
-""" % (NODE_PW, CHROM, quelle, ziel, BREITE + 2 * ANSCHNITT, HOEHE + 2 * ANSCHNITT)
+""" % (NODE_PW, CHROM, quelle, ziel,
+       (format_mm or (BREITE + 2 * ANSCHNITT, HOEHE + 2 * ANSCHNITT))[0],
+       (format_mm or (BREITE + 2 * ANSCHNITT, HOEHE + 2 * ANSCHNITT))[1])
     lauf = os.path.join(LOGO, '.karte.js')
     io.open(lauf, 'w', encoding='utf-8').write(skript)
     subprocess.run(['node', lauf], check=True)
@@ -168,7 +185,8 @@ const { chromium } = require('%s');
 
 
 if __name__ == '__main__':
-    ziel = drucken(karte())
-    print('%s  %.1f KB  (%.0f x %.0f mm inkl. %.0f mm Anschnitt, 2 Seiten)'
-          % (os.path.basename(ziel), os.path.getsize(ziel) / 1024,
-             BREITE + 2 * ANSCHNITT, HOEHE + 2 * ANSCHNITT, ANSCHNITT))
+    for v in (1, 2):
+        ziel = drucken(karte(v), 'Visitenkarte-Variante-%d-Druck.pdf' % v)
+        print('%s  %.1f KB  (%.0f x %.0f mm inkl. %.0f mm Anschnitt, 2 Seiten)'
+              % (os.path.basename(ziel), os.path.getsize(ziel) / 1024,
+                 BREITE + 2 * ANSCHNITT, HOEHE + 2 * ANSCHNITT, ANSCHNITT))

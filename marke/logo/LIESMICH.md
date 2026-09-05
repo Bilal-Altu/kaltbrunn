@@ -113,7 +113,22 @@ Spalt beträgt 6 px bei 89 px K-Höhe.
 
 ## Visitenkarte
 
-`Visitenkarte-Druck.pdf` — zwei Seiten, 91 × 61 mm. Das ist 85 × 55 mm
+Es gibt sie in **zwei Varianten**, damit Nurettin wählen kann. Der
+Unterschied ist genau einer — die Rückseite:
+
+| Datei | Rückseite |
+|---|---|
+| `Visitenkarte-Variante-1-Druck.pdf` | Zeichen **ohne** Wagen |
+| `Visitenkarte-Variante-2-Druck.pdf` | Zeichen **mit** Wagen |
+| `Visitenkarte-Auswahl.pdf` | A4-Blatt mit beiden in Originalgröße, zum Vorlegen |
+
+Die Vorderseite ist in beiden gleich — so steht genau eine Frage zur
+Entscheidung und nicht zwei. Der Wagen steht in Variante 2 auf 27 statt
+32 mm Zeichenhöhe, weil das Zeichen mit Wagen breiter als hoch ist; der
+Wagen bekommt so immer noch rund 13 mm eigene Höhe und bleibt weit über
+den gemessenen 20 px, ab denen er zu Matsch wird.
+
+Beide Druckdateien haben zwei Seiten, 91 × 61 mm. Das ist 85 × 55 mm
 Endformat plus **3 mm Anschnitt** ringsum. Alles, was stehen bleiben muss,
 hält **4 mm** Abstand von der Schnittkante (deutsche Druckereien verlangen 3).
 Gebaut von `bau_visitenkarte.py`.
