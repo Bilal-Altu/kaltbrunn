@@ -52,13 +52,36 @@ ORT_LUECKE = 14.0
 CLAIM_GROESSE = 13.12       # 0,82 rem
 RAND = 28.0
 
+# Zwei Farbwelten:
+#
+# "dunkel"/"hell" gehoeren zu unserer Seite (Fusszeile auf Marineblau).
+#
+# "web-*" ist auf die Seite abgestimmt, fuer die sich Bilal entschieden hat
+# (ak-learn-code.github.io/Ingenieurbuero-Kaltbrunn). Deren Kopfzeile ist
+# fast schwarz (#171d29), und genau daran scheitern ihre eigenen
+# Markenblaus: #003da5 kommt dort auf Kontrast 1,78, #0050cc auf 2,43 –
+# der Balken des K ist auf dem Grund praktisch unsichtbar. Nachgemessen,
+# deshalb steht es hier. Der helle Winkel #4d8bf5 (5,09) ist derselbe
+# Blauton, nur aufgehellt.
 TOENE = {
-    'dunkel': dict(k_balken='#ffffff', k_winkel='#4d8bf5',
+    'dunkel': dict(grund='#0a2352',
+                   k_balken='#ffffff', k_winkel='#4d8bf5',
                    w_lack='#ffffff', w_mittel='#7ea8e8', w_linie='#0a2260',
                    wort='#ffffff', ort='#8fbaff', claim='#b9c9e4'),
-    'hell':   dict(k_balken='#002a73', k_winkel='#2563eb',
+    'hell':   dict(grund='#ffffff',
+                   k_balken='#002a73', k_winkel='#2563eb',
                    w_lack='#ffffff', w_mittel='#bcd3f0', w_linie='#12356e',
                    wort='#002a73', ort='#2563eb', claim='#4a5568'),
+    # Farben aus deren CSS: --color-brand #003da5, --color-brand-deep
+    # #002a73, --color-text #15171a, --color-text-muted #5d6470.
+    'web-dunkel': dict(grund='#171d29',
+                       k_balken='#ffffff', k_winkel='#4d8bf5',
+                       w_lack='#ffffff', w_mittel='#7ea8e8', w_linie='#002a73',
+                       wort='#ffffff', ort='#8fbaff', claim='#aab4c4'),
+    'web-hell':   dict(grund='#ffffff',
+                       k_balken='#002a73', k_winkel='#003da5',
+                       w_lack='#ffffff', w_mittel='#bcd3f0', w_linie='#002a73',
+                       wort='#002a73', ort='#003da5', claim='#5d6470'),
 }
 
 
@@ -207,34 +230,38 @@ def bauen():
         ergebnis.append(('logo-%s.svg' % ton, voll))
         ergebnis.append(('logo-ohne-wagen-%s.svg' % ton, ohne))
 
+        # Reihe (K + Wagen, ohne Schriftzug) und Monogramm allein – fuer
+        # jede Farbfassung, nicht nur fuer eine. Im Kopf der Seite steht
+        # genau das Monogramm, und dort entscheidet die Farbe alles.
+        wagen = farben(wagen_roh, {'w_lack': f['w_lack'], 'w_mittel': f['w_mittel'],
+                                   'w_linie': f['w_linie']})
+        b = reihe_breite + RAND
+        h = reihe_hoehe + RAND
+        zeile = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
+                 'width="%.0f" height="%.0f" fill="none" role="img" '
+                 'aria-label="Ingenieurbüro Kaltbrunn">' % (b, h, b, h)
+                 + '<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
+                   % (RAND / 2, RAND / 2 + (reihe_hoehe - K_HOEHE) / 2, K_HOEHE / kvb[3], inneres(k))
+                 + '<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
+                   % (RAND / 2 + k_breite + SPALT, RAND / 2 + (reihe_hoehe - WAGEN_HOEHE) / 2,
+                      WAGEN_HOEHE / wvb[3], inneres(wagen))
+                 + '</svg>')
+        # Das Monogramm bekommt feste Masse und etwas Luft. Ohne Rand sitzt
+        # es beim Platzieren randlos auf der Kante; k.svg selbst bleibt
+        # unveraendert, das prueft der CI-Waechter gegen index.html.
+        r = 10.0
+        k_datei = ('<svg xmlns="http://www.w3.org/2000/svg" '
+                   'viewBox="%.1f %.1f %.1f %.1f" width="%.0f" height="%.0f" '
+                   'fill="none" role="img" aria-label="Ingenieurbüro Kaltbrunn">'
+                   % (-r, -r, kvb[2] + 2 * r, kvb[3] + 2 * r,
+                      (kvb[2] + 2 * r) * 2, (kvb[3] + 2 * r) * 2)
+                   + '<title>Ingenieurbüro Kaltbrunn</title>' + inneres(k) + '</svg>')
         if ton == 'dunkel':
-            # Nur die Reihe, ohne Schriftzug – fuer kleine Anwendungen.
-            wagen = farben(wagen_roh, {'w_lack': f['w_lack'], 'w_mittel': f['w_mittel'],
-                                       'w_linie': f['w_linie']})
-            b = reihe_breite + RAND
-            h = reihe_hoehe + RAND
-            zeile = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
-                     'width="%.0f" height="%.0f" fill="none" role="img" '
-                     'aria-label="Ingenieurbüro Kaltbrunn">' % (b, h, b, h)
-                     + '<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
-                       % (RAND / 2, RAND / 2 + (reihe_hoehe - K_HOEHE) / 2, K_HOEHE / kvb[3], inneres(k))
-                     + '<g transform="translate(%.3f,%.3f) scale(%.6f)">%s</g>'
-                       % (RAND / 2 + k_breite + SPALT, RAND / 2 + (reihe_hoehe - WAGEN_HOEHE) / 2,
-                          WAGEN_HOEHE / wvb[3], inneres(wagen))
-                     + '</svg>')
             ergebnis.append(('logo-zeile.svg', zeile))
-            # Das Monogramm bekommt feste Masse und etwas Luft. Ohne Rand
-            # sitzt es beim Platzieren randlos auf der Kante; k.svg selbst
-            # bleibt unveraendert, die Datei prueft der CI-Waechter Zeichen
-            # fuer Zeichen gegen index.html.
-            r = 10.0
-            k_datei = ('<svg xmlns="http://www.w3.org/2000/svg" '
-                       'viewBox="%.1f %.1f %.1f %.1f" width="%.0f" height="%.0f" '
-                       'fill="none" role="img" aria-label="Ingenieurbüro Kaltbrunn">'
-                       % (-r, -r, kvb[2] + 2 * r, kvb[3] + 2 * r,
-                          (kvb[2] + 2 * r) * 2, (kvb[3] + 2 * r) * 2)
-                       + '<title>Ingenieurbüro Kaltbrunn</title>' + inneres(k) + '</svg>')
             ergebnis.append(('logo-k.svg', k_datei))
+        else:
+            ergebnis.append(('logo-zeile-%s.svg' % ton, zeile))
+            ergebnis.append(('logo-k-%s.svg' % ton, k_datei))
 
     os.makedirs(AUS, exist_ok=True)
     for name, svg in ergebnis:
