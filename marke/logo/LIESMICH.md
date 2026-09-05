@@ -110,3 +110,50 @@ Schriftzug in der Datei gar nicht vom Schriftzug auf der Seite abweichen kann.
 Größen und Abstände sind dieselben wie in der Fußzeile und stammen aus der
 Messung an Nurettins Vorlage: der Wagen ist 1,082-mal so hoch wie das K, der
 Spalt beträgt 6 px bei 89 px K-Höhe.
+
+## Visitenkarte
+
+`Visitenkarte-Druck.pdf` — zwei Seiten, 91 × 61 mm. Das ist 85 × 55 mm
+Endformat plus **3 mm Anschnitt** ringsum. Alles, was stehen bleiben muss,
+hält **4 mm** Abstand von der Schnittkante (deutsche Druckereien verlangen 3).
+Gebaut von `bau_visitenkarte.py`.
+
+**Die erste Fassung war durchgefallen** — sie hatte fünf Schriftgrößen, die
+Kontaktdaten standen auf 6,8 pt und die Daten liefen in zwei Spalten mit je
+eigener Kante. Was Setzer und Druckereien dazu sagen, ist eindeutig:
+höchstens drei Größen, Kontaktdaten nicht unter 8 pt, eine Ausrichtung
+durchhalten, Struktur statt Dekoration, 25–35 % der Karte leer lassen.
+
+Nachgemessen an der zweiten Fassung:
+
+| Regel | Karte |
+|---|---|
+| höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
+| Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
+| eine Ausrichtung | alle vier Blöcke auf **derselben linken Kante** |
+| Weißraum 25–35 % | **55 %** |
+| Sicherheitsabstand ≥ 3 mm | **4 mm** |
+| Anschnitt 2–3 mm | **3 mm** |
+
+Unterschieden wird über **Gewicht und Farbe**, nicht über immer neue Größen:
+Name 800 in `#002a73`, Rolle 600 in `#003da5`, Grad 400 in `#5d6470`,
+Telefon 600, restliche Daten 400.
+
+**Die Datei ist RGB, nicht CMYK.** Chromium kann kein CMYK. Die Druckerei muss
+nach **FOGRA51 (PSO Coated v3)** wandeln — bei gestrichenem Papier — oder
+FOGRA52 für ungestrichenes. Die Hex-Werte als Referenz:
+
+| | Hex |
+|---|---|
+| Marke | `#003DA5` |
+| Marke tief | `#002A73` |
+| Dunkelfläche | `#171D29` |
+| Text | `#15171A` |
+| Text gedämpft | `#5D6470` |
+
+Wenn die Farbe über mehrere Auflagen exakt gleich sein soll, lässt man sich
+von der Druckerei einen Pantone-Ton am Fächer heraussuchen statt in CMYK zu
+drucken. Das ist teurer und lohnt erst ab größeren Mengen.
+
+**Vor dem Druck prüfen:** Domain und E-Mail stehen auf `ing-nuri.de`. Die
+Domain wechselt noch. Ein falscher Aufdruck kostet die ganze Auflage.
