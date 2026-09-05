@@ -8,14 +8,27 @@ beim nächsten Lauf des Skripts wäre die Änderung weg.
 `logo-…` ohne Zusatz gehört zu **unserer Seite** (Fußzeile auf Marineblau).
 
 `logo-…-web-…` ist auf die Seite abgestimmt, für die sich Bilal entschieden
-hat (`ak-learn-code.github.io/Ingenieurbuero-Kaltbrunn`). Deren Farben, aus
-ihrem CSS gelesen: `--color-brand #003da5`, `--color-brand-deep #002a73`,
-`--color-text #15171a`, `--color-text-muted #5d6470`, dunkle Flächen `#171d29`.
+hat (`ak-learn-code.github.io/Ingenieurbuero-Kaltbrunn`).
 
-**Ein Ton stammt nicht aus ihrer Palette, und zwar mit Absicht:** der Winkel
-des K ist auf Dunkel `#4d8bf5`. Ihre eigenen Markenblaus tragen auf `#171d29`
-nicht — `#003da5` kommt dort auf Kontrast **1,78**, `#0050cc` auf **2,43**.
-`#4d8bf5` ist derselbe Blauton, nur aufgehellt, und kommt auf **5,09**.
+**Ihre Sprache ist knapp:** fast schwarz (`#171d29`), weiß, und **ein**
+gesättigtes Blau (`#003da5`). Ein helles Blau kommt bei ihnen nirgends vor.
+Die Farben sind nicht nur aus dem CSS gelesen, sondern an den gerenderten
+Pixeln nachgeprüft — auf ihren dunklen Flächen malen sie `#0038a0`, also
+ihr `--color-brand`.
+
+Daraus folgen zwei Regeln, die von unserer Seite abweichen:
+
+- **Auf Dunkel ist das Zeichen einfarbig weiß.** Sie setzen Blau dort nur
+  als Fläche (Knöpfe, Striche), nie als Text — Text ist immer weiß. Genau
+  so erscheint das Logo auf ihrer Seite ohnehin, siehe unten.
+- **Auf Hell ist INGENIEURBÜRO fast schwarz** (`#15171a`, ihr `--color-text`),
+  nicht blau. Blau trägt nur KALTBRUNN und der Winkel des K — wie bei ihnen
+  die Überschriften schwarz und die Akzente blau sind.
+
+Wer das Zeichen auf Dunkel doch zweifarbig will, nimmt die Fassung
+`…-web-dunkel-blau`. Der Winkel steht dort auf `#003da5`; das ist auf
+`#171d29` schwach (Kontrast 1,78), als Fläche neben dem weißen Balken liest
+es sich trotzdem.
 
 ## Die Dateien
 
@@ -24,6 +37,7 @@ nicht — `#003da5` kommt dort auf Kontrast **1,78**, `#0050cc` auf **2,43**.
 | unsere Seite, dunkel | `logo-dunkel` | `logo-ohne-wagen-dunkel` | `logo-zeile` | `logo-k` |
 | unsere Seite, hell | `logo-hell` | `logo-ohne-wagen-hell` | `logo-zeile-hell` | `logo-k-hell` |
 | ihre Seite, dunkel | `logo-web-dunkel` | `logo-ohne-wagen-web-dunkel` | `logo-zeile-web-dunkel` | `logo-k-web-dunkel` |
+| ihre Seite, dunkel, blauer Winkel | `logo-web-dunkel-blau` | `logo-ohne-wagen-web-dunkel-blau` | `logo-zeile-web-dunkel-blau` | `logo-k-web-dunkel-blau` |
 | ihre Seite, hell | `logo-web-hell` | `logo-ohne-wagen-web-hell` | `logo-zeile-web-hell` | `logo-k-web-hell` |
 
 **Das K ist in allen Fassungen gleich hoch** (89 Einheiten). Wer die Fassung

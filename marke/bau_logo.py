@@ -72,16 +72,32 @@ TOENE = {
                    k_balken='#002a73', k_winkel='#2563eb',
                    w_lack='#ffffff', w_mittel='#bcd3f0', w_linie='#12356e',
                    wort='#002a73', ort='#2563eb', claim='#4a5568'),
-    # Farben aus deren CSS: --color-brand #003da5, --color-brand-deep
-    # #002a73, --color-text #15171a, --color-text-muted #5d6470.
+    # Farben aus deren CSS und aus den gerenderten Pixeln ihrer Seite.
+    # Ihre Sprache ist knapp: fast schwarz (#171d29), weiss, und EIN
+    # gesaettigtes Blau (#003da5). Ein helles Blau kommt bei ihnen nirgends
+    # vor – deshalb ist unser #4d8bf5/#8fbaff hier falsch, auch wenn es
+    # kontrastreicher waere.
+    #
+    # Auf Dunkel setzen sie Blau nur als FLAECHE (Knoepfe, Striche), nie als
+    # Text; Text ist dort immer weiss. Das dunkle Logo ist deshalb einfarbig
+    # weiss – genau so, wie es auf ihrer Seite ohnehin erscheint, denn ihr
+    # CSS legt filter: brightness(0) invert() darauf.
     'web-dunkel': dict(grund='#171d29',
-                       k_balken='#ffffff', k_winkel='#4d8bf5',
-                       w_lack='#ffffff', w_mittel='#7ea8e8', w_linie='#002a73',
-                       wort='#ffffff', ort='#8fbaff', claim='#aab4c4'),
+                       k_balken='#ffffff', k_winkel='#ffffff',
+                       w_lack='#ffffff', w_mittel='#8f9aab', w_linie='#171d29',
+                       wort='#ffffff', ort='#ffffff', claim='#9ca2aa'),
+    # Dieselbe Flaeche, aber mit blauem Winkel – falls das Zeichen auch auf
+    # Dunkel zweifarbig bleiben soll. #003da5 ist dort schwach (Kontrast
+    # 1,78), als Flaeche neben dem weissen Balken liest es sich trotzdem.
+    'web-dunkel-blau': dict(grund='#171d29',
+                            k_balken='#ffffff', k_winkel='#003da5',
+                            w_lack='#ffffff', w_mittel='#8f9aab', w_linie='#171d29',
+                            wort='#ffffff', ort='#ffffff', claim='#9ca2aa'),
+    # Auf Hell: Ueberschriften fast schwarz wie bei ihnen, Blau als Akzent.
     'web-hell':   dict(grund='#ffffff',
                        k_balken='#002a73', k_winkel='#003da5',
-                       w_lack='#ffffff', w_mittel='#bcd3f0', w_linie='#002a73',
-                       wort='#002a73', ort='#003da5', claim='#5d6470'),
+                       w_lack='#ffffff', w_mittel='#c3cbd6', w_linie='#15171a',
+                       wort='#15171a', ort='#003da5', claim='#5d6470'),
 }
 
 
