@@ -88,6 +88,19 @@ Für alles andere — Briefbogen, Angebote, Gutachten-Deckblatt,
 E-Mail-Signatur, Fahrzeugbeschriftung, soziale Netze — greifen die Farben
 ganz normal.
 
+## Zum Weitergeben
+
+`Ingenieurbuero-Kaltbrunn-Zeichen.pdf` ist **eine** Datei, die man
+verschicken kann: eine A4-Seite mit allen Fassungen, den Farbwerten und
+den Hinweisen, wozu welche Fassung gehört. Gebaut von `bau_blatt.py`,
+das die Zeichen aus diesem Ordner nimmt — was auf dem Blatt steht, ist
+genau das, was in den Dateien steht.
+
+Das PDF enthält **keine Bilder**, alles ist Vektor und die Schrift ist
+eingebettet. Ein Werbetechniker kann die Zeichnung also direkt daraus
+entnehmen, ohne dass man ihm die SVG einzeln schicken muss. Nachgeprüft:
+eine Seite, `/Subtype /Image` kommt nicht vor, `/FontFile` schon.
+
 ## Wartung
 
 **Wenn sich die Schrift der Seite ändert**, muss `python3 bau_logo.py` noch
