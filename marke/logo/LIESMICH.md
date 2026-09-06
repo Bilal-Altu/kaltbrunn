@@ -170,5 +170,13 @@ Wenn die Farbe über mehrere Auflagen exakt gleich sein soll, lässt man sich
 von der Druckerei einen Pantone-Ton am Fächer heraussuchen statt in CMYK zu
 drucken. Das ist teurer und lohnt erst ab größeren Mengen.
 
-**Vor dem Druck prüfen:** Domain und E-Mail stehen auf `ing-nuri.de`. Die
-Domain wechselt noch. Ein falscher Aufdruck kostet die ganze Auflage.
+**Die Karte steht auf `ing-kaltbrunn.de`** — so hat Bilal es am 25.08.
+korrigiert. Der Web-Verweis zieht mit: eine Karte mit
+`info@ing-kaltbrunn.de` neben `www.ing-nuri.de` sieht nach Fehler aus,
+egal welche der beiden stimmt.
+
+**Die Webseite steht noch auf `ing-nuri.de`**, an 16 Stellen. Wenn sie
+mitziehen soll:
+
+    python3 setze_domain.py ing-kaltbrunn.de info@ing-kaltbrunn.de
+    python3 bau_referenzen.py

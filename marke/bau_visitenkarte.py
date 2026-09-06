@@ -67,11 +67,15 @@ TEXT, GRAU = '#15171a', '#5d6470'
 # Auflage, nicht eine Datei.
 NAME = 'Nurettin Sogukcesme'
 ROLLE = 'Freier Kfz-Sachverständiger'
-GRAD = 'Ingenieur B.&nbsp;Eng. Maschinenbau'
-ADRESSE = 'Mannheimer Straße 1, 64646 Heppenheim'
+GRAD = 'Maschinenbau (B.&nbsp;Eng.)'
+STRASSE = 'Mannheimer Straße 1'
+ORT_ZEILE = '64646 Heppenheim'
 TELEFON = '+49 176 37998836'
-MAIL = 'info@ing-nuri.de'
-WEB = 'www.ing-nuri.de'
+# Die Adresse steht jetzt auf ing-kaltbrunn.de. Der Web-Verweis zieht mit:
+# eine Karte mit info@ing-kaltbrunn.de neben www.ing-nuri.de sieht nach
+# Fehler aus, egal welche der beiden stimmt.
+MAIL = 'info@ing-kaltbrunn.de'
+WEB = 'www.ing-kaltbrunn.de'
 STRASSE = 'Mannheimer Straße 1'
 ORT = '64646 Heppenheim'
 CLAIM = 'Kfz-Gutachten mit Sachverstand'
@@ -113,11 +117,15 @@ def karte(variante=1):
       .name { font-size: 11pt; font-weight: 800; letter-spacing: -0.02em;
               color: %(tief)s; line-height: 1.05; }
       .rolle { font-size: 8pt; font-weight: 600; color: %(blau)s;
-               line-height: 1.35; margin-top: 1.4mm; }
+               line-height: 1.32; margin-top: 1.2mm; }
       .rolle span { font-weight: 400; color: %(grau)s; }
-      .daten { font-size: 8pt; line-height: 1.5; margin-top: 3.6mm; }
+      /* Zeilenabstand 1,42 statt 1,5: mit der zweiten Adresszeile lief der
+         Satz sonst unter den Sicherheitsabstand. Nachgemessen. */
+      .daten { font-size: 8pt; line-height: 1.40; margin-top: 3.0mm; }
       .daten b { font-weight: 600; color: %(text)s; }
       .daten span { color: %(grau)s; display: block; }
+      /* Die Anschrift ist eine eigene Gruppe, kein weiterer Datenpunkt. */
+      .daten .lueckchen { margin-top: 1.4mm; }
       /* Rueckseite */
       .hinten { background: %(dunkel)s; }
       .hinten .satz { align-items: center; justify-content: center; }
@@ -135,11 +143,12 @@ def karte(variante=1):
           <span><b>%s</b></span>
           <span>%s</span>
           <span>%s</span>
+          <span class="lueckchen">%s</span>
           <span>%s</span>
         </div>
       </div>
-    </div></div>""" % (zeichen('logo-quer-web-hell', 9.6), NAME, ROLLE, GRAD,
-                       TELEFON, MAIL, WEB, ADRESSE)
+    </div></div>""" % (zeichen('logo-quer-web-hell', 8.6), NAME, ROLLE, GRAD,
+                       TELEFON, MAIL, WEB, STRASSE, ORT_ZEILE)
 
     # Variante 2 nimmt dasselbe Zeichen mit Wagen. Es ist breiter als hoch,
     # steht deshalb kleiner; der Wagen bekommt so immer noch rund 13 mm
