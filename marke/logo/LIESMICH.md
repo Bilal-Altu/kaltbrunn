@@ -49,8 +49,9 @@ Dazu je Farbfassung eine waagerechte: `logo-quer-dunkel`, `logo-quer-hell`,
 denselben Teilen wie alles andere, es sind nur zwei weitere Anordnungen:
 
 - **`karte-front-…`** ist das ganze Zeichen mit Wagen, aber der Claim steht
-  auf **KALTBRUNN-Größe** (16,8) statt auf Fußzeilengröße (13,12) – und er
-  heißt dort „Gutachten mit Sachverstand" ohne „Kfz-".
+  auf **KALTBRUNN-Größe** (16,8) statt auf Fußzeilengröße (13,12). Der
+  Wortlaut ist derselbe wie im Logo und auf der Seite: „Kfz-Gutachten mit
+  Sachverstand".
 - **`karte-marke-…`** ist die waagerechte Fassung in Versalien: K, ein
   senkrechter Trennstrich, rechts daneben INGENIEURBÜRO über KALTBRUNN mit
   den beiden Strichen. Nicht zu verwechseln mit `logo-quer-…`, das ohne
@@ -167,9 +168,16 @@ Vorgabe vom 9. Oktober und den beiden Vorlagen, die er dazu geschickt hat.
 | `Visitenkarte-Nuri-Vorderseite.svg` | dieselbe Vorderseite einzeln |
 | `Visitenkarte-Nuri-Rueckseite.svg` | dieselbe Rückseite einzeln |
 
-**Vorderseite:** nur das Zeichen **mit** Wagen, darunter „Gutachten mit
-Sachverstand" – in derselben Schriftgröße wie KALTBRUNN, nicht kleiner wie
-im Seitenfuß. Sonst nichts.
+**Vorderseite:** nur das Zeichen **mit** Wagen, darunter „Kfz-Gutachten
+mit Sachverstand" – in derselben Schriftgröße wie KALTBRUNN, nicht kleiner
+wie im Seitenfuß. Sonst nichts.
+
+Der Claim stand hier zuerst ohne „Kfz-", weil Bilal ihn so geschrieben
+hatte; am 9. Oktober hat er das „Kfz-" nachgezogen. Damit heißt er auf der
+Karte, im Logo und auf der Seite gleich. Die Vorderseite wird deshalb
+**nicht mehr nach einer eingetippten Breite** mittig gerückt, sondern nach
+der, die das Zeichen wirklich hat – beim nächsten geänderten Wort wäre
+eine feste Zahl sonst wieder falsch.
 
 **Rückseite:** das Zeichen **ohne** Wagen, waagerecht (K, Trennstrich,
 INGENIEURBÜRO über KALTBRUNN), oben über die **ganze Breite** – von der
@@ -314,10 +322,6 @@ erkennt. In irgendeinem anderen Ton wäre sie nutzlos.
   Vorgabe ersetzt die Zeile „Inhaber" durch den Grad; eine zweite Rollenzeile
   stand nicht in der Liste. Wenn die Berufsbezeichnung drauf soll, kommt sie
   zwischen Name und Grad.
-- **Der Claim heißt auf der Karte „Gutachten mit Sachverstand"**, im Logo und
-  auf der Webseite dagegen „**Kfz**-Gutachten mit Sachverstand". So hat Bilal
-  es geschrieben. Entweder zieht die Karte das „Kfz-" nach oder Logo und Seite
-  lassen es weg – zwei Fassungen desselben Claims sollten es nicht bleiben.
 - **Die Domain wechselt noch.** Vor dem Druck bestätigen lassen; ein falscher
   Aufdruck kostet die ganze Auflage, nicht eine Datei.
 

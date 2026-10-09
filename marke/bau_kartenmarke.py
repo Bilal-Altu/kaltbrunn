@@ -24,7 +24,7 @@ import bau_logo as L
 HIER = os.path.dirname(os.path.abspath(__file__))
 AUS = os.path.join(HIER, 'logo')
 
-CLAIM = 'Gutachten mit Sachverstand'      # so hat Bilal ihn geschrieben
+CLAIM = 'Kfz-Gutachten mit Sachverstand'  # wie im Logo und auf der Seite
 
 # --- Die waagerechte Fassung, an Bilals Vorlage gemessen ----------------
 #

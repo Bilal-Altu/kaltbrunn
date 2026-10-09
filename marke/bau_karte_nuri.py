@@ -279,9 +279,14 @@ def qr_marke(rechts, unten, dunkel):
 # --- Die beiden Seiten --------------------------------------------------
 
 def vorderseite():
-    g, b, h = marke('karte-front-web-hell',
-                    (BLATT_B - 40.0 * 332 / 234) / 2.0, (BLATT_H - 40.0) / 2.0,
-                    hoehe_mm=40.0)
+    # Erst setzen, dann mittig ruecken: wie breit das Zeichen ist, haengt
+    # am laengsten Teil – und der Claim ist laenger geworden, seit das
+    # "Kfz-" wieder davorsteht. Eine fest eingetippte Breite waere beim
+    # naechsten Wort wieder falsch.
+    _, b, _ = marke('karte-front-web-hell', 0, 0, hoehe_mm=40.0)
+    g, b, h = marke('karte-front-web-hell', (BLATT_B - b) / 2.0,
+                    (BLATT_H - 40.0) / 2.0 + L.RAND * 40.0 / 234.0,
+                    hoehe_mm=40.0, am_bild=True)
     return kopf('Ingenieurbüro Kaltbrunn – Visitenkarte Vorderseite') + g + '</svg>'
 
 
