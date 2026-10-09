@@ -115,20 +115,23 @@ def kopf(titel):
                BLATT_B, BLATT_H))
 
 
-def marke(name, hoehe_mm, x, y, am_bild=False, rechts=False):
+def marke(name, x, y, hoehe_mm=None, breite_mm=None, am_bild=False):
     """Ein fertiges Zeichen aus marke/logo/ einsetzen.
 
-    am_bild=True richtet nicht die Datei aus, sondern das, was man sieht:
-    die Dateien tragen einen Rand, der sonst als schiefe Kante auffaellt.
-    rechts=True nimmt x als rechte statt als linke Kante.
+    Entweder hoehe_mm oder breite_mm angeben – gemeint ist jeweils das,
+    was man SIEHT, nicht die Datei: die Dateien tragen einen Rand, der
+    sonst als schiefe Kante auffaellt. am_bild=True setzt den Rand
+    entsprechend zurueck.
     """
     svg = io.open(os.path.join(AUS, name + '.svg'), encoding='utf-8').read()
     vb = L.viewbox(svg)
-    s = hoehe_mm / vb[3]
-    rand = (L.RAND * 0.7 if name.startswith('karte-marke') else L.RAND) * s
+    rand_vb = L.RAND * 0.7 if name.startswith('karte-marke') else L.RAND
+    if breite_mm is not None:
+        s = breite_mm / (vb[2] - 2 * rand_vb)
+    else:
+        s = hoehe_mm / vb[3]
+    rand = rand_vb * s
     sicht_b, sicht_h = vb[2] * s - 2 * rand, vb[3] * s - 2 * rand
-    if rechts:
-        x -= sicht_b
     if am_bild:
         x, y = x - rand, y - rand
     return ('<g transform="translate(%.4f,%.4f) scale(%.6f)">%s</g>'
@@ -225,8 +228,9 @@ def qr_marke(rechts, unten, dunkel):
 # --- Die beiden Seiten --------------------------------------------------
 
 def vorderseite():
-    g, b, h = marke('karte-front-web-hell', 40.0,
-                    (BLATT_B - 40.0 * 332 / 234) / 2.0, (BLATT_H - 40.0) / 2.0)
+    g, b, h = marke('karte-front-web-hell',
+                    (BLATT_B - 40.0 * 332 / 234) / 2.0, (BLATT_H - 40.0) / 2.0,
+                    hoehe_mm=40.0)
     return kopf('Ingenieurbüro Kaltbrunn – Visitenkarte Vorderseite') + g + '</svg>'
 
 
@@ -238,16 +242,16 @@ def rueckseite():
     vier = L.schnitt(pfad, 400)
 
     st = []
-    # Das Zeichen steht rechts oben, nicht links: so hat die Karte EINE
-    # rechte Flucht – Zeichen, QR-Code – und EINE linke – Name, Rolle,
-    # Daten. Zwei saubere Kanten statt einer Kante und einer Ecke.
-    g, mb, mh = marke('karte-marke-web-hell', 8.6, X1, Y0,
-                      am_bild=True, rechts=True)
+    # Das Zeichen zieht sich ueber die ganze Breite: von der linken Kante
+    # bis zur rechten, 77 mm. Es wird nicht verschoben, es wird gezogen –
+    # die waagerechte Fassung ist dafuer gebaut (8,1 : 1).
+    g, mb, mh = marke('karte-marke-web-hell', X0, Y0,
+                      breite_mm=X1 - X0, am_bild=True)
     st.append(g)
 
-    s, _ = zeile(acht, NAME, GROSS, SCHWARZ, X0, 21.8)
+    s, _ = zeile(acht, NAME, GROSS, SCHWARZ, X0, 24.0)
     st.append(s)
-    s, rollen_breite = zeile(fuenf, ROLLE, KLEIN, BLAU, X0, 26.6)
+    s, rollen_breite = zeile(fuenf, ROLLE, KLEIN, BLAU, X0, 28.8)
     st.append(s)
 
     grund = 34.6

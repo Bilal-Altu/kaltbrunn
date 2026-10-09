@@ -56,6 +56,36 @@ denselben Teilen wie alles andere, es sind nur zwei weitere Anordnungen:
   den beiden Strichen. Nicht zu verwechseln mit `logo-quer-…`, das ohne
   Trennstrich und in gemischter Schreibung aus ihrer Kopfzeile stammt.
 
+  **Die erste Fassung war zu gedrungen.** Der Schriftzug stand dort auf
+  den Größen der Fußzeile (23,2 / 16,8) und war damit halb so groß wie auf
+  Bilals Vorlage; das Zeichen kam auf 4,7 : 1, die Vorlage auf 8,4 : 1.
+  Neu gemessen an der Vorlage (K dort 138 px hoch), alles auf K = 89
+  gerechnet:
+
+  | | Vorlage | × K | bei K = 89 |
+  |---|---|---|---|
+  | K | 150 × 138 px | 1,087 | 96,7 breit |
+  | Luft K → Trennstrich | 67 px | 0,486 | 43,2 |
+  | Trennstrich | 4 × 165 px | 0,029 / 1,196 | 2,6 × 106,4 |
+  | Luft Trennstrich → Text | 69 px | 0,500 | 44,5 |
+  | Block breit | 1093 px | 7,920 | 704,9 |
+  | INGENIEURBÜRO, Versalhöhe | 59 px | 0,428 | 38,1 |
+  | Zeilenluft | 37 px | 0,268 | 23,9 |
+  | KALTBRUNN, Versalhöhe | 43 px | 0,312 | 27,7 |
+  | KALTBRUNN, nur das Wort | 632 px | 4,580 | 407,6 |
+  | Strich | 188 px lang, 5 stark | 1,362 | 121,3 × 3,2 |
+  | Luft Strich → Wort | 44 px | 0,319 | 28,4 |
+
+  Der Schriftzug wird daraus **über die Versalhöhe** aufgebaut, nicht über
+  eine Schriftgröße, und die Sperrung wird auf die gemessene Breite
+  gerechnet. Der Block ist so hoch wie das K – auf der Vorlage ist er es
+  auch. Das Größenverhältnis der beiden Wörter stimmte übrigens schon
+  vorher: 59 : 43 auf der Vorlage, 23,2 : 16,8 bei uns, beides 1,37.
+
+  Die Höhe der Datei kommt aus der **wirklichen Druckfarbe**, nicht aus
+  der Versalhöhe: die Punkte des Ü stehen darüber, und ohne das saß die
+  oberste Druckfarbe auf der Karte 0,27 mm über dem Sicherheitsrand.
+
 Beide gibt es in den drei `web-`Farbfassungen.
 
 ### Die waagerechte Fassung
@@ -142,14 +172,17 @@ Sachverstand" – in derselben Schriftgröße wie KALTBRUNN, nicht kleiner wie
 im Seitenfuß. Sonst nichts.
 
 **Rückseite:** das Zeichen **ohne** Wagen, waagerecht (K, Trennstrich,
-INGENIEURBÜRO über KALTBRUNN), **oben rechts**. Links darunter Name, die
-Zeile „Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)", Mobilnummer,
-E-Mail, Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts
-unten der QR-Code.
+INGENIEURBÜRO über KALTBRUNN), oben über die **ganze Breite** – von der
+linken Kante bis zur rechten, 77 mm. Darunter Name, die Zeile
+„Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)", Mobilnummer, E-Mail,
+Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts unten der
+QR-Code.
 
-Das Zeichen steht rechts, nicht links: so hat die Karte **eine** rechte
-Flucht – Zeichen oben, QR-Code unten – und **eine** linke für allen Text.
-Zwei saubere Kanten statt einer Kante und einer Ecke.
+Das Zeichen wird dafür nicht vergrößert und nicht verschoben, es ist
+**gezogen**: die waagerechte Fassung steht auf 8,1 : 1 und füllt die
+Breite bei 9,5 mm Höhe. Eine Fassung in den Fußzeilenmaßen (4,7 : 1)
+wäre bei 77 mm Breite 16,4 mm hoch gewesen – dann hätte der Satz
+darunter nicht mehr gepasst.
 
 ### Der QR-Code
 
@@ -223,8 +256,8 @@ waren es 88 von 120 — der Millimeter mehr war den Platz wert.
 | höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
 | Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
 | eine Ausrichtung | alles auf der linken Kante, nur der QR rechts – und der ist kein Text |
-| Weißraum 25–35 % | **77 %** vorn, **56 %** hinten |
-| Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,5 mm |
+| Weißraum 25–35 % | **77 %** vorn, **44 %** hinten |
+| Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,4 mm |
 | Anschnitt 2–3 mm | **3 mm** |
 | Schrift im Dokument | **keine** – alles Kurven, `/BaseFont` kommt im PDF nicht vor |
 | Bilder im Dokument | **keine** – `/Subtype /Image` kommt nicht vor |
