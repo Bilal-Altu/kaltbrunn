@@ -100,7 +100,7 @@ ETIKETT_GROESSE = 6 * PT
 # Grundlinie und auch nicht bis zur Versalhoehe: "Büro" hat ein Ü, und
 # dessen Punkte stehen darueber. Von der Grundlinie aus gerechnet klebten
 # sie am Haus. Derselbe Fehler wie im Logo-Band, denselben Weg behoben.
-ETIKETT_LUFT = 1.0                # freier Raum zwischen Zeichen und Wort
+ETIKETT_LUFT = 1.0                # Mindestluft zwischen Zeichen und Wort
 SYMBOL_STRICH = 2.0               # in den 24 Einheiten der Zeichen
 WA_PUNKT = 3.0                    # WhatsApp-Zeichen neben der Nummer
 WA_LUFT = 1.6                     # Abstand von der Nummer
@@ -363,11 +363,23 @@ def rueckseite():
             mitte = grund - KLEIN * 0.36
             st.append(symbol(zeichen, sx, mitte, BLAU))
             if zeichen == 'house':
+                # Auf dieselbe Grundlinie wie die zweite Adresszeile, also
+                # wie "64646 Heppenheim". Nicht nach Augenmass unter das
+                # Haus gesetzt: zwei Woerter nebeneinander stehen nur dann
+                # wirklich nebeneinander, wenn sie dieselbe Grundlinie
+                # haben. Der Abstand zum Haus faellt dabei ab – geprueft
+                # wird deshalb unten, dass er nicht unter einen Millimeter
+                # rutscht.
                 e, _ = zeile(fuenf, ETIKETT, ETIKETT_GROESSE, GRAU, 0,
-                             mitte + SYMBOL / 2.0 + ETIKETT_LUFT
-                             + oberkante(fuenf, ETIKETT, ETIKETT_GROESSE),
+                             grund + ZEILE,
                              rechts=X0 + (spalte + etikett_b) / 2.0)
                 st.append(e)
+                etikett_luft = (grund + ZEILE
+                                - oberkante(fuenf, ETIKETT, ETIKETT_GROESSE)
+                                - (mitte + SYMBOL / 2.0))
+                if etikett_luft < ETIKETT_LUFT:
+                    raise SystemExit('"%s" steht nur %.2f mm unter dem Haus'
+                                     % (ETIKETT, etikett_luft))
         s, b = zeile(f, text, KLEIN, farbe, tx, grund)
         st.append(s)
         breiteste = max(breiteste, tx - X0 + b)
@@ -390,7 +402,8 @@ def rueckseite():
 
     pruefung = dict(zeichen_unten=Y0 + mh, zeichen_links=X1 - mb,
                     rolle=rollen_breite, daten=breiteste,
-                    unterste=unterste, ruhe=QR_RAND * modul,
+                    unterste=unterste, etikett=etikett_luft,
+                    ruhe=QR_RAND * modul,
                     version=version, modul=modul)
     return (kopf('Ingenieurbüro Kaltbrunn – Visitenkarte Rückseite')
             + ''.join(st) + '</svg>'), pruefung
@@ -431,5 +444,7 @@ if __name__ == '__main__':
     print('  Datenblock breit       %.2f mm  (Platz bis QR: %.2f)'
           % (p['daten'], X1 - QR_DUNKEL - X0 - p['ruhe']))
     print('  unterste Grundlinie    %.2f mm  (Sicherheit: %.2f)' % (p['unterste'], Y1))
+    print('  Luft Haus -> "%s"     %.2f mm  (mindestens %.2f)'
+          % (ETIKETT, p['etikett'], ETIKETT_LUFT))
     print('  QR %.0f mm, Version %s, Modul %.3f mm, Ruhebereich %.2f mm'
           % (QR_DUNKEL, p['version'], p['modul'], p['ruhe']))

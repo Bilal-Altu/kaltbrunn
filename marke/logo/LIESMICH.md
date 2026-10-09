@@ -319,11 +319,17 @@ Wort unter dem Haus. Die Zeichenspalte ist so breit wie das breitere von
 Zeichen und Wort (4,90 mm), beide stehen darin mittig – sonst hinge das
 Wort links aus dem Sicherheitsrand.
 
-Der Abstand zum Haus wird bis zur **Oberkante der Druckfarbe** gerechnet,
-nicht bis zur Grundlinie und auch nicht bis zur Versalhöhe: „Büro" hat ein
-Ü, dessen Punkte stehen darüber. Von der Grundlinie aus gerechnet klebten
-sie am Haus. Jetzt 1,0 mm echter Zwischenraum, nachgemessen am Bild: 1,3 mm
-zwischen der untersten Linie des Hauses und der obersten des Wortes.
+„Büro" steht auf **derselben Grundlinie wie „64646 Heppenheim"**, nicht
+nach Augenmaß unter dem Haus: zwei Wörter nebeneinander stehen nur dann
+wirklich nebeneinander, wenn sie dieselbe Grundlinie haben.
+
+Was dabei übrig bleibt, ist der Abstand zum Haus – und der wird bis zur
+**Oberkante der Druckfarbe** gerechnet, nicht bis zur Grundlinie und auch
+nicht bis zur Versalhöhe: „Büro" hat ein Ü, dessen Punkte stehen darüber.
+Von der Grundlinie aus gerechnet klebten sie am Haus. Jetzt sind es
+1,52 mm; `bau_karte_nuri.py` bricht ab, wenn es unter 1,0 mm fällt — die
+Zahl hängt an den Zeilenabständen darüber und soll nicht unbemerkt
+wegrutschen.
 
 Die einzige dritte Farbe ist das WhatsApp-Grün `#25D366` im Code — und das
 ist keine Gestaltungsentscheidung, sondern die Marke, an der man WhatsApp
