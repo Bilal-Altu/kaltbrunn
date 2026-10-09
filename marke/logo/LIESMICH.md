@@ -187,9 +187,9 @@ Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts unten der
 QR-Code.
 
 Jede Angabe trägt ihr Zeichen: Handy, Brief, Globus, Haus – wie auf
-Nurettins alter Karte. Die zweite Adresszeile bekommt keins; sie gehört
-zur selben Angabe, und ein zweites Haus daneben würde eine zweite Adresse
-behaupten. Hinter der Mobilnummer steht zusätzlich das grüne
+Nurettins alter Karte, und unter dem Haus steht **„Büro"**. Die zweite
+Adresszeile bekommt kein Zeichen; sie gehört zur selben Angabe, und ein
+zweites Haus daneben würde eine zweite Adresse behaupten. Hinter der Mobilnummer steht zusätzlich das grüne
 WhatsApp-Zeichen: es sagt dem, der **liest**, dass diese Nummer auf
 WhatsApp erreichbar ist. Der Code unten rechts sagt dasselbe dem, der
 **scannt**.
@@ -299,11 +299,11 @@ waren es 112 von 120.
 
 | Regel | Karte |
 |---|---|
-| höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
+| höchstens 3 Schriftgrößen | **3** (11 pt Name, 8 pt Rest, 6 pt „Büro") |
 | Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
 | eine Ausrichtung | linke Kante für alles; die Zeichenspalte rückt den Satz ein, der QR steht rechts – und der ist kein Text |
 | Weißraum 25–35 % | **77 %** vorn, **43 %** hinten |
-| Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,4 mm |
+| Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,4 mm (Rückseite), 21,9–69,0 × 15,6–45,0 mm (Vorderseite) |
 | Anschnitt 2–3 mm | **3 mm** |
 | Schrift im Dokument | **keine** – alles Kurven, `/BaseFont` kommt im PDF nicht vor |
 | Bilder im Dokument | **keine** – `/Subtype /Image` kommt nicht vor |
@@ -311,6 +311,13 @@ waren es 112 von 120.
 Unterschieden wird über **Gewicht und Farbe**, nicht über immer neue Größen:
 Name 800 in `#15171a`, Rolle 500 in `#003da5`, Telefon 600 in `#15171a`,
 restliche Daten 400 in `#5d6470`.
+
+**„Büro" ist die einzige Ausnahme von den 8 pt** – es steht auf 6 pt. Das
+Wort ist aber keine Kontaktangabe, sondern die Beschriftung eines
+Zeichens: wer die Adresse lesen will, liest die Zeile daneben, nicht das
+Wort unter dem Haus. Die Zeichenspalte ist so breit wie das breitere von
+Zeichen und Wort (4,90 mm), beide stehen darin mittig – sonst hinge das
+Wort links aus dem Sicherheitsrand.
 
 Die einzige dritte Farbe ist das WhatsApp-Grün `#25D366` im Code — und das
 ist keine Gestaltungsentscheidung, sondern die Marke, an der man WhatsApp
@@ -363,7 +370,7 @@ Nachgemessen an der zweiten Fassung:
 
 | Regel | Karte |
 |---|---|
-| höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
+| höchstens 3 Schriftgrößen | **3** (11 pt Name, 8 pt Rest, 6 pt „Büro") |
 | Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
 | eine Ausrichtung | alle vier Blöcke auf **derselben linken Kante** |
 | Weißraum 25–35 % | **55 %** |

@@ -87,7 +87,16 @@ WHATSAPP = 'https://wa.me/message/CALFEXQOLNHND1?src=qr'
 # gefuellt; bei 3,8 mm Kantenlaenge landet die Strichstaerke bei 0,32 mm
 # und bleibt damit ueber dem, was im Offset noch sauber kommt.
 SYMBOL = 3.8                      # Kantenlaenge
-SYMBOL_SPALTE = 5.4               # Abstand Symbolkante -> Textkante
+SYMBOL_LUFT = 1.6                 # Abstand Zeichenspalte -> Textkante
+
+# Unter dem Haus steht "Büro" – wie auf Nurettins alter Karte. Es ist eine
+# Beschriftung des Zeichens, keine Kontaktangabe, und steht deshalb als
+# einziges unter 8 pt. Die Zeichenspalte ist so breit wie das breitere von
+# beiden, Zeichen und Wort stehen darin mittig; sonst haengt das Wort
+# links aus dem Sicherheitsrand.
+ETIKETT = 'Büro'
+ETIKETT_GROESSE = 6 * PT
+ETIKETT_LUFT = 2.0                # Abstand Unterkante Zeichen -> Grundlinie
 SYMBOL_STRICH = 2.0               # in den 24 Einheiten der Zeichen
 WA_PUNKT = 3.0                    # WhatsApp-Zeichen neben der Nummer
 WA_LUFT = 1.6                     # Abstand von der Nummer
@@ -314,7 +323,10 @@ def rueckseite():
     # zweite Adresszeile keins – sie gehoert zur selben Angabe, und ein
     # zweites Haus daneben wuerde eine zweite Adresse behaupten.
     grund = 34.6
-    tx = X0 + SYMBOL_SPALTE
+    _, etikett_b = L.text_zu_pfad(fuenf, ETIKETT, ETIKETT_GROESSE)
+    spalte = max(SYMBOL, etikett_b)
+    sx = X0 + (spalte - SYMBOL) / 2.0          # Zeichen mittig in der Spalte
+    tx = X0 + spalte + SYMBOL_LUFT
     daten = [('smartphone', TELEFON, sechs, SCHWARZ),
              ('mail', MAIL, vier, GRAU),
              ('globe', WEB, vier, GRAU),
@@ -327,10 +339,16 @@ def rueckseite():
         if zeichen:
             # Mitte der Versalhoehe, nicht Mitte der Zeile: sonst haengt
             # das Zeichen unter dem Text.
-            st.append(symbol(zeichen, X0, grund - KLEIN * 0.36, BLAU))
+            mitte = grund - KLEIN * 0.36
+            st.append(symbol(zeichen, sx, mitte, BLAU))
+            if zeichen == 'house':
+                e, _ = zeile(fuenf, ETIKETT, ETIKETT_GROESSE, GRAU, 0,
+                             mitte + SYMBOL / 2.0 + ETIKETT_LUFT,
+                             rechts=X0 + (spalte + etikett_b) / 2.0)
+                st.append(e)
         s, b = zeile(f, text, KLEIN, farbe, tx, grund)
         st.append(s)
-        breiteste = max(breiteste, SYMBOL_SPALTE + b)
+        breiteste = max(breiteste, tx - X0 + b)
         if i == 0:
             # Das gruene Zeichen hinter der Nummer sagt, dass diese Nummer
             # auf WhatsApp erreichbar ist – auf der alten Karte stand es
@@ -338,7 +356,7 @@ def rueckseite():
             # aber fuer den, der ihn scannt, nicht fuer den, der liest.
             st.append(wa_zeichen(tx + b + WA_LUFT + WA_PUNKT / 2.0,
                                  grund - KLEIN * 0.36, WA_PUNKT))
-            breiteste = max(breiteste, SYMBOL_SPALTE + b + WA_LUFT + WA_PUNKT)
+            breiteste = max(breiteste, tx - X0 + b + WA_LUFT + WA_PUNKT)
         grund += ZEILE
     unterste = grund - ZEILE
 
