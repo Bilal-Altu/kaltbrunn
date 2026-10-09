@@ -319,6 +319,12 @@ Wort unter dem Haus. Die Zeichenspalte ist so breit wie das breitere von
 Zeichen und Wort (4,90 mm), beide stehen darin mittig – sonst hinge das
 Wort links aus dem Sicherheitsrand.
 
+Der Abstand zum Haus wird bis zur **Oberkante der Druckfarbe** gerechnet,
+nicht bis zur Grundlinie und auch nicht bis zur Versalhöhe: „Büro" hat ein
+Ü, dessen Punkte stehen darüber. Von der Grundlinie aus gerechnet klebten
+sie am Haus. Jetzt 1,0 mm echter Zwischenraum, nachgemessen am Bild: 1,3 mm
+zwischen der untersten Linie des Hauses und der obersten des Wortes.
+
 Die einzige dritte Farbe ist das WhatsApp-Grün `#25D366` im Code — und das
 ist keine Gestaltungsentscheidung, sondern die Marke, an der man WhatsApp
 erkennt. In irgendeinem anderen Ton wäre sie nutzlos.

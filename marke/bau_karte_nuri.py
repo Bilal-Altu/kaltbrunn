@@ -96,7 +96,11 @@ SYMBOL_LUFT = 1.6                 # Abstand Zeichenspalte -> Textkante
 # links aus dem Sicherheitsrand.
 ETIKETT = 'Büro'
 ETIKETT_GROESSE = 6 * PT
-ETIKETT_LUFT = 2.0                # Abstand Unterkante Zeichen -> Grundlinie
+# Gemessen wird bis zur OBERKANTE der Druckfarbe, nicht bis zur
+# Grundlinie und auch nicht bis zur Versalhoehe: "Büro" hat ein Ü, und
+# dessen Punkte stehen darueber. Von der Grundlinie aus gerechnet klebten
+# sie am Haus. Derselbe Fehler wie im Logo-Band, denselben Weg behoben.
+ETIKETT_LUFT = 1.0                # freier Raum zwischen Zeichen und Wort
 SYMBOL_STRICH = 2.0               # in den 24 Einheiten der Zeichen
 WA_PUNKT = 3.0                    # WhatsApp-Zeichen neben der Nummer
 WA_LUFT = 1.6                     # Abstand von der Nummer
@@ -178,6 +182,23 @@ def inhalt(svg):
     svg = re.sub(r'<!--.*?-->', '', svg, flags=re.S).strip()
     svg = re.sub(r'^<svg\b[^>]*>', '', svg, flags=re.S)
     return re.sub(r'</svg>\s*$', '', svg).strip()
+
+
+def oberkante(f, text, groesse):
+    """Wie weit ein Text ueber seiner Grundlinie Druckfarbe hat."""
+    from fontTools.pens.boundsPen import BoundsPen
+    upem = f['head'].unitsPerEm
+    gs, cmap = f.getGlyphSet(), f.getBestCmap()
+    hoch = 0.0
+    for z in set(text):
+        name = cmap.get(ord(z))
+        if name is None:
+            continue
+        stift = BoundsPen(gs)
+        gs[name].draw(stift)
+        if stift.bounds:
+            hoch = max(hoch, stift.bounds[3])
+    return hoch / upem * groesse
 
 
 def symbol(name, x, mitte_y, farbe, kante=None):
@@ -343,7 +364,8 @@ def rueckseite():
             st.append(symbol(zeichen, sx, mitte, BLAU))
             if zeichen == 'house':
                 e, _ = zeile(fuenf, ETIKETT, ETIKETT_GROESSE, GRAU, 0,
-                             mitte + SYMBOL / 2.0 + ETIKETT_LUFT,
+                             mitte + SYMBOL / 2.0 + ETIKETT_LUFT
+                             + oberkante(fuenf, ETIKETT, ETIKETT_GROESSE),
                              rechts=X0 + (spalte + etikett_b) / 2.0)
                 st.append(e)
         s, b = zeile(f, text, KLEIN, farbe, tx, grund)
