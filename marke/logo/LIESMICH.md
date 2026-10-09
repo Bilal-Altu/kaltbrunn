@@ -43,6 +43,21 @@ es sich trotzdem.
 Dazu je Farbfassung eine waagerechte: `logo-quer-dunkel`, `logo-quer-hell`,
 `logo-quer-web-dunkel`, `logo-quer-web-dunkel-blau`, `logo-quer-web-hell`.
 
+### Zwei Fassungen nur für die Visitenkarte
+
+`karte-front-…` und `karte-marke-…` entstehen in `bau_kartenmarke.py` aus
+denselben Teilen wie alles andere, es sind nur zwei weitere Anordnungen:
+
+- **`karte-front-…`** ist das ganze Zeichen mit Wagen, aber der Claim steht
+  auf **KALTBRUNN-Größe** (16,8) statt auf Fußzeilengröße (13,12) – und er
+  heißt dort „Gutachten mit Sachverstand" ohne „Kfz-".
+- **`karte-marke-…`** ist die waagerechte Fassung in Versalien: K, ein
+  senkrechter Trennstrich, rechts daneben INGENIEURBÜRO über KALTBRUNN mit
+  den beiden Strichen. Nicht zu verwechseln mit `logo-quer-…`, das ohne
+  Trennstrich und in gemischter Schreibung aus ihrer Kopfzeile stammt.
+
+Beide gibt es in den drei `web-`Farbfassungen.
+
 ### Die waagerechte Fassung
 
 `logo-quer-…` ist die Marke aus der **Kopfzeile ihrer Seite**: K links,
@@ -112,6 +127,87 @@ Messung an Nurettins Vorlage: der Wagen ist 1,082-mal so hoch wie das K, der
 Spalt beträgt 6 px bei 89 px K-Höhe.
 
 ## Visitenkarte
+
+**Das ist die aktuelle Karte.** Gebaut von `bau_karte_nuri.py` nach Bilals
+Vorgabe vom 9. Oktober und den beiden Vorlagen, die er dazu geschickt hat.
+
+| Datei | was drin ist |
+|---|---|
+| `Visitenkarte-Nuri-Druck.pdf` | **für die Druckerei** – 2 Seiten, 91 × 61 mm, Vektor |
+| `Visitenkarte-Nuri-Vorderseite.svg` | dieselbe Vorderseite einzeln |
+| `Visitenkarte-Nuri-Rueckseite.svg` | dieselbe Rückseite einzeln |
+
+**Vorderseite:** nur das Zeichen **mit** Wagen, darunter „Gutachten mit
+Sachverstand" – in derselben Schriftgröße wie KALTBRUNN, nicht kleiner wie
+im Seitenfuß. Sonst nichts.
+
+**Rückseite:** das Zeichen **ohne** Wagen, waagerecht (K, Trennstrich,
+INGENIEURBÜRO über KALTBRUNN), darunter Name, die Zeile
+„Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)", Mobilnummer, E-Mail,
+Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts unten der
+QR-Code.
+
+### Der QR-Code
+
+Er führt auf `https://wa.me/4917637998836`, öffnet also direkt den
+WhatsApp-Chat mit Nurettin. Gebaut mit segno, Fehlerkorrektur M, Version 3
+(29 × 29 Module).
+
+Er steht **als Pfad in der Datei**, nicht als Bild – auch der Code ist
+Vektor und wird beim Vergrößern nicht kantig.
+
+| | |
+|---|---|
+| bedruckte Fläche | 15 × 15 mm |
+| ein Modul | 0,517 mm (empfohlen sind ≥ 0,4 mm im Offset) |
+| Ruhebereich | 2,07 mm = 4 Module, **außerhalb** der 15 mm |
+
+Der Ruhebereich wird absichtlich nicht mitgerechnet: sonst stünde der
+sichtbare Code zwei Millimeter weiter innen als „WhatsApp" darüber, und die
+rechte Kante der Karte hätte zwei Fluchten statt einer. Weiß ist ringsum
+genug da.
+
+**Nachgeprüft, nicht angenommen:** der Code wurde aus der gerenderten Seite
+und aus dem fertigen PDF wieder ausgelesen (OpenCV), bei 300 und bei 150 dpi
+— beide Male kommt `https://wa.me/4917637998836` zurück.
+
+### Nachgemessen
+
+| Regel | Karte |
+|---|---|
+| höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
+| Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
+| eine Ausrichtung | alles auf der linken Kante, nur der QR rechts – und der ist kein Text |
+| Weißraum 25–35 % | **77 %** vorn, **56 %** hinten |
+| Sicherheitsabstand ≥ 3 mm | **4 mm**; tiefste Druckfarbe bei 52,4 mm von 58 |
+| Anschnitt 2–3 mm | **3 mm** |
+| Schrift im Dokument | **keine** – alles Kurven, `/BaseFont` kommt im PDF nicht vor |
+| Bilder im Dokument | **keine** – `/Subtype /Image` kommt nicht vor |
+
+Unterschieden wird über **Gewicht und Farbe**, nicht über immer neue Größen:
+Name 800 in `#15171a`, Rolle 500 in `#003da5`, Telefon 600 in `#15171a`,
+restliche Daten 400 in `#5d6470`.
+
+### Was offen ist
+
+- **„Freier Kfz-Sachverständiger" steht nicht mehr auf der Karte.** Bilals
+  Vorgabe ersetzt die Zeile „Inhaber" durch den Grad; eine zweite Rollenzeile
+  stand nicht in der Liste. Wenn die Berufsbezeichnung drauf soll, kommt sie
+  zwischen Name und Grad.
+- **Der Claim heißt auf der Karte „Gutachten mit Sachverstand"**, im Logo und
+  auf der Webseite dagegen „**Kfz**-Gutachten mit Sachverstand". So hat Bilal
+  es geschrieben. Entweder zieht die Karte das „Kfz-" nach oder Logo und Seite
+  lassen es weg – zwei Fassungen desselben Claims sollten es nicht bleiben.
+- **Die Domain wechselt noch.** Vor dem Druck bestätigen lassen; ein falscher
+  Aufdruck kostet die ganze Auflage, nicht eine Datei.
+
+Die Datei ist **RGB**, nicht CMYK – siehe die Farbtabelle weiter unten.
+
+## Visitenkarte, erste Fassung (überholt)
+
+Steht nur noch da, falls jemand den alten Satz vergleichen will.
+**Nicht in den Druck geben** – es gilt die Karte oben.
+
 
 Es gibt sie in **zwei Varianten**, damit Nurettin wählen kann. Der
 Unterschied ist genau einer — die Rückseite:
