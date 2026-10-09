@@ -73,15 +73,32 @@ MAIL = 'info@ing-kaltbrunn.de'
 WEB = 'ing-kaltbrunn.de'
 STRASSE = 'Mannheimer Straße 1'
 ORT = '64646 Heppenheim'
-WHATSAPP = 'https://wa.me/4917637998836'
+# Der Link kommt NICHT von uns. Er steht so in dem QR-Code, den die
+# WhatsApp-Business-App fuer das Unternehmenskonto ausgibt – Bilal hat den
+# Code geschickt, hier ausgelesen. Ein selbst gebautes wa.me/<Nummer>
+# haette zwar auch funktioniert, aber am Unternehmenskonto vorbei: die
+# App zaehlt ueber diesen Link, woher ein Chat kommt. Das ?src=qr ist
+# WhatsApps eigener Zusatz und bleibt deshalb stehen.
+WHATSAPP = 'https://wa.me/message/CALFEXQOLNHND1?src=qr'
 
-QR_DUNKEL = 18.0                  # Kantenlaenge der bedruckten Flaeche
+# --- Symbole neben den Zeilen ------------------------------------------
+# Handy, Brief, Globus, Haus – wie auf Nurettins alter Karte. Die Zeichen
+# liegen in marke/symbole/ (Lucide, ISC). Sie sind gestrichen, nicht
+# gefuellt; bei 3,8 mm Kantenlaenge landet die Strichstaerke bei 0,32 mm
+# und bleibt damit ueber dem, was im Offset noch sauber kommt.
+SYMBOL = 3.8                      # Kantenlaenge
+SYMBOL_SPALTE = 5.4               # Abstand Symbolkante -> Textkante
+SYMBOL_STRICH = 2.0               # in den 24 Einheiten der Zeichen
+WA_PUNKT = 3.0                    # WhatsApp-Zeichen neben der Nummer
+WA_LUFT = 1.6                     # Abstand von der Nummer
+
+QR_DUNKEL = 19.0                  # Kantenlaenge der bedruckten Flaeche
 QR_RAND = 4                       # Module Ruhebereich, Norm sind vier.
 # Der Ruhebereich wird NICHT mitgerechnet, sondern liegt ausserhalb. Sonst
 # steht der sichtbare Code zwei Millimeter weiter innen als alles andere
 # und die rechte Kante der Karte hat zwei Fluchten statt einer. Weiss ist
 # ringsum genug da: rechts und unten folgen Sicherheitsrand und Anschnitt.
-QR_LOCH = 9                       # Module, die in der Mitte frei bleiben
+QR_LOCH = 11                      # Module, die in der Mitte frei bleiben
 QR_RUND = 0.26                    # Eckenradius je Modul, Anteil der Kante
 # Die Augen vertragen fast keine Rundung. Bei rx = 1,9 Modulen frisst der
 # Bogen die Eckmodule weg und setzt sie diagonal nach innen – nachgemessen
@@ -90,9 +107,12 @@ QR_RUND = 0.26                    # Eckenradius je Modul, Anteil der Kante
 # Pruefdurchlaeufen noch gelesen wurde – 0,55 und mehr fielen durch.
 QR_AUGE_RUND = 0.30               # Eckenradius der Augen, in Modulen
 
-# Fehlerkorrektur H statt M: mit dem Zeichen in der Mitte fehlen 81 von
-# 1089 Modulen (7,4 %). H vertraegt 30 %, M nur 15 % – und 15 % waeren die
+# Fehlerkorrektur H statt M: mit dem Zeichen in der Mitte fehlen 121 von
+# 1369 Modulen (8,8 %). H vertraegt 30 %, M nur 15 % – und 15 % waeren die
 # Reserve fuer Knicke und Fingerabdruecke, nicht fuer unser Zeichen.
+# Nachgemessen kostet das Loch fast nichts: ohne Zeichen 96 von 120
+# harten Durchlaeufen, mit 9 Modulen 92, mit 11 noch 91. Deshalb die
+# groessere Oeffnung – das Zeichen soll man erkennen, nicht suchen.
 QR_KORREKTUR = 'h'
 
 GRUEN = '#25d366'                 # WhatsApp-Gruen, nur fuer das Zeichen
@@ -136,6 +156,37 @@ def marke(name, x, y, hoehe_mm=None, breite_mm=None, am_bild=False):
         x, y = x - rand, y - rand
     return ('<g transform="translate(%.4f,%.4f) scale(%.6f)">%s</g>'
             % (x, y, s, L.inneres(svg)), sicht_b, sicht_h)
+
+
+def inhalt(svg):
+    """Inneres einer SVG-Datei – auch wenn ein Kommentar davorsteht.
+
+    L.inneres() ankert auf den Dateianfang. Die Lucide-Dateien beginnen
+    aber mit ihrem Lizenzkommentar, der oeffnende <svg>-Tag blieb deshalb
+    stehen: ein verschachteltes <svg> ohne Ende, das beim Setzen die halbe
+    Karte verschluckt hat. Hier wird erst der Kommentar entfernt.
+    """
+    svg = re.sub(r'<!--.*?-->', '', svg, flags=re.S).strip()
+    svg = re.sub(r'^<svg\b[^>]*>', '', svg, flags=re.S)
+    return re.sub(r'</svg>\s*$', '', svg).strip()
+
+
+def symbol(name, x, mitte_y, farbe, kante=None):
+    """Ein Zeichen aus marke/symbole/ setzen, senkrecht auf mitte_y.
+
+    Die Dateien sind gestrichen und erben ihre Farbe (`currentColor`).
+    Der Inhalt wird deshalb in eine Gruppe gehaengt, die Farbe und
+    Strichstaerke vorgibt – an den Dateien selbst wird nichts geaendert.
+    """
+    roh = io.open(os.path.join(HIER, 'symbole', 'lucide-%s.svg' % name),
+                  encoding='utf-8').read()
+    vb = L.viewbox(roh)
+    k = kante or SYMBOL
+    s = k / vb[3]
+    return ('<g fill="none" stroke="%s" stroke-width="%.2f" '
+            'stroke-linecap="round" stroke-linejoin="round" '
+            'transform="translate(%.4f,%.4f) scale(%.6f)">%s</g>'
+            % (farbe, SYMBOL_STRICH, x, mitte_y - k / 2.0, s, inhalt(roh)))
 
 
 def zeile(f, text, groesse, farbe, x, grundlinie, rechts=None):
@@ -254,16 +305,35 @@ def rueckseite():
     s, rollen_breite = zeile(fuenf, ROLLE, KLEIN, BLAU, X0, 28.8)
     st.append(s)
 
+    # Jede Zeile bekommt ihr Zeichen: Handy, Brief, Globus, Haus. Die
+    # zweite Adresszeile keins – sie gehoert zur selben Angabe, und ein
+    # zweites Haus daneben wuerde eine zweite Adresse behaupten.
     grund = 34.6
-    daten = [(TELEFON, sechs, SCHWARZ), (MAIL, vier, GRAU), (WEB, vier, GRAU),
-             (STRASSE, vier, GRAU), (ORT, vier, GRAU)]
+    tx = X0 + SYMBOL_SPALTE
+    daten = [('smartphone', TELEFON, sechs, SCHWARZ),
+             ('mail', MAIL, vier, GRAU),
+             ('globe', WEB, vier, GRAU),
+             ('house', STRASSE, vier, GRAU),
+             (None, ORT, vier, GRAU)]
     breiteste = 0.0
-    for i, (text, f, farbe) in enumerate(daten):
+    for i, (zeichen, text, f, farbe) in enumerate(daten):
         if i == 3:
             grund += GRUPPE
-        s, b = zeile(f, text, KLEIN, farbe, X0, grund)
+        if zeichen:
+            # Mitte der Versalhoehe, nicht Mitte der Zeile: sonst haengt
+            # das Zeichen unter dem Text.
+            st.append(symbol(zeichen, X0, grund - KLEIN * 0.36, BLAU))
+        s, b = zeile(f, text, KLEIN, farbe, tx, grund)
         st.append(s)
-        breiteste = max(breiteste, b)
+        breiteste = max(breiteste, SYMBOL_SPALTE + b)
+        if i == 0:
+            # Das gruene Zeichen hinter der Nummer sagt, dass diese Nummer
+            # auf WhatsApp erreichbar ist – auf der alten Karte stand es
+            # genauso. Der Code unten rechts sagt dasselbe noch einmal,
+            # aber fuer den, der ihn scannt, nicht fuer den, der liest.
+            st.append(wa_zeichen(tx + b + WA_LUFT + WA_PUNKT / 2.0,
+                                 grund - KLEIN * 0.36, WA_PUNKT))
+            breiteste = max(breiteste, SYMBOL_SPALTE + b + WA_LUFT + WA_PUNKT)
         grund += ZEILE
     unterste = grund - ZEILE
 

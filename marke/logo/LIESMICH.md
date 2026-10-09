@@ -178,6 +178,19 @@ linken Kante bis zur rechten, 77 mm. Darunter Name, die Zeile
 Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts unten der
 QR-Code.
 
+Jede Angabe trägt ihr Zeichen: Handy, Brief, Globus, Haus – wie auf
+Nurettins alter Karte. Die zweite Adresszeile bekommt keins; sie gehört
+zur selben Angabe, und ein zweites Haus daneben würde eine zweite Adresse
+behaupten. Hinter der Mobilnummer steht zusätzlich das grüne
+WhatsApp-Zeichen: es sagt dem, der **liest**, dass diese Nummer auf
+WhatsApp erreichbar ist. Der Code unten rechts sagt dasselbe dem, der
+**scannt**.
+
+Die Zeichen stehen in einer eigenen Spalte links, der Text rückt um
+5,4 mm ein. Das ist die einzige Stelle, an der die Karte eine zweite
+senkrechte Kante hat – eine Zeichenspalte liest sich aber als Spalte,
+nicht als zweite Flucht.
+
 Das Zeichen wird dafür nicht vergrößert und nicht verschoben, es ist
 **gezogen**: die waagerechte Fassung steht auf 8,1 : 1 und füllt die
 Breite bei 9,5 mm Höhe. Eine Fassung in den Fußzeilenmaßen (4,7 : 1)
@@ -186,10 +199,19 @@ darunter nicht mehr gepasst.
 
 ### Der QR-Code
 
-Er führt auf `https://wa.me/4917637998836`, öffnet also direkt den
-WhatsApp-Chat mit Nurettin. Gebaut mit segno, Version 4 (33 × 33 Module).
+**Der Link kommt nicht von uns.** Er steht so in dem QR-Code, den die
+WhatsApp-Business-App für Nurettins Unternehmenskonto ausgibt; Bilal hat
+den Code geschickt, hier ist er ausgelesen worden:
 
-Er steht **als Pfad in der Datei**, nicht als Bild – auch der Code ist
+    https://wa.me/message/CALFEXQOLNHND1?src=qr
+
+Ein selbst gebautes `wa.me/<Nummer>` hätte auch funktioniert, aber am
+Unternehmenskonto vorbei – die App zählt über diesen Link, woher ein Chat
+kommt. Das `?src=qr` ist WhatsApps eigener Zusatz und bleibt deshalb
+stehen. **Ändert sich das Konto, ändert sich der Link**; dann neu
+auslesen, nicht neu erfinden.
+
+Der Code steht **als Pfad in der Datei**, nicht als Bild – auch er ist
 Vektor und wird beim Vergrößern nicht kantig.
 
 Drei Dinge unterscheiden ihn von dem Raster, das ein Generator ausspuckt:
@@ -197,27 +219,42 @@ Drei Dinge unterscheiden ihn von dem Raster, das ein Generator ausspuckt:
 - **Die Module sind gerundet** (Radius 0,26 Modul).
 - **Die drei Augen sind gezeichnet**, als Rahmen und Kern, nicht aus
   49 Einzelmodulen zusammengesetzt.
-- **In der Mitte bleiben 9 × 9 Module frei**, da steht das WhatsApp-Zeichen
-  als grüner Kreis mit weißer Kurve. Damit sieht man dem Code an, wohin er
-  führt, statt es daneben schreiben zu müssen.
+- **In der Mitte bleiben 11 × 11 Module frei**, da steht das
+  WhatsApp-Zeichen als grüner Kreis mit weißer Kurve.
 
 | | |
 |---|---|
-| bedruckte Fläche | 18 × 18 mm |
-| ein Modul | 0,545 mm (empfohlen sind ≥ 0,4 mm im Offset) |
-| Ruhebereich | 2,18 mm = 4 Module, **außerhalb** der 18 mm |
+| bedruckte Fläche | 19 × 19 mm |
+| Version | 5, 37 × 37 Module |
+| ein Modul | 0,514 mm (empfohlen sind ≥ 0,4 mm im Offset) |
+| Ruhebereich | 2,05 mm = 4 Module, **außerhalb** der 19 mm |
 | Fehlerkorrektur | **H** (30 %) |
-| vom Zeichen verdeckt | 81 von 1089 Modulen = **7,4 %** |
+| vom Zeichen verdeckt | 121 von 1369 Modulen = **8,8 %** |
 
-Fehlerkorrektur H statt M, weil das Zeichen in der Mitte Module verdeckt.
-M verträgt 15 %, und die 15 % sind die Reserve für Knicke, Fingerabdrücke
-und schlechtes Licht – nicht für unser Zeichen.
+Der längere Link kostet eine Version: `wa.me/<Nummer>` passte in Version 4
+mit 33 Modulen, der Unternehmenslink braucht Version 5 mit 37. Deshalb
+steht der Code jetzt auf 19 statt 18 mm – damit ein Modul wieder über
+0,5 mm liegt.
+
+Die Öffnung ist mit 11 Modulen größer als nötig. Nachgemessen kostet sie
+fast nichts: ohne Zeichen 96 von 120 harten Durchläufen, mit 9 Modulen 92,
+mit 11 noch 91. Das Zeichen soll man erkennen und nicht suchen müssen.
 
 **Das WhatsApp-Zeichen** liegt als `marke/whatsapp.svg` daneben, unverändert
 so, wie es von Simple Icons 13.20 kommt (das Icon-Set steht unter CC0). Die
 Marke selbst gehört WhatsApp; sie steht auf der Karte, um zu zeigen, wohin
-der Code führt — genau dafür ist sie da. Eingelesen statt abgetippt: eine
-Kurve mit 1104 Zeichen tippt man nicht fehlerfrei ab.
+der Code führt — genau dafür ist sie da.
+
+### Die Zeichen neben den Zeilen
+
+Handy, Brief, Globus und Haus kommen aus **Lucide** (`lucide-static`
+0.544.0, ISC-Lizenz) und liegen unverändert in `marke/symbole/`. Sie sind
+**gestrichen, nicht gefüllt**: bei 3,8 mm Kantenlänge landet die
+Strichstärke bei rund 0,32 mm und bleibt damit über dem, was im Offset
+noch sauber durchkommt. Wer sie kleiner setzt, muss die Stärke nachziehen.
+
+Sie stehen in `#003DA5`, dem Markenblau – als Akzent, so wie auf der
+gewählten Seite die Überschriften schwarz und die Akzente blau sind.
 
 #### Gestaltung kostet Lesbarkeit — deshalb nachgemessen
 
@@ -243,11 +280,12 @@ Handyfoto, gedreht, unscharf, verrauscht, flau):
 | Prüfung | Ergebnis |
 |---|---|
 | ganze Karte, sauber, 400–2150 px | **6 von 6** |
-| hart: 180–520 px, ±35°, Unschärfe 0–7, Rauschen | **112 von 120** |
+| hart: 180–520 px, ±35°, Unschärfe 0–7, Rauschen | **108 von 120** |
 
-Durchgefallen sind nur die acht härtesten Fälle: 180–220 px breit **und**
-7 px Unschärfe, also ein unscharfes Daumennagelbild. Bei 17 mm Codegröße
-waren es 88 von 120 — der Millimeter mehr war den Platz wert.
+Durchgefallen sind nur die härtesten Fälle: um 200 px breit **und** stark
+unscharf, also ein verwackeltes Daumennagelbild. Der Unternehmenslink ist
+länger als ein `wa.me/<Nummer>` und damit dichter — mit dem kurzen Link
+waren es 112 von 120.
 
 ### Nachgemessen
 
@@ -255,8 +293,8 @@ waren es 88 von 120 — der Millimeter mehr war den Platz wert.
 |---|---|
 | höchstens 3 Schriftgrößen | **2** (11 pt Name, 8 pt Rest) |
 | Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
-| eine Ausrichtung | alles auf der linken Kante, nur der QR rechts – und der ist kein Text |
-| Weißraum 25–35 % | **77 %** vorn, **44 %** hinten |
+| eine Ausrichtung | linke Kante für alles; die Zeichenspalte rückt den Satz ein, der QR steht rechts – und der ist kein Text |
+| Weißraum 25–35 % | **77 %** vorn, **43 %** hinten |
 | Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,4 mm |
 | Anschnitt 2–3 mm | **3 mm** |
 | Schrift im Dokument | **keine** – alles Kurven, `/BaseFont` kommt im PDF nicht vor |
