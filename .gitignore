@@ -6,3 +6,6 @@ serve.ps1
 .claude/
 __pycache__/
 *.pyc
+
+# Das Paket entsteht aus den Dateien daneben (marke/bau_paket.py).
+marke/logo/*.zip
