@@ -142,34 +142,79 @@ Sachverstand" – in derselben Schriftgröße wie KALTBRUNN, nicht kleiner wie
 im Seitenfuß. Sonst nichts.
 
 **Rückseite:** das Zeichen **ohne** Wagen, waagerecht (K, Trennstrich,
-INGENIEURBÜRO über KALTBRUNN), darunter Name, die Zeile
-„Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)", Mobilnummer, E-Mail,
-Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts unten der
-QR-Code.
+INGENIEURBÜRO über KALTBRUNN), **oben rechts**. Links darunter Name, die
+Zeile „Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)", Mobilnummer,
+E-Mail, Domain, Büroanschrift. **Kein Festnetz** – so bestellt. Rechts
+unten der QR-Code.
+
+Das Zeichen steht rechts, nicht links: so hat die Karte **eine** rechte
+Flucht – Zeichen oben, QR-Code unten – und **eine** linke für allen Text.
+Zwei saubere Kanten statt einer Kante und einer Ecke.
 
 ### Der QR-Code
 
 Er führt auf `https://wa.me/4917637998836`, öffnet also direkt den
-WhatsApp-Chat mit Nurettin. Gebaut mit segno, Fehlerkorrektur M, Version 3
-(29 × 29 Module).
+WhatsApp-Chat mit Nurettin. Gebaut mit segno, Version 4 (33 × 33 Module).
 
 Er steht **als Pfad in der Datei**, nicht als Bild – auch der Code ist
 Vektor und wird beim Vergrößern nicht kantig.
 
+Drei Dinge unterscheiden ihn von dem Raster, das ein Generator ausspuckt:
+
+- **Die Module sind gerundet** (Radius 0,26 Modul).
+- **Die drei Augen sind gezeichnet**, als Rahmen und Kern, nicht aus
+  49 Einzelmodulen zusammengesetzt.
+- **In der Mitte bleiben 9 × 9 Module frei**, da steht das WhatsApp-Zeichen
+  als grüner Kreis mit weißer Kurve. Damit sieht man dem Code an, wohin er
+  führt, statt es daneben schreiben zu müssen.
+
 | | |
 |---|---|
-| bedruckte Fläche | 15 × 15 mm |
-| ein Modul | 0,517 mm (empfohlen sind ≥ 0,4 mm im Offset) |
-| Ruhebereich | 2,07 mm = 4 Module, **außerhalb** der 15 mm |
+| bedruckte Fläche | 18 × 18 mm |
+| ein Modul | 0,545 mm (empfohlen sind ≥ 0,4 mm im Offset) |
+| Ruhebereich | 2,18 mm = 4 Module, **außerhalb** der 18 mm |
+| Fehlerkorrektur | **H** (30 %) |
+| vom Zeichen verdeckt | 81 von 1089 Modulen = **7,4 %** |
 
-Der Ruhebereich wird absichtlich nicht mitgerechnet: sonst stünde der
-sichtbare Code zwei Millimeter weiter innen als „WhatsApp" darüber, und die
-rechte Kante der Karte hätte zwei Fluchten statt einer. Weiß ist ringsum
-genug da.
+Fehlerkorrektur H statt M, weil das Zeichen in der Mitte Module verdeckt.
+M verträgt 15 %, und die 15 % sind die Reserve für Knicke, Fingerabdrücke
+und schlechtes Licht – nicht für unser Zeichen.
 
-**Nachgeprüft, nicht angenommen:** der Code wurde aus der gerenderten Seite
-und aus dem fertigen PDF wieder ausgelesen (OpenCV), bei 300 und bei 150 dpi
-— beide Male kommt `https://wa.me/4917637998836` zurück.
+**Das WhatsApp-Zeichen** liegt als `marke/whatsapp.svg` daneben, unverändert
+so, wie es von Simple Icons 13.20 kommt (das Icon-Set steht unter CC0). Die
+Marke selbst gehört WhatsApp; sie steht auf der Karte, um zu zeigen, wohin
+der Code führt — genau dafür ist sie da. Eingelesen statt abgetippt: eine
+Kurve mit 1104 Zeichen tippt man nicht fehlerfrei ab.
+
+#### Gestaltung kostet Lesbarkeit — deshalb nachgemessen
+
+Die Rundung der **Augen** war zuerst viel zu stark (Radius 1,9 Module). Der
+Bogen frisst dann die Eckmodule weg und setzt sie diagonal nach innen:
+23 von 1089 Modulen standen falsch, und der Code war **nicht mehr lesbar**.
+Das fällt beim Hinsehen nicht auf — nur beim Auslesen. Jetzt 0,30.
+
+Geprüft wird mit **zwei** Lesern, weil einer allein in die Irre führt:
+
+| | OpenCV | ZXing |
+|---|---|---|
+| ohne Zeichen, eckig | 18/23 | 23/23 |
+| wie auf der Karte | 3/23 | 23/23 |
+
+OpenCVs `QRCodeDetector` kommt mit gestalteten Codes schlecht zurecht und
+hätte die Karte durchfallen lassen. ZXing ist die Familie, auf der die
+Leser in den Telefonen aufsetzen — danach richten wir uns.
+
+**Der Prüflauf am fertigen PDF** (600 dpi, Ausschnitt wie ein schnelles
+Handyfoto, gedreht, unscharf, verrauscht, flau):
+
+| Prüfung | Ergebnis |
+|---|---|
+| ganze Karte, sauber, 400–2150 px | **6 von 6** |
+| hart: 180–520 px, ±35°, Unschärfe 0–7, Rauschen | **112 von 120** |
+
+Durchgefallen sind nur die acht härtesten Fälle: 180–220 px breit **und**
+7 px Unschärfe, also ein unscharfes Daumennagelbild. Bei 17 mm Codegröße
+waren es 88 von 120 — der Millimeter mehr war den Platz wert.
 
 ### Nachgemessen
 
@@ -179,7 +224,7 @@ und aus dem fertigen PDF wieder ausgelesen (OpenCV), bei 300 und bei 150 dpi
 | Kontaktdaten ≥ 8 pt | **8 pt**, nichts darunter |
 | eine Ausrichtung | alles auf der linken Kante, nur der QR rechts – und der ist kein Text |
 | Weißraum 25–35 % | **77 %** vorn, **56 %** hinten |
-| Sicherheitsabstand ≥ 3 mm | **4 mm**; tiefste Druckfarbe bei 52,4 mm von 58 |
+| Sicherheitsabstand ≥ 3 mm | **4 mm**; Druckfarbe liegt in 7,0–84,1 × 7,0–52,5 mm |
 | Anschnitt 2–3 mm | **3 mm** |
 | Schrift im Dokument | **keine** – alles Kurven, `/BaseFont` kommt im PDF nicht vor |
 | Bilder im Dokument | **keine** – `/Subtype /Image` kommt nicht vor |
@@ -187,6 +232,10 @@ und aus dem fertigen PDF wieder ausgelesen (OpenCV), bei 300 und bei 150 dpi
 Unterschieden wird über **Gewicht und Farbe**, nicht über immer neue Größen:
 Name 800 in `#15171a`, Rolle 500 in `#003da5`, Telefon 600 in `#15171a`,
 restliche Daten 400 in `#5d6470`.
+
+Die einzige dritte Farbe ist das WhatsApp-Grün `#25D366` im Code — und das
+ist keine Gestaltungsentscheidung, sondern die Marke, an der man WhatsApp
+erkennt. In irgendeinem anderen Ton wäre sie nutzlos.
 
 ### Was offen ist
 

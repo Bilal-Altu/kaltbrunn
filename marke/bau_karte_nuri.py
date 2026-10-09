@@ -75,12 +75,33 @@ STRASSE = 'Mannheimer Straße 1'
 ORT = '64646 Heppenheim'
 WHATSAPP = 'https://wa.me/4917637998836'
 
-QR_DUNKEL = 15.0                  # Kantenlaenge der bedruckten Flaeche
+QR_DUNKEL = 18.0                  # Kantenlaenge der bedruckten Flaeche
 QR_RAND = 4                       # Module Ruhebereich, Norm sind vier.
 # Der Ruhebereich wird NICHT mitgerechnet, sondern liegt ausserhalb. Sonst
 # steht der sichtbare Code zwei Millimeter weiter innen als alles andere
 # und die rechte Kante der Karte hat zwei Fluchten statt einer. Weiss ist
 # ringsum genug da: rechts und unten folgen Sicherheitsrand und Anschnitt.
+QR_LOCH = 9                       # Module, die in der Mitte frei bleiben
+QR_RUND = 0.26                    # Eckenradius je Modul, Anteil der Kante
+# Die Augen vertragen fast keine Rundung. Bei rx = 1,9 Modulen frisst der
+# Bogen die Eckmodule weg und setzt sie diagonal nach innen – nachgemessen
+# waren 23 von 1089 Modulen falsch, und der Code war nicht mehr lesbar.
+# Was hier steht, ist der groesste Wert, bei dem der Code in allen
+# Pruefdurchlaeufen noch gelesen wurde – 0,55 und mehr fielen durch.
+QR_AUGE_RUND = 0.30               # Eckenradius der Augen, in Modulen
+
+# Fehlerkorrektur H statt M: mit dem Zeichen in der Mitte fehlen 81 von
+# 1089 Modulen (7,4 %). H vertraegt 30 %, M nur 15 % – und 15 % waeren die
+# Reserve fuer Knicke und Fingerabdruecke, nicht fuer unser Zeichen.
+QR_KORREKTUR = 'h'
+
+GRUEN = '#25d366'                 # WhatsApp-Gruen, nur fuer das Zeichen
+
+# Das WhatsApp-Zeichen liegt als marke/whatsapp.svg daneben, unveraendert
+# so, wie es von Simple Icons 13.20 kommt (das Icon-Set steht unter CC0).
+# Die Marke selbst gehoert WhatsApp; sie steht auf der Karte, um zu zeigen,
+# wohin der Code fuehrt – genau dafuer ist sie da. Eingelesen statt
+# abgetippt: eine Kurve mit 1104 Zeichen tippt man nicht fehlerfrei ab.
 
 
 # --- Bausteine ----------------------------------------------------------
@@ -94,20 +115,24 @@ def kopf(titel):
                BLATT_B, BLATT_H))
 
 
-def marke(name, hoehe_mm, x, y, am_bild=False):
+def marke(name, hoehe_mm, x, y, am_bild=False, rechts=False):
     """Ein fertiges Zeichen aus marke/logo/ einsetzen.
 
     am_bild=True richtet nicht die Datei aus, sondern das, was man sieht:
     die Dateien tragen einen Rand, der sonst als schiefe Kante auffaellt.
+    rechts=True nimmt x als rechte statt als linke Kante.
     """
     svg = io.open(os.path.join(AUS, name + '.svg'), encoding='utf-8').read()
     vb = L.viewbox(svg)
     s = hoehe_mm / vb[3]
+    rand = (L.RAND * 0.7 if name.startswith('karte-marke') else L.RAND) * s
+    sicht_b, sicht_h = vb[2] * s - 2 * rand, vb[3] * s - 2 * rand
+    if rechts:
+        x -= sicht_b
     if am_bild:
-        rand = (L.RAND * 0.7 if name.startswith('karte-marke') else L.RAND) * s
         x, y = x - rand, y - rand
     return ('<g transform="translate(%.4f,%.4f) scale(%.6f)">%s</g>'
-            % (x, y, s, L.inneres(svg)), vb[2] * s, vb[3] * s)
+            % (x, y, s, L.inneres(svg)), sicht_b, sicht_h)
 
 
 def zeile(f, text, groesse, farbe, x, grundlinie, rechts=None):
@@ -118,24 +143,83 @@ def zeile(f, text, groesse, farbe, x, grundlinie, rechts=None):
             % (farbe, x, grundlinie, d)), b
 
 
-def qr_pfad(rechts, unten, dunkel):
-    """QR-Code als ein einziger Pfad, ohne Bild und ohne Raster.
+def wa_zeichen(mx, my, durchmesser):
+    """Das WhatsApp-Zeichen als gruener Kreis mit weisser Kurve."""
+    roh = io.open(os.path.join(HIER, 'whatsapp.svg'), encoding='utf-8').read()
+    d = re.search(r'<path[^>]*\bd="([^"]+)"', roh).group(1)
+    g = durchmesser * 0.60                      # Kantenlaenge der Kurve
+    s = g / 24.0                                # Zeichnung ist 24 x 24
+    return ('<circle cx="%.4f" cy="%.4f" r="%.4f" fill="%s"/>'
+            '<g transform="translate(%.4f,%.4f) scale(%.6f)">'
+            '<path d="%s" fill="#ffffff"/></g>'
+            % (mx, my, durchmesser / 2.0, GRUEN,
+               mx - g / 2.0, my - g / 2.0, s, d))
+
+
+def rundes_feld(x, y, b, h, r):
+    return '<rect x="%.4f" y="%.4f" width="%.4f" height="%.4f" rx="%.4f"/>' \
+        % (x, y, b, h, r)
+
+
+def qr_marke(rechts, unten, dunkel):
+    """QR-Code mit dem WhatsApp-Zeichen in der Mitte.
 
     rechts/unten sind die Kanten der BEDRUCKTEN Flaeche – daran richtet
     sich der Code aus, nicht an seinem Ruhebereich.
+
+    Drei Dinge unterscheiden ihn vom Raster, das segno von sich aus malt:
+
+      * Die Module sind gerundet, nicht eckig.
+      * Die drei Augen sind als Rahmen und Kern gezeichnet, nicht aus
+        49 Einzelmodulen – das ist es, was einen gestalteten Code von
+        einem ausgedruckten unterscheidet.
+      * In der Mitte bleiben neun mal neun Module frei, da steht das
+        WhatsApp-Zeichen.
+
+    Alles davon kostet Lesbarkeit, deshalb steht die Fehlerkorrektur auf H
+    und deshalb wird der fertige Code am Ende wieder ausgelesen, statt
+    anzunehmen, dass er schon stimmen wird.
     """
-    code = segno.make(WHATSAPP, error='m')
+    code = segno.make(WHATSAPP, error=QR_KORREKTUR)
     matrix = [list(r) for r in code.matrix]
-    m = dunkel / len(matrix)                       # Modulbreite in mm
+    n = len(matrix)
+    m = dunkel / n                                 # Modulbreite in mm
     x, y = rechts - dunkel, unten - dunkel
-    stuecke = []
+
+    augen = [(0, 0), (0, n - 7), (n - 7, 0)]       # Zeile, Spalte
+    def im_auge(zi, si):
+        return any(az <= zi < az + 7 and as_ <= si < as_ + 7 for az, as_ in augen)
+
+    loch_a = (n - QR_LOCH) // 2
+    loch_e = loch_a + QR_LOCH
+    def im_loch(zi, si):
+        return loch_a <= zi < loch_e and loch_a <= si < loch_e
+
+    st = []
+    r = m * QR_RUND
     for zi, reihe in enumerate(matrix):
         for si, wert in enumerate(reihe):
-            if wert:
-                stuecke.append('M%.4f %.4fh%.4fv%.4fh-%.4fz'
-                               % (x + si * m, y + zi * m, m, m, m))
-    return ('<path fill="%s" shape-rendering="crispEdges" d="%s"/>'
-            % (SCHWARZ, ''.join(stuecke))), code.version, m
+            if wert and not im_auge(zi, si) and not im_loch(zi, si):
+                st.append(rundes_feld(x + si * m, y + zi * m, m, m, r))
+    module = ('<g fill="%s">%s</g>' % (SCHWARZ, ''.join(st)))
+
+    # Die Augen: aussen ein Rahmen von einem Modul Staerke, innen der Kern.
+    # Gezeichnet statt gerastert, sonst sehen gerundete Module in einem
+    # eckigen Auge nach Fehler aus.
+    rahmen = []
+    for az, as_ in augen:
+        ax, ay = x + as_ * m, y + az * m
+        rahmen.append('<rect x="%.4f" y="%.4f" width="%.4f" height="%.4f" '
+                      'rx="%.4f" fill="none" stroke="%s" stroke-width="%.4f"/>'
+                      % (ax + m * 0.5, ay + m * 0.5, m * 6, m * 6,
+                         m * QR_AUGE_RUND, SCHWARZ, m))
+        rahmen.append('<rect x="%.4f" y="%.4f" width="%.4f" height="%.4f" '
+                      'rx="%.4f" fill="%s"/>'
+                      % (ax + m * 2, ay + m * 2, m * 3, m * 3, m * QR_AUGE_RUND, SCHWARZ))
+
+    mitte = (x + dunkel / 2.0, y + dunkel / 2.0)
+    zeichen = wa_zeichen(mitte[0], mitte[1], QR_LOCH * m * 0.86)
+    return (module + ''.join(rahmen) + zeichen), code.version, m
 
 
 # --- Die beiden Seiten --------------------------------------------------
@@ -154,7 +238,11 @@ def rueckseite():
     vier = L.schnitt(pfad, 400)
 
     st = []
-    g, mb, mh = marke('karte-marke-web-hell', 8.6, X0, Y0, am_bild=True)
+    # Das Zeichen steht rechts oben, nicht links: so hat die Karte EINE
+    # rechte Flucht – Zeichen, QR-Code – und EINE linke – Name, Rolle,
+    # Daten. Zwei saubere Kanten statt einer Kante und einer Ecke.
+    g, mb, mh = marke('karte-marke-web-hell', 8.6, X1, Y0,
+                      am_bild=True, rechts=True)
     st.append(g)
 
     s, _ = zeile(acht, NAME, GROSS, SCHWARZ, X0, 21.8)
@@ -175,15 +263,13 @@ def rueckseite():
         grund += ZEILE
     unterste = grund - ZEILE
 
-    # QR unten buendig mit der letzten Datenzeile, Beschriftung darueber.
-    # Ohne Beschriftung weiss niemand, dass der Code zu WhatsApp fuehrt –
-    # und einen Code, von dem man das nicht weiss, scannt niemand.
-    s, _ = zeile(sechs, 'WhatsApp', KLEIN, BLAU, 0, 33.0, rechts=X1)
-    st.append(s)
-    q, version, modul = qr_pfad(X1, unterste, QR_DUNKEL)
+    # QR unten buendig mit der letzten Datenzeile. Die Beschriftung
+    # "WhatsApp" daneben ist weg: das Zeichen in der Mitte des Codes sagt
+    # dasselbe, und zweimal dasselbe zu sagen ist kein Satz, sondern Fuellung.
+    q, version, modul = qr_marke(X1, unterste, QR_DUNKEL)
     st.append(q)
 
-    pruefung = dict(zeichen_unten=Y0 + (128 - 2 * L.RAND * 0.7) * 8.6 / 128,
+    pruefung = dict(zeichen_unten=Y0 + mh, zeichen_links=X1 - mb,
                     rolle=rollen_breite, daten=breiteste,
                     unterste=unterste, ruhe=QR_RAND * modul,
                     version=version, modul=modul)
