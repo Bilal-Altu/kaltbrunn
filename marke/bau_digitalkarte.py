@@ -142,11 +142,17 @@ def seite(breite, hoehe, hoch):
         '<li>%s<span%s>%s</span>%s</li>'
         % (sinnbild(z, BLAU, int(30 * schrift_e)), ' class="stark"' if b else '',
            text, (wa_punkt(int(30 * schrift_e)) if w else ''))
-        for z, text, b, w in [('smartphone', K.TELEFON, True, True),
-                              ('mail', K.MAIL, False, False),
-                              ('globe', K.WEB, False, False),
-                              ('house', '%s<br>%s' % (K.STRASSE, K.ORT),
-                               False, False)])
+        for z, text, b, w in ([('smartphone', K.TELEFON, True, True),
+                               ('mail', K.MAIL, False, False),
+                               ('globe', K.WEB, False, False)]
+                              # Die Anschrift nur im Hochformat. Im Quadrat
+                              # ist der Platz nach dem Zeichen mit Wagen
+                              # weg, und sie ist die Angabe, die am
+                              # wenigsten fehlt: wer anruft oder schreibt,
+                              # braucht sie nicht, und in der vCard steht
+                              # sie ohnehin.
+                              + ([('house', '%s<br>%s' % (K.STRASSE, K.ORT),
+                                   False, False)] if hoch else [])))
     css = """
       *{margin:0;padding:0;box-sizing:border-box}
       @font-face{font-family:'%(fam)s';font-style:normal;font-weight:300 900;
@@ -180,10 +186,11 @@ def seite(breite, hoehe, hoch):
                   letter-spacing:0.04em}
     """ % dict(fam=familie, daten=daten, b=breite, h=hoehe, grund=GRUND,
                weiss=WEISS, blau=BLAU, matt=MATT, gruen=GRUEN,
-               rand=(132 if hoch else 76) * e, seit=72 * e,
-               spalt=(52 if hoch else 34) * e, luft=(34 if hoch else 18) * e,
+               rand=(110 if hoch else 68) * e, seit=72 * e,
+               spalt=(50 if hoch else 18) * e, luft=(32 if hoch else 15) * e,
                mini=18 * schrift_e, mini2=10 * schrift_e,
-               gross=52 * schrift_e, mittel=40 * schrift_e, klein=28 * schrift_e, winz=19 * schrift_e,
+               gross=(52 if hoch else 46) * schrift_e, mittel=(40 if hoch else 36) * schrift_e,
+               klein=28 * schrift_e, winz=19 * schrift_e,
                wa=24 * e, rund=22 * schrift_e, pad=22 * schrift_e)
 
     leib = ('<div class="band">%s</div>'
@@ -193,7 +200,8 @@ def seite(breite, hoehe, hoch):
             '<ul class="leistungen">%s</ul><hr>'
             '<div class="fuss"><ul class="kontakt">%s</ul>'
             '<div class="code">%s<small>WHATSAPP</small></div></div>'
-            % (zeichen('karte-marke-web-dunkel', 72 * schrift_e),
+            % (zeichen('karte-bild-web-dunkel',
+                       (200 if hoch else 152) * schrift_e),
                NAME, ROLLE, CLAIM, posten, kontakt,
                qr(int(212 * schrift_e))))
     return ('<!doctype html><html lang="de"><head><meta charset="utf-8">'

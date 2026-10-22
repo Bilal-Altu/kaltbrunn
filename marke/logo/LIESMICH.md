@@ -40,6 +40,9 @@ es sich trotzdem.
 | ihre Seite, dunkel, blauer Winkel | `logo-web-dunkel-blau` | `logo-ohne-wagen-web-dunkel-blau` | `logo-zeile-web-dunkel-blau` | `logo-k-web-dunkel-blau` |
 | ihre Seite, hell | `logo-web-hell` | `logo-ohne-wagen-web-hell` | `logo-zeile-web-hell` | `logo-k-web-hell` |
 
+`karte-bild-…` ist dasselbe wie `karte-front-…`, nur ohne den Claim –
+für Stellen, an denen der Claim als eigene Zeile daneben steht.
+
 Dazu je Farbfassung eine waagerechte: `logo-quer-dunkel`, `logo-quer-hell`,
 `logo-quer-web-dunkel`, `logo-quer-web-dunkel-blau`, `logo-quer-web-hell`.
 
@@ -153,6 +156,13 @@ abgetippter Zettel. Sie steht in **vCard 3.0**, nicht 4.0: 3.0 verstehen
 iOS, Android und Outlook ausnahmslos, bei 4.0 fällt je nach Gerät die
 Hälfte unter den Tisch.
 
+**Oben steht das Zeichen mit dem Wagen** (`karte-bild-…`), nicht das
+waagerechte Band – so wollte Nurettin es. Es ist dieselbe Anordnung wie
+`karte-front-…`, nur **ohne Claim**: der steht hier als eigene, lesbare
+Zeile. Im Zeichen stünde er bei der nötigen Bildhöhe auf rund 20 px und
+wäre damit kleiner als alles andere – zweimal derselbe Satz, einmal davon
+unleserlich.
+
 **Die Bilder** sind in HTML gesetzt und mit Chromium ausgegeben. Das ist
 hier richtig und nicht faul – das Ziel ist ein Bild für WhatsApp, kein
 Druck. Die Teile kommen trotzdem aus denselben Quellen wie alles andere:
@@ -181,7 +191,13 @@ Kommentar im Skript, damit sie nicht wiederkommen:
   die Breite; die zusätzliche Höhe wird zu Luft, nicht zu Schrift.
 - Die Anschrift stand in **einer** Zeile und brach neben dem QR-Code
   irgendwo um – „64646" oben, „Heppenheim" unten. Jetzt zwei feste
-  Zeilen.
+  Zeilen. Im **Quadrat** fällt sie ganz weg: nach dem Zeichen mit Wagen
+  ist der Platz weg, und sie ist die Angabe, die am wenigsten fehlt – wer
+  anruft oder schreibt, braucht sie nicht, und in der vCard steht sie
+  ohnehin. Im Hochformat ist sie drin.
+- `karte-bild-…` schnitt beim ersten Lauf **KALTBRUNN ab**: die Höhe der
+  Datei wurde aus der Oberkante des Wortes gerechnet statt aus seiner
+  Unterkante. Dieselbe Sorte Fehler wie beim „Büro" unter dem Haus.
 
 **Beide Bilder und die vCard tragen die Domain.** Wechselt sie, muss
 `bau_digitalkarte.py` neu laufen – und was schon verschickt wurde, ist

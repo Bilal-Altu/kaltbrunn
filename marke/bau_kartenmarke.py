@@ -160,6 +160,18 @@ def bauen():
         st.append('<rect x="%.3f" y="%.3f" width="%.1f" height="2" fill="%s"/>'
                   % (xo + L.ORT_STRICH + L.ORT_LUECKE * 2 + ort_b, mitte - 1,
                      L.ORT_STRICH, f['ort']))
+        # Dieselbe Anordnung einmal OHNE Claim. Die digitale Visitenkarte
+        # traegt den Claim als eigene, lesbare Zeile; im Zeichen stuende
+        # er dort bei der noetigen Bildhoehe auf rund 20 px und waere
+        # kleiner als alles andere – zweimal derselbe Satz, einmal davon
+        # unleserlich. Also hier weglassen.
+        # y steht hier auf der OBERKANTE von KALTBRUNN, nicht auf seiner
+        # Unterkante – die volle Versalhoehe muss dazu, sonst schneidet
+        # die Datei das Wort ab. Genau das ist beim ersten Lauf passiert.
+        ohne = (innen + r * 2, y + L.ORT_GROESSE + r)
+        ergebnis.append(('karte-bild-%s.svg' % ton,
+                         kopf(*ohne) + ''.join(st) + '</svg>'))
+
         y += L.ORT_GROESSE + L.ZEILEN_ABSTAND * 0.8
         y += L.ORT_GROESSE * 0.74
         st.append('<g fill="%s" transform="translate(%.3f,%.3f)">%s</g>'
