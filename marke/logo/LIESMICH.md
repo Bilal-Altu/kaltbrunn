@@ -145,9 +145,25 @@ baut dafür **zwei Dinge**, und das zweite ist das wichtigere:
 
 | Datei | wofür |
 |---|---|
-| `Digitale-Visitenkarte-quadrat.png` | 1080 × 1080 – WhatsApp-Chat, Instagram-Beitrag |
-| `Digitale-Visitenkarte-status.png` | 1080 × 1920 – WhatsApp-Status, Story |
+| `Digitale-Visitenkarte-quadrat-hell.png` | 1080 × 1080 auf Weiß – WhatsApp-Chat, Instagram-Beitrag |
+| `Digitale-Visitenkarte-quadrat-dunkel.png` | dasselbe auf `#171d29` |
+| `Digitale-Visitenkarte-status-hell.png` | 1080 × 1920 auf Weiß – WhatsApp-Status, Story |
+| `Digitale-Visitenkarte-status-dunkel.png` | dasselbe auf `#171d29` |
 | `Nurettin-Sogukcesme.vcf` | die **eigentliche** digitale Visitenkarte |
+
+**Jedes Format gibt es hell und dunkel.** Der Unterschied ist nicht nur
+die Grundfarbe: auf Dunkel muss das Blau heller stehen (`#003DA5` kommt
+auf `#171d29` nur auf Kontrast 1,78 und ist dort praktisch unsichtbar),
+und auf Hell fällt die weiße Kachel unter dem QR-Code weg, weil sie auf
+weißem Grund nichts mehr abgrenzt.
+
+| | hell auf Weiß | dunkel auf `#171d29` |
+|---|---|---|
+| Name, Claim, Leistungen | `#15171A` – **17,96** | Weiß – **16,88** / `#E6E8EC` – **13,76** |
+| Rolle und Symbole | `#003DA5` – **9,50** | `#4D8BF5` – **5,09** |
+| Kontakttext | `#5D6470` – **5,96** | `#9CA2AA` – **6,56** |
+
+Alles über 4,5.
 
 **Die vCard ist der Punkt.** Ein Bild kann man nur ansehen; eine vCard
 speichert sich selbst. Einmal antippen, und Name, Nummer, Mail, Webseite

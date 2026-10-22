@@ -41,11 +41,25 @@ SEITE = os.path.join(HIER, os.pardir, 'index.html')
 CHROM = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 NODE_PW = '/opt/node22/lib/node_modules/playwright'
 
-GRUND = '#171d29'
-WEISS = '#ffffff'
-BLAU = '#4d8bf5'            # auf Dunkel muss das Blau heller sein als #003da5
-MATT = '#9ca2aa'
 GRUEN = '#25d366'
+
+# Zwei Fassungen, dunkel und hell. Der Unterschied ist nicht nur die
+# Grundfarbe: auf Dunkel muss das Blau heller stehen (#003da5 kommt auf
+# #171d29 nur auf Kontrast 1,78 und ist dort praktisch unsichtbar), und
+# auf Hell faellt die weisse Kachel unter dem QR-Code weg, weil sie auf
+# weissem Grund nichts mehr abgrenzt. Alle Werte gegen ihren Grund
+# nachgemessen, nichts darunter liegt unter 4,5.
+TOENE = {
+    'dunkel': dict(grund='#171d29', zeichen='karte-bild-web-dunkel',
+                   stark='#ffffff', blau='#4d8bf5', satz='#e6e8ec',
+                   matt='#9ca2aa', strich='#ffffff', strich_kraft='0.16',
+                   kachel='#ffffff', kachel_text='#171d29', kachel_rund=True),
+    'hell':   dict(grund='#ffffff', zeichen='karte-bild-web-hell',
+                   stark='#15171a', blau='#003da5', satz='#15171a',
+                   matt='#5d6470', strich='#15171a', strich_kraft='0.14',
+                   kachel='transparent', kachel_text='#15171a',
+                   kachel_rund=False),
+}
 
 NAME = 'Nurettin Sogukcesme'
 ROLLE = 'Maschinenbau-Ing. – Fahrzeugtechnik (B. Eng.)'
@@ -119,7 +133,7 @@ def qr(kante_px):
             % (kante_px, kante_px, kante_px, kante_px, pfad))
 
 
-def seite(breite, hoehe, hoch):
+def seite(breite, hoehe, hoch, ton):
     familie, daten = schrift()
     # Skaliert wird ueber die BREITE, nicht ueber die Hoehe. Beide Formate
     # sind 1080 breit; haengt die Schrift an der Hoehe, wird sie im
@@ -132,7 +146,7 @@ def seite(breite, hoehe, hoch):
     # nachgerechnet, nicht geraten.
     schrift_e = e * (1.28 if hoch else 1.0)
     posten = ''.join(
-        '<li>%s<span>%s</span></li>' % (sinnbild('check', BLAU, int(26 * schrift_e)), n)
+        '<li>%s<span>%s</span></li>' % (sinnbild('check', ton['blau'], int(26 * schrift_e)), n)
         for n in leistungen())
     # Die Anschrift steht auf zwei Zeilen, nicht in einer langen. In einer
     # Zeile bricht sie neben dem QR-Code irgendwo um – "64646" oben,
@@ -140,7 +154,7 @@ def seite(breite, hoehe, hoch):
     # Zeilenfall und nicht die Anschrift.
     kontakt = ''.join(
         '<li>%s<span%s>%s</span>%s</li>'
-        % (sinnbild(z, BLAU, int(30 * schrift_e)), ' class="stark"' if b else '',
+        % (sinnbild(z, ton['blau'], int(30 * schrift_e)), ' class="stark"' if b else '',
            text, (wa_punkt(int(30 * schrift_e)) if w else ''))
         for z, text, b, w in ([('smartphone', K.TELEFON, True, True),
                                ('mail', K.MAIL, False, False),
@@ -157,7 +171,7 @@ def seite(breite, hoehe, hoch):
       *{margin:0;padding:0;box-sizing:border-box}
       @font-face{font-family:'%(fam)s';font-style:normal;font-weight:300 900;
                  src:url(data:font/woff2;%(daten)s) format('woff2')}
-      body{width:%(b)dpx;height:%(h)dpx;background:%(grund)s;color:%(weiss)s;
+      body{width:%(b)dpx;height:%(h)dpx;background:%(grund)s;color:%(stark)s;
            font-family:'%(fam)s',system-ui,sans-serif;overflow:hidden;
            display:flex;flex-direction:column;
            padding:%(rand).1fpx %(seit).1fpx;gap:%(spalt).1fpx}
@@ -165,8 +179,8 @@ def seite(breite, hoehe, hoch):
       .wer{display:flex;flex-direction:column;gap:%(mini).1fpx}
       .name{font-size:%(gross).1fpx;font-weight:800;letter-spacing:-0.02em;line-height:1.05}
       .rolle{font-size:%(klein).1fpx;font-weight:500;color:%(blau)s}
-      .claim{font-size:%(mittel).1fpx;font-weight:600;color:%(weiss)s;line-height:1.2}
-      hr{border:0;height:2px;background:#ffffff;opacity:0.16;flex:none}
+      .claim{font-size:%(mittel).1fpx;font-weight:600;color:%(stark)s;line-height:1.2}
+      hr{border:0;height:2px;background:%(strich)s;opacity:%(kraft)s;flex:none}
       ul{list-style:none;display:flex;flex-direction:column;gap:%(luft).1fpx}
       /* Die Leistungen fangen den uebrigen Platz auf. Sonst steht das
          Loch zwischen ihnen und dem Kontaktblock, und das sieht aus, als
@@ -175,23 +189,28 @@ def seite(breite, hoehe, hoch):
       li{display:flex;align-items:center;gap:%(mini).1fpx;
          font-size:%(klein).1fpx;color:%(matt)s;line-height:1.3}
       li svg{flex:none}
-      .leistungen li{font-weight:500;color:#e6e8ec}
-      .kontakt li .stark{font-weight:700;color:%(weiss)s}
+      .leistungen li{font-weight:500;color:%(satz)s}
+      .kontakt li .stark{font-weight:700;color:%(stark)s}
       .wa{margin-left:%(mini2).1fpx;flex:none}
       .fuss{display:flex;align-items:center;
             gap:%(spalt).1fpx;justify-content:space-between}
-      .code{background:#fff;border-radius:%(rund).1fpx;padding:%(pad).1fpx;
+      .code{background:%(kachel)s;border-radius:%(rund).1fpx;padding:%(pad).1fpx;
             display:flex;flex-direction:column;align-items:center;gap:%(mini2).1fpx}
-      .code small{font-size:%(winz).1fpx;font-weight:700;color:%(grund)s;
+      .code small{font-size:%(winz).1fpx;font-weight:700;color:%(kachel_text)s;
                   letter-spacing:0.04em}
-    """ % dict(fam=familie, daten=daten, b=breite, h=hoehe, grund=GRUND,
-               weiss=WEISS, blau=BLAU, matt=MATT, gruen=GRUEN,
+    """ % dict(fam=familie, daten=daten, b=breite, h=hoehe,
+               grund=ton['grund'], stark=ton['stark'], blau=ton['blau'],
+               satz=ton['satz'], matt=ton['matt'], strich=ton['strich'],
+               kraft=ton['strich_kraft'], kachel=ton['kachel'],
+               kachel_text=ton['kachel_text'],
+               gruen=GRUEN,
                rand=(110 if hoch else 68) * e, seit=72 * e,
                spalt=(50 if hoch else 18) * e, luft=(32 if hoch else 15) * e,
                mini=18 * schrift_e, mini2=10 * schrift_e,
                gross=(52 if hoch else 46) * schrift_e, mittel=(40 if hoch else 36) * schrift_e,
                klein=28 * schrift_e, winz=19 * schrift_e,
-               wa=24 * e, rund=22 * schrift_e, pad=22 * schrift_e)
+               wa=24 * e, rund=(22 if ton['kachel_rund'] else 0) * schrift_e,
+               pad=(22 if ton['kachel_rund'] else 0) * schrift_e)
 
     leib = ('<div class="band">%s</div>'
             '<div class="wer"><div class="name">%s</div>'
@@ -200,7 +219,7 @@ def seite(breite, hoehe, hoch):
             '<ul class="leistungen">%s</ul><hr>'
             '<div class="fuss"><ul class="kontakt">%s</ul>'
             '<div class="code">%s<small>WHATSAPP</small></div></div>'
-            % (zeichen('karte-bild-web-dunkel',
+            % (zeichen(ton['zeichen'],
                        (200 if hoch else 152) * schrift_e),
                NAME, ROLLE, CLAIM, posten, kontakt,
                qr(int(212 * schrift_e))))
@@ -211,11 +230,14 @@ def seite(breite, hoehe, hoch):
 
 def ausgeben():
     auftrag = []
-    for name, b, h in FORMATE:
-        quelle = os.path.join(AUS, '.digital-%s.html' % name)
-        io.open(quelle, 'w', encoding='utf-8').write(seite(b, h, h > b))
-        auftrag.append([quelle, os.path.join(AUS, 'Digitale-Visitenkarte-%s.png'
-                                             % name), b, h])
+    for tonname, ton in TOENE.items():
+        for name, b, h in FORMATE:
+            marke = '%s-%s' % (name, tonname)
+            quelle = os.path.join(AUS, '.digital-%s.html' % marke)
+            io.open(quelle, 'w', encoding='utf-8').write(seite(b, h, h > b, ton))
+            auftrag.append([quelle,
+                            os.path.join(AUS, 'Digitale-Visitenkarte-%s.png'
+                                         % marke), b, h])
     skript = """
 const { chromium } = require('%s');
 const auftrag = %s;
