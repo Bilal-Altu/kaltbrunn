@@ -185,8 +185,25 @@ Druck. Die Teile kommen trotzdem aus denselben Quellen wie alles andere:
 Zeichen aus `marke/logo/`, Symbole aus `marke/symbole/`, Schrift aus
 `index.html`, QR-Code aus `bau_karte_nuri.py`.
 
-**Die Leistungen werden aus `index.html` gelesen**, nicht abgetippt. Wer
-sie hier ändern würde, ohne sie dort zu ändern, hätte zwei Wahrheiten.
+**Die Liste der Leistungen ist aus.** Nurettin wollte weniger Text, und
+sie war der dickste Block – fünf Zeilen. Übrig bleibt, was eine
+Visitenkarte ausmacht: wer, was, wie erreichbar. Das Zeichen mit dem
+Wagen steht dafür jetzt mehr als doppelt so groß.
+
+Gelöscht ist sie nicht. `LEISTUNGEN_ZEIGEN = True` in
+`bau_digitalkarte.py` holt sie zurück – für einen Flyer oder einen
+zweiten Beitrag („Das mache ich") ist sie genau richtig. Sie wird dann
+**aus `index.html` gelesen**, nicht abgetippt: wer sie hier ändern würde,
+ohne sie dort zu ändern, hätte zwei Wahrheiten.
+
+**Das Hochformat steht mittig**, das Quadrat nicht. Bei WhatsApp liegen
+im Status oben der Profilname und unten die Antwortleiste über dem Bild;
+was dort steht, sieht niemand. Im Chat gibt es das nicht, da wird der
+Kontaktblock nach unten geschoben.
+
+**Im Hochformat begrenzt die Breite das Zeichen, nicht die Höhe.** Es ist
+1,79-mal so breit wie hoch; mehr als 405 Einheiten laufen seitlich
+heraus. Auch das erst gemerkt, als das Bild danebenlag.
 
 Nachgemessen:
 

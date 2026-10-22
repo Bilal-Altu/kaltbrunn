@@ -67,6 +67,12 @@ CLAIM = 'Kfz-Gutachten mit Sachverstand'
 
 FORMATE = [('quadrat', 1080, 1080), ('status', 1080, 1920)]
 
+# Die Liste der Leistungen ist der dickste Textblock, und Nurettin wollte
+# weniger Text. Sie ist deshalb aus – nicht geloescht, weil sie fuer einen
+# Flyer oder einen zweiten Beitrag ("Das mache ich") genau richtig waere.
+# Eine Zeile hier, und sie ist wieder da.
+LEISTUNGEN_ZEIGEN = False
+
 
 def leistungen():
     """Die Ueberschriften aus dem Abschnitt Leistungen der Seite."""
@@ -146,8 +152,9 @@ def seite(breite, hoehe, hoch, ton):
     # nachgerechnet, nicht geraten.
     schrift_e = e * (1.28 if hoch else 1.0)
     posten = ''.join(
-        '<li>%s<span>%s</span></li>' % (sinnbild('check', ton['blau'], int(26 * schrift_e)), n)
-        for n in leistungen())
+        '<li>%s<span>%s</span></li>'
+        % (sinnbild('check', ton['blau'], int(26 * schrift_e)), n)
+        for n in leistungen()) if LEISTUNGEN_ZEIGEN else ''
     # Die Anschrift steht auf zwei Zeilen, nicht in einer langen. In einer
     # Zeile bricht sie neben dem QR-Code irgendwo um – "64646" oben,
     # "Heppenheim" unten. Wo umbrochen wird, entscheidet dann der
@@ -173,14 +180,19 @@ def seite(breite, hoehe, hoch, ton):
                  src:url(data:font/woff2;%(daten)s) format('woff2')}
       body{width:%(b)dpx;height:%(h)dpx;background:%(grund)s;color:%(stark)s;
            font-family:'%(fam)s',system-ui,sans-serif;overflow:hidden;
-           display:flex;flex-direction:column;
+           display:flex;flex-direction:column;%(mitte)s
            padding:%(rand).1fpx %(seit).1fpx;gap:%(spalt).1fpx}
       .band{align-self:flex-start}
       .wer{display:flex;flex-direction:column;gap:%(mini).1fpx}
       .name{font-size:%(gross).1fpx;font-weight:800;letter-spacing:-0.02em;line-height:1.05}
       .rolle{font-size:%(klein).1fpx;font-weight:500;color:%(blau)s}
       .claim{font-size:%(mittel).1fpx;font-weight:600;color:%(stark)s;line-height:1.2}
+      /* Der letzte Strich holt sich den uebrigen Platz. Ohne die Liste
+         der Leistungen gibt es nichts mehr, was ihn auffaengt – der
+         Kontaktblock stuende sonst direkt unter dem Claim und die untere
+         Haelfte waere leer. */
       hr{border:0;height:2px;background:%(strich)s;opacity:%(kraft)s;flex:none}
+      hr:last-of-type{%(schub)s}
       ul{list-style:none;display:flex;flex-direction:column;gap:%(luft).1fpx}
       /* Die Leistungen fangen den uebrigen Platz auf. Sonst steht das
          Loch zwischen ihnen und dem Kontaktblock, und das sieht aus, als
@@ -204,10 +216,17 @@ def seite(breite, hoehe, hoch, ton):
                kraft=ton['strich_kraft'], kachel=ton['kachel'],
                kachel_text=ton['kachel_text'],
                gruen=GRUEN,
+               # Im Hochformat steht alles in der Mitte: bei WhatsApp
+               # liegen oben der Profilname und unten die Antwortleiste
+               # ueber dem Bild. Was dort steht, sieht man nicht.
+               # Im Quadrat gibt es das nicht, da wird der Kontaktblock
+               # nach unten geschoben.
+               mitte=('justify-content:center;' if hoch else ''),
+               schub=('' if hoch else 'margin-top:auto'),
                rand=(110 if hoch else 68) * e, seit=72 * e,
-               spalt=(50 if hoch else 18) * e, luft=(32 if hoch else 15) * e,
+               spalt=(50 if hoch else 30) * e, luft=(32 if hoch else 18) * e,
                mini=18 * schrift_e, mini2=10 * schrift_e,
-               gross=(52 if hoch else 46) * schrift_e, mittel=(40 if hoch else 36) * schrift_e,
+               gross=52 * schrift_e, mittel=40 * schrift_e,
                klein=28 * schrift_e, winz=19 * schrift_e,
                wa=24 * e, rund=(22 if ton['kachel_rund'] else 0) * schrift_e,
                pad=(22 if ton['kachel_rund'] else 0) * schrift_e)
@@ -215,13 +234,18 @@ def seite(breite, hoehe, hoch, ton):
     leib = ('<div class="band">%s</div>'
             '<div class="wer"><div class="name">%s</div>'
             '<div class="rolle">%s</div></div>'
-            '<div class="claim">%s</div><hr>'
-            '<ul class="leistungen">%s</ul><hr>'
+            '<div class="claim">%s</div>'
+            '%s<hr>'
             '<div class="fuss"><ul class="kontakt">%s</ul>'
             '<div class="code">%s<small>WHATSAPP</small></div></div>'
             % (zeichen(ton['zeichen'],
-                       (200 if hoch else 152) * schrift_e),
-               NAME, ROLLE, CLAIM, posten, kontakt,
+                       # Im Hochformat begrenzt die BREITE, nicht die
+                       # Hoehe: das Zeichen ist 1,79-mal so breit wie
+                       # hoch; mehr als 405 laeuft seitlich heraus.
+                       (400 if hoch else 320) * schrift_e),
+               NAME, ROLLE, CLAIM,
+               ('<hr><ul class="leistungen">%s</ul>' % posten) if posten else '',
+               kontakt,
                qr(int(212 * schrift_e))))
     return ('<!doctype html><html lang="de"><head><meta charset="utf-8">'
             '<title>Ingenieurbüro Kaltbrunn</title><style>%s</style></head>'
