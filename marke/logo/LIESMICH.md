@@ -134,6 +134,59 @@ laufen und die alten Dateien müssen eingesammelt werden – bei wem sie
 dann schon liegen, weiß niemand. Das ist der Preis dieser Fassung und
 der Grund, warum das Logo selbst sauber bleibt.
 
+### Die digitale Visitenkarte
+
+Nurettin hat nachgelegt: gemeint war keine Logodatei, sondern eine
+„digitale Visitenkarte", die man im Chat weiterschickt. `bau_digitalkarte.py`
+baut dafür **zwei Dinge**, und das zweite ist das wichtigere:
+
+| Datei | wofür |
+|---|---|
+| `Digitale-Visitenkarte-quadrat.png` | 1080 × 1080 – WhatsApp-Chat, Instagram-Beitrag |
+| `Digitale-Visitenkarte-status.png` | 1080 × 1920 – WhatsApp-Status, Story |
+| `Nurettin-Sogukcesme.vcf` | die **eigentliche** digitale Visitenkarte |
+
+**Die vCard ist der Punkt.** Ein Bild kann man nur ansehen; eine vCard
+speichert sich selbst. Einmal antippen, und Name, Nummer, Mail, Webseite
+und Anschrift stehen im Adressbuch – mit korrekter Zuordnung, nicht als
+abgetippter Zettel. Sie steht in **vCard 3.0**, nicht 4.0: 3.0 verstehen
+iOS, Android und Outlook ausnahmslos, bei 4.0 fällt je nach Gerät die
+Hälfte unter den Tisch.
+
+**Die Bilder** sind in HTML gesetzt und mit Chromium ausgegeben. Das ist
+hier richtig und nicht faul – das Ziel ist ein Bild für WhatsApp, kein
+Druck. Die Teile kommen trotzdem aus denselben Quellen wie alles andere:
+Zeichen aus `marke/logo/`, Symbole aus `marke/symbole/`, Schrift aus
+`index.html`, QR-Code aus `bau_karte_nuri.py`.
+
+**Die Leistungen werden aus `index.html` gelesen**, nicht abgetippt. Wer
+sie hier ändern würde, ohne sie dort zu ändern, hätte zwei Wahrheiten.
+
+Nachgemessen:
+
+| | |
+|---|---|
+| Inhalt bleibt in | x 72…1007 von 1080 (Rand 72) |
+| QR-Code lesbar bis herunter auf | **360 px** Bildbreite |
+
+Die 360 px sind der Punkt, auf den es ankommt: WhatsApp rechnet Bilder
+beim Versenden herunter. Ein Code, der nur in der Originalgröße
+funktioniert, funktioniert im Chat nicht.
+
+**Zwei Fallen, in die ich beim Bauen gelaufen bin** – beide stehen als
+Kommentar im Skript, damit sie nicht wiederkommen:
+
+- Die Schrift skalierte zuerst mit der **Höhe**. Im Hochformat wurde sie
+  dadurch 1,78-mal so groß und lief seitlich heraus. Skaliert wird über
+  die Breite; die zusätzliche Höhe wird zu Luft, nicht zu Schrift.
+- Die Anschrift stand in **einer** Zeile und brach neben dem QR-Code
+  irgendwo um – „64646" oben, „Heppenheim" unten. Jetzt zwei feste
+  Zeilen.
+
+**Beide Bilder und die vCard tragen die Domain.** Wechselt sie, muss
+`bau_digitalkarte.py` neu laufen – und was schon verschickt wurde, ist
+draußen.
+
 ### Die waagerechte Fassung
 
 `logo-quer-…` ist die Marke aus der **Kopfzeile ihrer Seite**: K links,
