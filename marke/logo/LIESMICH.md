@@ -89,6 +89,51 @@ denselben Teilen wie alles andere, es sind nur zwei weitere Anordnungen:
 
 Beide gibt es in den drei `web-`Farbfassungen.
 
+### Marke mit Kontaktdaten – und warum nicht im Logo
+
+Nurettin hat gefragt, ob die Kontaktdaten mit ins Logo können. Die Antwort
+ist zweigeteilt.
+
+**Nicht ins Logo.** Ein Logo muss auf dem Stempel funktionieren, auf der
+Fahrzeugtür, im Briefkopf und als 16 Pixel großes Zeichen im
+Browser-Reiter. Mit einer Telefonnummer darin ist es an jeder dieser
+Stellen entweder unlesbar oder falsch. Und wenn sich eine Angabe ändert,
+ist **jede** Datei auf einen Schlag Altpapier – die Domain steht noch
+nicht endgültig fest, genau dieser Fall droht hier real. Die Dateien
+`logo-…` bleiben deshalb, wie sie sind.
+
+**Aber als eigene Fassung, ja.** Was gemeint ist, ist kein Logo, sondern
+ein Werbemittel. Das baut `bau_logo_kontakt.py` – daneben, nicht
+anstelle, und deshalb heißen die Dateien `logo-kontakt-…`:
+
+| Datei | wofür |
+|---|---|
+| `logo-kontakt-hoch-…` | Zeichen mit Wagen, Claim, Kontakt gestapelt – Flyer, Aushang, Beitrag in sozialen Netzen |
+| `logo-kontakt-quer-…` | das waagerechte Band, darunter Strich und Kontakt in **einer** Zeile – E-Mail-Signatur, Brieffuß, Fahrzeugbeschriftung |
+
+Beide in den drei `web-`Farbfassungen. Der Kontakt steht auf
+Claim-Größe (13,12), die Symbole kommen aus `marke/symbole/`, hinter der
+Nummer steht das WhatsApp-Zeichen – dieselben Teile wie auf der
+Visitenkarte, damit nichts auseinanderläuft.
+
+Nachgemessen, Kontrast gegen den jeweiligen Grund:
+
+| | Kontrast |
+|---|---|
+| Kontakttext hell `#5d6470` auf Weiß | 5,96 |
+| Symbole hell `#003DA5` auf Weiß | 9,50 |
+| Kontakttext dunkel `#9ca2aa` auf `#171d29` | 6,56 |
+| Symbole dunkel Weiß auf `#171d29` | 16,88 |
+
+Alles über 4,5 – das ist die Grenze, ab der Fließtext als lesbar gilt.
+Das WhatsApp-Grün kommt auf 1,98, ist aber keine Schrift, sondern eine
+Fläche, die man an Farbe und Form erkennt.
+
+**Wenn die Domain wechselt**, muss `bau_logo_kontakt.py` noch einmal
+laufen und die alten Dateien müssen eingesammelt werden – bei wem sie
+dann schon liegen, weiß niemand. Das ist der Preis dieser Fassung und
+der Grund, warum das Logo selbst sauber bleibt.
+
 ### Die waagerechte Fassung
 
 `logo-quer-…` ist die Marke aus der **Kopfzeile ihrer Seite**: K links,
