@@ -1,0 +1,5 @@
+# Diese Adresse ist die Arbeits- und Vorschauversion.
+# Sie soll nicht in Suchmaschinen erscheinen und der späteren
+# Domain keine doppelten Inhalte machen.
+User-agent: *
+Disallow: /
